@@ -560,6 +560,66 @@
   .fleet-photo .photo-meta > span:last-child {
     display: none;
   }
+  .fleet-doc-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .fleet-doc-btn {
+    min-height: 42px;
+    border: 1px solid rgba(53, 59, 69, 0.9);
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+  }
+  .fleet-doc-btn:hover {
+    border-color: var(--safety);
+    color: var(--safety);
+  }
+  .fleet-doc-btn--primary {
+    background: rgba(20, 23, 28, 0.72);
+  }
+  .fleet-doc-btn--secondary {
+    min-width: 44px;
+    color: rgba(234, 230, 221, 0.76);
+  }
+  .fleet-spec-library {
+    margin-top: 30px;
+    border: 1px solid var(--rebar);
+    background: rgba(20, 23, 28, 0.74);
+    padding: 18px;
+  }
+  .fleet-spec-library-links {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 10px;
+  }
+  .fleet-spec-link {
+    min-height: 42px;
+    border: 1px solid rgba(53, 59, 69, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(234, 230, 221, 0.78);
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .fleet-spec-link:hover {
+    border-color: var(--safety);
+    color: var(--safety);
+  }
   .fleet-photo > .absolute.inset-0.flex.items-end.justify-center { display: none; }
   .crane-card [class*="space-y-2.5"] > div > span:last-child {
     color: rgba(234, 230, 221, 0.95);
@@ -2187,6 +2247,17 @@
     </div>
     <div class="fleet-pagination justify-center gap-2 mt-5" id="fleet-pagination"></div>
 
+    <div class="fleet-spec-library">
+      <div class="tag">Spec Library · Current Fleet PDFs</div>
+      <div class="fleet-spec-library-links">
+        <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2021/09/GS-300-1-90101_US-04-2.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano GS300XL · 30T</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2021/09/Loach-Chart-2043162.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano ATF-80-4 · 100T</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2022/06/liebherr_ltm_1100_5_2.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1100-5.2</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2025/05/liebherr_ltm_1100-5.2_load_chart.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr Load Chart</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2021/09/Tadano-ATF-220G-5-imperial-screen-compressed.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano ATF 220G-5 · 250T</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+
     <div class="mt-16 flex justify-center">
       <a href="#" class="group inline-flex items-center gap-4 font-display text-[26px] uppercase tracking-[0.04em] border-b border-[var(--safety)] pb-2 hover:gap-6 transition-all">
         See the Entire Fleet
@@ -3266,6 +3337,70 @@
   };
   window.addEventListener('resize', logOverflowElements);
   requestAnimationFrame(logOverflowElements);
+
+  // Fleet brochure actions.
+  const fleetModelDocs = {
+    'MANITEX 30112S': {
+      specUrl: 'https://cdhrentals.com/wp-content/uploads/2021/09/GS-300-1-90101_US-04-2.pdf',
+      auxUrl: 'https://cdhrentals.com/wp-content/uploads/2021/09/GS-300-1-90101_US-04-2.pdf',
+      auxLabel: 'Load Chart'
+    },
+    'LINK-BELT HTC 8670': {
+      specUrl: '',
+      auxUrl: '',
+      auxLabel: ''
+    },
+    'GROVE GMK 5165': {
+      specUrl: '',
+      auxUrl: '',
+      auxLabel: ''
+    },
+    'LIEBHERR LTM 1250': {
+      specUrl: 'https://cdhrentals.com/wp-content/uploads/2022/06/liebherr_ltm_1100_5_2.pdf',
+      auxUrl: 'https://cdhrentals.com/wp-content/uploads/2025/05/liebherr_ltm_1100-5.2_load_chart.pdf',
+      auxLabel: 'Load Chart'
+    },
+    'MANITOWOC 14000': {
+      specUrl: '',
+      auxUrl: '',
+      auxLabel: ''
+    },
+    'DEMAG CC 2800': {
+      specUrl: '',
+      auxUrl: '',
+      auxLabel: ''
+    }
+  };
+  document.querySelectorAll('#fleet .crane-card').forEach((card) => {
+    const modelEl = card.querySelector('h3');
+    const specsBlock = card.querySelector('.space-y-2\\.5');
+    if (!modelEl || !specsBlock) return;
+    const model = (modelEl.textContent || '').trim().toUpperCase();
+    const doc = fleetModelDocs[model] || { specUrl: '', auxUrl: '', auxLabel: '' };
+    const mailto = `mailto:office@cdhrentals.com?subject=${encodeURIComponent(`Spec Sheet Request: ${model}`)}`;
+
+    const row = document.createElement('div');
+    row.className = 'fleet-doc-row';
+
+    const primary = document.createElement('a');
+    primary.className = 'fleet-doc-btn fleet-doc-btn--primary';
+    primary.target = '_blank';
+    primary.rel = 'noopener noreferrer';
+    primary.href = doc.specUrl || mailto;
+    primary.textContent = doc.specUrl ? 'Spec PDF' : 'Request Spec';
+    row.appendChild(primary);
+
+    const secondary = document.createElement('a');
+    secondary.className = 'fleet-doc-btn fleet-doc-btn--secondary';
+    secondary.target = '_blank';
+    secondary.rel = 'noopener noreferrer';
+    secondary.href = doc.auxUrl || mailto;
+    secondary.setAttribute('aria-label', doc.auxUrl ? `${doc.auxLabel} for ${model}` : `Email dispatch for ${model} specs`);
+    secondary.textContent = doc.auxUrl ? '↗' : '@';
+    row.appendChild(secondary);
+
+    specsBlock.insertAdjacentElement('afterend', row);
+  });
 </script>
 
 </body>
