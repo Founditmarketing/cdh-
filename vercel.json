@@ -1,12 +1,5 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "cdh-homepage-v3.html", "use": "@vercel/static" },
-    { "src": "img/**/*", "use": "@vercel/static" },
-    { "src": "*.svg", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "^/$", "dest": "/cdh-homepage-v3.html" }
+  "rewrites": [
+    { "source": "/", "destination": "/cdh-homepage-v3.html" }
   ]
 }

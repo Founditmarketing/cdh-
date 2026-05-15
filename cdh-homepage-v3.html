@@ -451,6 +451,10 @@
   .stat-num {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(64px, 9vw, 130px);
+    font-weight: 700;
+    font-feature-settings: "kern" 1, "liga" 1;
+    -webkit-text-stroke: 0;
+    -webkit-text-fill-color: var(--bone);
     line-height: 0.86;
     color: var(--bone);
     letter-spacing: -0.012em;
@@ -503,7 +507,7 @@
     height: 100%;
     object-fit: cover;
     object-position: center right;
-    filter: saturate(1.04) contrast(1.12) brightness(0.9);
+    filter: saturate(0.86) contrast(1.16) brightness(0.74);
   }
   .manifesto-photo-media img {
     object-position: center;
@@ -530,14 +534,31 @@
     inset: 0;
     background-size: cover;
     background-repeat: no-repeat;
-    filter: saturate(1.02) contrast(1.08) brightness(0.9);
+    filter: saturate(0.84) contrast(1.16) brightness(0.76);
   }
   .fleet-photo-1 .fleet-photo-image { background-image: url("./img/fleet/fleet-1-960.jpg"); background-position: 46% 58%; }
   .fleet-photo-2 .fleet-photo-image { background-image: url("./img/fleet/fleet-2-960.jpg"); background-position: 56% 54%; }
   .fleet-photo-3 .fleet-photo-image { background-image: url("./img/fleet/fleet-3-960.jpg"); background-position: 50% 56%; }
   .fleet-photo-4 .fleet-photo-image { background-image: url("./img/fleet/fleet-4-960.jpg"); background-position: 44% 53%; }
-  .fleet-photo-5 .fleet-photo-image { background-image: url("./img/fleet/fleet-5-960.jpg"); background-position: 48% 56%; }
-  .fleet-photo-6 .fleet-photo-image { background-image: url("./img/fleet/fleet-6-960.jpg"); background-position: 54% 52%; }
+  .fleet-photo-5 .fleet-photo-image { background-image: url("./img/fleet/fleet-5-960.jpg"); background-position: 32% 50%; }
+  .fleet-photo-6 .fleet-photo-image { background-image: url("./img/fleet/fleet-6-960.jpg"); background-position: 58% 50%; }
+  .fleet-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11, 13, 16, 0.05) 0%, rgba(11, 13, 16, 0.62) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .fleet-photo .photo-meta {
+    left: 12px;
+    right: auto;
+    bottom: 12px;
+    justify-content: flex-start;
+  }
+  .fleet-photo .photo-meta > span:last-child {
+    display: none;
+  }
   .fleet-photo > .absolute.inset-0.flex.items-end.justify-center { display: none; }
   .crane-card [class*="space-y-2.5"] > div > span:last-child {
     color: rgba(234, 230, 221, 0.95);
@@ -952,10 +973,13 @@
   .mobile-cta {
     transform: translateY(100%);
     transition: transform .22s cubic-bezier(.2,.7,.2,1);
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   .mobile-cta.is-visible { transform: translateY(0); }
   body.mobile-menu-open { overflow: hidden; }
+  .testimonials-mobile-rating-chip {
+    display: none;
+  }
 
   @media (max-width: 767px) {
     .utility-bar { display: none; }
@@ -1011,7 +1035,7 @@
       font-size: clamp(2.75rem, 12vw, 5.5rem);
       line-height: 0.92;
       max-width: 100%;
-      padding-right: 16px;
+      padding-right: 18px;
     }
     .hero-title .editorial-em { font-size: inherit; }
     .hero-subhead {
@@ -1039,17 +1063,31 @@
       min-width: 0;
     }
     .hero-stats-mobile-grid .stat-block::after { display: none; }
-    .hero-stats-mobile-grid .stat-num { font-size: 40px; }
+    .hero-stats-mobile-grid .stat-num {
+      font-size: 40px;
+      font-weight: 700;
+      font-style: normal;
+      -webkit-text-stroke: 0;
+      font-feature-settings: "tnum" 1, "lnum" 1;
+      text-shadow: none;
+      letter-spacing: 0.01em;
+    }
     .hero-stats-mobile-grid .tag { font-size: 10px; letter-spacing: 0.2em; }
     .hero-jump-link {
       margin-top: 14px;
+      width: 100%;
+      min-height: 48px;
+      justify-content: center;
+      border: 1px solid rgba(244, 197, 66, 0.38);
+      background: rgba(20, 23, 28, 0.55);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
+      font-size: 12px;
+      letter-spacing: 0.19em;
       color: var(--safety);
       text-transform: uppercase;
       align-items: center;
       gap: 8px;
+      padding: 0 12px;
     }
     .hero-photo { background-position: 70% center; }
 
@@ -1076,11 +1114,42 @@
     }
 
     #process .lift .font-display.text-\[176px\] { font-size: 96px; }
-    #industries .ind-card { aspect-ratio: 1 / 1; }
+    #industries .grid.grid-cols-2.lg\:grid-cols-3 {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    #industries .ind-card {
+      aspect-ratio: 16 / 9;
+      padding: 22px;
+    }
+    #industries .ind-card .ind-num {
+      font-size: 64px !important;
+      line-height: 0.86;
+    }
+    #industries .ind-card .tag {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      opacity: 0.65;
+      margin-bottom: 8px;
+    }
     #industries .ind-card h3 {
-      font-size: clamp(18px, 5.4vw, 30px) !important;
-      line-height: 1.04;
+      font-size: 28px !important;
+      line-height: 1;
       overflow-wrap: anywhere;
+    }
+    #industries .ind-card p {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    #industries .ind-card--emergency .tag {
+      opacity: 1;
+    }
+    #industries .ind-card--emergency .tag::before {
+      content: "24/7 ";
+      font-size: 10px;
+      vertical-align: super;
+      margin-right: 3px;
+      letter-spacing: 0.18em;
     }
     #locations .location-list { display: grid; gap: 8px; }
     #locations .location-accordion { border: 1px solid var(--rebar); background: var(--ink); padding: 18px; }
@@ -1105,6 +1174,29 @@
       font-size: 11px;
       letter-spacing: 0.14em;
       color: var(--safety);
+    }
+    .testimonials-rating-stack {
+      display: none !important;
+    }
+    .testimonials-mobile-rating-chip {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(244, 197, 66, 0.38);
+      color: var(--safety);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      padding: 8px 12px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    #testimonials .testimonial-feature-card {
+      background: var(--ink-2);
+      color: var(--bone);
+      border: 1px solid var(--rebar);
+    }
+    #testimonials .testimonial-feature-card .tag {
+      color: var(--safety) !important;
     }
 
     .footer-accordion-group {
@@ -1132,6 +1224,9 @@
     .mobile-dispatch-section .field { font-size: 16px; }
     .mobile-dispatch-section h2 { font-size: clamp(1.85rem, 7.2vw, 2.6rem); }
     section::before { left: 16px; right: 16px; }
+    section {
+      padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important;
+    }
     .mobile-nav-overlay a,
     .hero-cta-stack > a,
     .mobile-cta a,
@@ -1141,15 +1236,15 @@
   }
   @media (max-width: 399px) {
     #industries .ind-card {
-      aspect-ratio: auto;
-      min-height: 224px;
+      aspect-ratio: 16 / 9;
+      min-height: 0;
     }
     #industries .ind-card h3 {
-      font-size: clamp(17px, 7vw, 24px) !important;
+      font-size: clamp(23px, 6.6vw, 28px) !important;
       line-height: 1.06;
     }
     #industries .ind-card p {
-      font-size: 12px;
+      font-size: 14px;
       line-height: 1.45;
     }
   }
@@ -1243,7 +1338,7 @@
     <div class="mobile-nav-section">
       <div class="mobile-utility-pill mb-6">Dispatch · Live · 24/7</div>
       <a href="tel:3379623999" class="block font-display text-[34px] tracking-[0.03em] leading-none">Dispatch 337.962.3999</a>
-      <a href="mailto:office@cdhcrane.com" class="block mt-4 text-[14px] tracking-[0.14em] font-mono text-[var(--bone)]/75 uppercase">Email Office</a>
+      <a href="mailto:office@cdhrentals.com" class="block mt-4 text-[14px] tracking-[0.14em] font-mono text-[var(--bone)]/75 uppercase">Email Office</a>
       <a href="#dispatch" class="btn-primary mt-8 min-h-[52px] text-[12px] flex items-center justify-center" data-mobile-nav-link>Request Quote</a>
     </div>
   </nav>
@@ -1441,7 +1536,7 @@
             <div class="tag mt-2">Dispatch</div>
           </div>
         </div>
-        <a href="#dispatch" class="hero-jump-link">↓ Dispatch Form</a>
+        <a href="#dispatch" class="hero-jump-link"><span aria-hidden="true">↓</span><span>Dispatch Form</span></a>
       </div>
 
       <!-- RIGHT: Quote form -->
@@ -2252,8 +2347,8 @@
         </div>
         <div class="relative">
           <div class="tag mb-2">Sector</div>
-          <h3 class="font-display text-[32px] uppercase leading-[0.95]">Commercial Construction</h3>
-          <p class="text-[13px] text-[var(--bone)]/55 mt-3 font-light leading-relaxed">Steel erection · HVAC sets · roofing materials</p>
+          <h3 class="font-display text-[32px] uppercase leading-[0.95]">Commercial</h3>
+          <p class="text-[13px] text-[var(--bone)]/55 mt-3 font-light leading-relaxed"><span class="text-[var(--bone)]/75">Construction</span> · Steel erection · HVAC sets · roofing materials</p>
         </div>
       </a>
 
@@ -2281,7 +2376,7 @@
         </div>
       </a>
 
-      <a href="#" class="ind-card bg-[var(--safety)] text-[var(--ink)] p-9 aspect-[5/4] flex flex-col justify-between relative overflow-hidden">
+      <a href="#" class="ind-card ind-card--emergency bg-[var(--safety)] text-[var(--ink)] p-9 aspect-[5/4] flex flex-col justify-between relative overflow-hidden">
         <div class="absolute top-0 right-0 stripe-tape w-20 h-1"></div>
         <div class="flex items-start justify-between">
           <div class="font-display text-[70px] leading-none">06</div>
@@ -2549,11 +2644,12 @@
           <span class="h-px w-12 bg-[var(--safety)]"></span>
           <span class="tag">Field Reports</span>
         </div>
+        <div class="testimonials-mobile-rating-chip">4.9★ · FIELD-RATED ACROSS 5 YARDS</div>
         <h2 class="font-display text-[clamp(48px,6.5vw,104px)] leading-[0.88] uppercase">
           Proof from the<br/><span class="editorial-em text-[var(--safety)]">jobsite.</span>
         </h2>
       </div>
-      <div class="lg:col-span-5 flex items-end justify-end">
+      <div class="lg:col-span-5 flex items-end justify-end testimonials-rating-stack">
         <div class="flex items-center gap-8">
           <div>
             <div class="font-display text-[72px] text-[var(--safety)] leading-none">4.9</div>
@@ -2592,7 +2688,7 @@
         </div>
       </div>
 
-      <div class="bg-[var(--safety)] text-[var(--ink)] p-9 relative">
+      <div class="testimonial-feature-card bg-[var(--safety)] text-[var(--ink)] p-9 relative">
         <div class="absolute top-0 right-0 stripe-tape w-16 h-1"></div>
         <div class="font-editorial text-[120px] leading-[0.65] mb-2 -ml-1">"</div>
         <p class="leading-[1.72] mb-7 font-medium text-[15.5px]">
@@ -2640,14 +2736,14 @@
           </div>
         </a>
 
-        <a href="mailto:office@cdhcrane.com" class="block bg-[var(--ink)] border border-[var(--rebar)] hover:border-[var(--safety)] p-7 transition-colors">
+        <a href="mailto:office@cdhrentals.com" class="block bg-[var(--ink)] border border-[var(--rebar)] hover:border-[var(--safety)] p-7 transition-colors">
           <div class="flex items-center gap-5">
             <div class="w-16 h-16 border border-[var(--rebar)] flex items-center justify-center shrink-0">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f4c542" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
             </div>
             <div>
               <div class="tag">Email Office</div>
-              <div class="font-display text-[22px] mt-1 tracking-wide">office@cdhcrane.com</div>
+              <div class="font-display text-[22px] mt-1 tracking-wide">office@cdhrentals.com</div>
             </div>
           </div>
         </a>
@@ -2714,7 +2810,7 @@
         <ul class="space-y-3 text-[14px] text-[var(--bone)]/80">
           <li class="flex items-center gap-2"><span class="w-2 h-2 bg-[var(--safety)] live-dot rounded-full"></span><span>24/7 Live</span></li>
           <li><a href="tel:3379623999" class="font-display text-[30px] tracking-[0.04em] text-[var(--safety)]">337.962.3999</a></li>
-          <li><a href="mailto:office@cdhcrane.com" class="hover:text-[var(--safety)] transition-colors text-[13px]">office@cdhcrane.com</a></li>
+          <li><a href="mailto:office@cdhrentals.com" class="hover:text-[var(--safety)] transition-colors text-[13px]">office@cdhrentals.com</a></li>
         </ul>
       </div>
     </div>
@@ -2748,7 +2844,7 @@
         <div class="footer-accordion-panel">
           <ul class="space-y-3 text-[14px] text-[var(--bone)]/80">
             <li><a href="tel:3379623999" class="font-display text-[28px] tracking-[0.04em] text-[var(--safety)]">337.962.3999</a></li>
-            <li><a href="mailto:office@cdhcrane.com" class="hover:text-[var(--safety)] transition-colors text-[13px]">office@cdhcrane.com</a></li>
+            <li><a href="mailto:office@cdhrentals.com" class="hover:text-[var(--safety)] transition-colors text-[13px]">office@cdhrentals.com</a></li>
           </ul>
         </div>
       </div>
