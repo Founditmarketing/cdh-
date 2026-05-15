@@ -532,17 +532,23 @@
     background-repeat: no-repeat;
     filter: saturate(1.02) contrast(1.08) brightness(0.9);
   }
-  .fleet-photo-1 .fleet-photo-image { background-image: url("./img/hero/hero-960.jpg"); background-position: 20% 62%; }
-  .fleet-photo-2 .fleet-photo-image { background-image: url("./img/hero/hero-960.jpg"); background-position: 40% 58%; }
-  .fleet-photo-3 .fleet-photo-image { background-image: url("./img/plate/plate-960.jpg"); background-position: 28% 42%; }
-  .fleet-photo-4 .fleet-photo-image { background-image: url("./img/hero/hero-960.jpg"); background-position: 62% 56%; }
-  .fleet-photo-5 .fleet-photo-image { background-image: url("./img/plate/plate-960.jpg"); background-position: 66% 50%; }
-  .fleet-photo-6 .fleet-photo-image { background-image: url("./img/hero/hero-960.jpg"); background-position: 78% 54%; }
+  .fleet-photo-1 .fleet-photo-image { background-image: url("./img/fleet/fleet-1-960.jpg"); background-position: 46% 58%; }
+  .fleet-photo-2 .fleet-photo-image { background-image: url("./img/fleet/fleet-2-960.jpg"); background-position: 56% 54%; }
+  .fleet-photo-3 .fleet-photo-image { background-image: url("./img/fleet/fleet-3-960.jpg"); background-position: 50% 56%; }
+  .fleet-photo-4 .fleet-photo-image { background-image: url("./img/fleet/fleet-4-960.jpg"); background-position: 44% 53%; }
+  .fleet-photo-5 .fleet-photo-image { background-image: url("./img/fleet/fleet-5-960.jpg"); background-position: 48% 56%; }
+  .fleet-photo-6 .fleet-photo-image { background-image: url("./img/fleet/fleet-6-960.jpg"); background-position: 54% 52%; }
   .fleet-photo > .absolute.inset-0.flex.items-end.justify-center { display: none; }
   .crane-card [class*="space-y-2.5"] > div > span:last-child {
     color: rgba(234, 230, 221, 0.95);
     font-weight: 560;
     letter-spacing: 0.015em;
+  }
+  .footer-accordion-panel a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 10px;
   }
   .hero-photo > *:not(.hero-photo-media),
   .manifesto-photo > *:not(.manifesto-photo-media) {
@@ -736,9 +742,13 @@
     overflow: hidden;
   }
   .hero-min-height {
-    min-height: 88vh;  /* legacy fallback */
-    min-height: 88svh; /* stable viewport height */
-    min-height: 88dvh; /* dynamic viewport height */
+    min-height: calc(var(--vh, 1vh) * 88);
+  }
+  @supports (height: 100svh) {
+    .hero-min-height { min-height: 88svh; }
+  }
+  @supports (height: 100dvh) {
+    .hero-min-height { min-height: 88dvh; }
   }
   #hero > .lens-flare {
     position: absolute !important;
@@ -1067,6 +1077,11 @@
 
     #process .lift .font-display.text-\[176px\] { font-size: 96px; }
     #industries .ind-card { aspect-ratio: 1 / 1; }
+    #industries .ind-card h3 {
+      font-size: clamp(18px, 5.4vw, 30px) !important;
+      line-height: 1.04;
+      overflow-wrap: anywhere;
+    }
     #locations .location-list { display: grid; gap: 8px; }
     #locations .location-accordion { border: 1px solid var(--rebar); background: var(--ink); padding: 18px; }
     #locations .location-accordion .location-accordion-trigger { display: flex; }
@@ -1123,6 +1138,20 @@
     .footer-accordion-trigger,
     .location-accordion-trigger,
     footer a { min-height: 44px; }
+  }
+  @media (max-width: 399px) {
+    #industries .ind-card {
+      aspect-ratio: auto;
+      min-height: 224px;
+    }
+    #industries .ind-card h3 {
+      font-size: clamp(17px, 7vw, 24px) !important;
+      line-height: 1.06;
+    }
+    #industries .ind-card p {
+      font-size: 12px;
+      line-height: 1.45;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -2199,7 +2228,7 @@
         </div>
         <div class="relative">
           <div class="tag mb-2">Sector</div>
-          <h3 class="font-display text-[32px] uppercase leading-[0.95]">Petro­chemical</h3>
+          <h3 class="font-display text-[32px] uppercase leading-[0.95]">Petrochemical</h3>
           <p class="text-[13px] text-[var(--bone)]/55 mt-3 font-light leading-relaxed">Refinery turnarounds · vessel sets · plant shutdowns</p>
         </div>
       </a>
@@ -2695,10 +2724,10 @@
         <button class="footer-accordion-trigger" type="button">Fleet <span>+</span></button>
         <div class="footer-accordion-panel">
           <ul class="space-y-2.5 text-[14px] text-[var(--bone)]/75">
-            <li><a href="#" class="hover:text-[var(--safety)] transition-colors">Truck Cranes</a></li>
-            <li><a href="#" class="hover:text-[var(--safety)] transition-colors">Mobile / All-Terrain</a></li>
-            <li><a href="#" class="hover:text-[var(--safety)] transition-colors">Crawler Cranes</a></li>
-            <li><a href="#" class="hover:text-[var(--safety)] transition-colors">Boom Trucks</a></li>
+            <li><a href="#" class="py-3 hover:text-[var(--safety)] transition-colors">Truck Cranes</a></li>
+            <li><a href="#" class="py-3 hover:text-[var(--safety)] transition-colors">Mobile / All-Terrain</a></li>
+            <li><a href="#" class="py-3 hover:text-[var(--safety)] transition-colors">Crawler Cranes</a></li>
+            <li><a href="#" class="py-3 hover:text-[var(--safety)] transition-colors">Boom Trucks</a></li>
           </ul>
         </div>
       </div>
@@ -2751,6 +2780,12 @@
 <script>
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
+  const setViewportHeightUnit = () => {
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+  };
+  setViewportHeightUnit();
+  window.addEventListener('resize', setViewportHeightUnit, { passive: true });
+  window.addEventListener('orientationchange', setViewportHeightUnit, { passive: true });
 
   // Tonnage logic + mobile stepper.
   const tonnage = document.getElementById('tonnage');
