@@ -267,6 +267,7 @@
   /* === Tonnage slider === */
   input[type=range].tonnage {
     -webkit-appearance: none;
+    appearance: none;
     background: transparent;
     width: 100%;
     cursor: ew-resize;
@@ -536,12 +537,12 @@
     background-repeat: no-repeat;
     filter: saturate(0.84) contrast(1.16) brightness(0.76);
   }
-  .fleet-photo-1 .fleet-photo-image { background-image: url("./img/fleet/fleet-1-960.jpg"); background-position: 46% 58%; }
-  .fleet-photo-2 .fleet-photo-image { background-image: url("./img/fleet/fleet-2-960.jpg"); background-position: 56% 54%; }
-  .fleet-photo-3 .fleet-photo-image { background-image: url("./img/fleet/fleet-3-960.jpg"); background-position: 50% 56%; }
-  .fleet-photo-4 .fleet-photo-image { background-image: url("./img/fleet/fleet-4-960.jpg"); background-position: 44% 53%; }
-  .fleet-photo-5 .fleet-photo-image { background-image: url("./img/fleet/fleet-5-960.jpg"); background-position: 32% 50%; }
-  .fleet-photo-6 .fleet-photo-image { background-image: url("./img/fleet/fleet-6-960.jpg"); background-position: 58% 50%; }
+  .fleet-photo-1 .fleet-photo-image { background-image: var(--fleet-photo-1, url("./img/fleet/fleet-1-960.jpg")); background-position: 46% 58%; }
+  .fleet-photo-2 .fleet-photo-image { background-image: var(--fleet-photo-2, url("./img/fleet/fleet-2-960.jpg")); background-position: 56% 54%; }
+  .fleet-photo-3 .fleet-photo-image { background-image: var(--fleet-photo-3, url("./img/fleet/fleet-3-960.jpg")); background-position: 50% 56%; }
+  .fleet-photo-4 .fleet-photo-image { background-image: var(--fleet-photo-4, url("./img/fleet/fleet-4-960.jpg")); background-position: 44% 53%; }
+  .fleet-photo-5 .fleet-photo-image { background-image: var(--fleet-photo-5, url("./img/fleet/fleet-5-960.jpg")); background-position: 32% 50%; }
+  .fleet-photo-6 .fleet-photo-image { background-image: var(--fleet-photo-6, url("./img/fleet/fleet-6-960.jpg")); background-position: 58% 50%; }
   .fleet-photo::after {
     content: "";
     position: absolute;
@@ -2876,6 +2877,46 @@
 <script>
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
+  const isVercelHost = window.location.hostname.endsWith('.vercel.app');
+  const cdnAssetBase = 'https://cdn.jsdelivr.net/gh/Founditmarketing/cdh-@master/';
+  const toCdnAsset = (value) => {
+    if (!value) return value;
+    return value
+      .replace(/(^|[\s,(])\.?\/img\//g, `$1${cdnAssetBase}img/`)
+      .replace(/(^|[\s,(])img\//g, `$1${cdnAssetBase}img/`);
+  };
+  const rewriteSrcsetToCdn = (srcset) => srcset
+    .split(',')
+    .map((entry) => {
+      const trimmed = entry.trim();
+      if (!trimmed) return trimmed;
+      const parts = trimmed.split(/\s+/);
+      parts[0] = toCdnAsset(parts[0]);
+      return parts.join(' ');
+    })
+    .join(', ');
+  if (isVercelHost) {
+    document.querySelectorAll('img[src], source[srcset], link[href]').forEach((el) => {
+      if (el.tagName === 'IMG' && el.getAttribute('src')) {
+        el.setAttribute('src', toCdnAsset(el.getAttribute('src')));
+      }
+      if (el.tagName === 'SOURCE' && el.getAttribute('srcset')) {
+        el.setAttribute('srcset', rewriteSrcsetToCdn(el.getAttribute('srcset')));
+      }
+      if (el.tagName === 'LINK' && el.getAttribute('href')) {
+        const rel = (el.getAttribute('rel') || '').toLowerCase();
+        if (rel.includes('icon')) {
+          el.setAttribute('href', toCdnAsset(el.getAttribute('href')));
+        }
+      }
+    });
+    document.documentElement.style.setProperty('--fleet-photo-1', `url("${cdnAssetBase}img/fleet/fleet-1-960.jpg")`);
+    document.documentElement.style.setProperty('--fleet-photo-2', `url("${cdnAssetBase}img/fleet/fleet-2-960.jpg")`);
+    document.documentElement.style.setProperty('--fleet-photo-3', `url("${cdnAssetBase}img/fleet/fleet-3-960.jpg")`);
+    document.documentElement.style.setProperty('--fleet-photo-4', `url("${cdnAssetBase}img/fleet/fleet-4-960.jpg")`);
+    document.documentElement.style.setProperty('--fleet-photo-5', `url("${cdnAssetBase}img/fleet/fleet-5-960.jpg")`);
+    document.documentElement.style.setProperty('--fleet-photo-6', `url("${cdnAssetBase}img/fleet/fleet-6-960.jpg")`);
+  }
   const setViewportHeightUnit = () => {
     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
   };
