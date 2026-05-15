@@ -264,37 +264,6 @@
   }
   .hook-sway { transform-origin: 720px 80px; animation: hook-sway 6s ease-in-out infinite; }
 
-  /* === Tonnage slider === */
-  input[type=range].tonnage {
-    -webkit-appearance: none;
-    appearance: none;
-    background: transparent;
-    width: 100%;
-    cursor: ew-resize;
-  }
-  input[type=range].tonnage::-webkit-slider-runnable-track {
-    height: 2px;
-    background: linear-gradient(to right, var(--safety) 0%, var(--safety) var(--pct, 50%), var(--rebar) var(--pct, 50%), var(--rebar) 100%);
-  }
-  input[type=range].tonnage::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 40px; width: 3px;
-    background: var(--safety);
-    margin-top: -19px;
-    cursor: ew-resize;
-    box-shadow:
-      -3px 0 0 0 var(--ink),
-      3px 0 0 0 var(--ink),
-      0 0 0 7px rgba(244,197,66,0.12);
-  }
-  input[type=range].tonnage::-moz-range-thumb {
-    height: 40px; width: 3px;
-    background: var(--safety);
-    cursor: ew-resize;
-    border: none;
-    border-radius: 0;
-  }
-
   /* === Tag === */
   .tag {
     font-family: 'JetBrains Mono', monospace;
@@ -739,7 +708,6 @@
   .mobile-nav-overlay,
   .mobile-dispatch-section,
   .hero-jump-link,
-  .fleet-mobile-controls,
   .fleet-pagination,
   .testimonial-badge,
   .footer-accordion-trigger { display: none; }
@@ -1049,7 +1017,6 @@
     .desktop-nav-actions,
     .desktop-dispatch-col,
     .desktop-proof-row,
-    .desktop-fleet-range,
     .desktop-process-rail,
     .desktop-footer-columns,
     .desktop-testimonial-grid { display: none !important; }
@@ -1057,7 +1024,6 @@
     .mobile-nav-overlay,
     .mobile-dispatch-section,
     .hero-jump-link,
-    .fleet-mobile-controls,
     .fleet-pagination,
     .testimonial-badge,
     .footer-accordion-trigger { display: flex; }
@@ -1167,19 +1133,6 @@
       max-width: 85vw;
       scroll-snap-align: center;
     }
-    .fleet-mobile-controls {
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 20px;
-      gap: 12px;
-    }
-    .fleet-mobile-controls button {
-      min-height: 44px;
-      min-width: 44px;
-      border: 1px solid var(--rebar);
-      background: var(--ink);
-    }
-
     #process .lift .font-display.text-\[176px\] { font-size: 96px; }
     #industries .grid.grid-cols-2.lg\:grid-cols-3 {
       grid-template-columns: 1fr;
@@ -1959,44 +1912,6 @@
       </div>
     </div>
 
-    <!-- Tonnage configurator -->
-    <div class="bg-[var(--ink-2)] border border-[var(--rebar)] mb-16 relative card-inset">
-      <div class="stripe-tape h-1 w-48 absolute top-0 left-0"></div>
-
-      <div class="p-8 lg:p-14">
-        <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12">
-          <div>
-            <div class="tag mb-3">Configure Required Tonnage</div>
-            <div class="flex items-baseline gap-4">
-              <span id="tonnage-display" class="font-display text-[100px] text-[var(--safety)] leading-[0.85]">90</span>
-              <span class="font-display text-[40px] tracking-wider">TON</span>
-              <span class="text-[var(--bone)]/35 text-[11px] font-mono ml-2 hidden md:inline tracking-widest">DRAG TO SPEC →</span>
-            </div>
-          </div>
-          <div class="text-left md:text-right">
-            <div class="font-mono text-[11px] text-[var(--bone)]/45 tracking-[0.25em] mb-2.5">RECOMMENDED CRANE</div>
-            <div id="crane-recommend" class="font-display text-[28px] tracking-wide">GROVE TMS 9000E</div>
-            <div id="crane-reach" class="font-mono text-[12px] text-[var(--bone)]/55 mt-1 tracking-widest">REACH · 142 FT</div>
-          </div>
-        </div>
-
-        <input id="tonnage" type="range" class="tonnage desktop-fleet-range" min="15" max="500" value="90" step="5" style="--pct: 15%"/>
-
-        <div class="fleet-mobile-controls">
-          <button type="button" id="tonnage-decrease" aria-label="Decrease tonnage">−</button>
-          <span class="font-mono text-[11px] tracking-[0.2em] text-[var(--bone)]/70 uppercase">Tap to spec</span>
-          <button type="button" id="tonnage-increase" aria-label="Increase tonnage">+</button>
-        </div>
-
-        <div class="flex justify-between mt-5 font-mono text-[10px] text-[var(--bone)]/40 tracking-widest">
-          <span>15T</span>
-          <span>100T</span>
-          <span>250T</span>
-          <span>500T</span>
-        </div>
-      </div>
-    </div>
-
     <!-- Fleet grid -->
     <div id="fleet-carousel" class="mobile-fleet-grid fleet-carousel-mobile grid md:grid-cols-2 lg:grid-cols-3 gap-5">
 
@@ -2214,7 +2129,7 @@
     <div class="fleet-spec-library">
       <div class="tag">Spec Library · Current Fleet PDFs</div>
       <div class="fleet-spec-library-links">
-        <a class="fleet-spec-link" href="mailto:office@cdhrentals.com?subject=Liebherr%20LTM%201070-4.2%20Spec%20Request" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1070-4.2</span><span>Request ↗</span></a>
+        <a class="fleet-spec-link" href="https://superiorcranehire.com.au/wp-content/uploads/2023/03/LTM-1070.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1070-4.2</span><span>PDF ↗</span></a>
         <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2021/09/GS-300-1-90101_US-04-2.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano GS300XL · 30T</span><span>PDF ↗</span></a>
         <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2021/09/Loach-Chart-2043162.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano ATF-80-4 · 100T</span><span>PDF ↗</span></a>
         <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2022/06/liebherr_ltm_1100_5_2.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1100-5.2</span><span>PDF ↗</span></a>
@@ -2224,7 +2139,7 @@
     </div>
 
     <div class="mt-16 flex justify-center">
-      <a href="#" class="group inline-flex items-center gap-4 font-display text-[26px] uppercase tracking-[0.04em] border-b border-[var(--safety)] pb-2 hover:gap-6 transition-all">
+      <a href="https://cdhrentals.com/services/cranes-available/" target="_blank" rel="noopener noreferrer" aria-label="View full crane fleet list on CDH website" class="group inline-flex items-center gap-4 font-display text-[26px] uppercase tracking-[0.04em] border-b border-[var(--safety)] pb-2 hover:gap-6 transition-all">
         See the Entire Fleet
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
@@ -2960,36 +2875,6 @@
   window.addEventListener('resize', setViewportHeightUnit, { passive: true });
   window.addEventListener('orientationchange', setViewportHeightUnit, { passive: true });
 
-  // Tonnage logic + mobile stepper.
-  const tonnage = document.getElementById('tonnage');
-  const display = document.getElementById('tonnage-display');
-  const rec = document.getElementById('crane-recommend');
-  const reach = document.getElementById('crane-reach');
-  const minusBtn = document.getElementById('tonnage-decrease');
-  const plusBtn = document.getElementById('tonnage-increase');
-  const cranes = [
-    { max: 30,  name: 'TADANO GS300XL',         reach: '105.6 FT' },
-    { max: 80,  name: 'LIEBHERR LTM 1070-4.2',  reach: '164 FT' },
-    { max: 100, name: 'TADANO ATF-80-4',        reach: '160 FT' },
-    { max: 100, name: 'LIEBHERR LTM 1100-5.2',  reach: '170.6 FT' },
-    { max: 250, name: 'TADANO ATF 220G-5',      reach: '223 FT' },
-    { max: 500, name: 'ADDITIONAL FLEET OPTIONS', reach: 'BY REQUEST' }
-  ];
-  function updateTonnage(value) {
-    const v = Math.max(15, Math.min(500, parseInt(value, 10) || 15));
-    tonnage.value = v;
-    display.textContent = v;
-    const c = cranes.find((item) => v <= item.max) || cranes[cranes.length - 1];
-    rec.textContent = c.name;
-    reach.textContent = `REACH · ${c.reach}`;
-    const pct = ((v - 15) / (500 - 15)) * 100;
-    tonnage.style.setProperty('--pct', `${pct}%`);
-  }
-  tonnage?.addEventListener('input', () => updateTonnage(tonnage.value));
-  minusBtn?.addEventListener('click', () => updateTonnage(parseInt(tonnage.value, 10) - 5));
-  plusBtn?.addEventListener('click', () => updateTonnage(parseInt(tonnage.value, 10) + 5));
-  updateTonnage(tonnage?.value || 90);
-
   // Mobile nav overlay with scroll lock, esc close, focus trap.
   const body = document.body;
   const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -3311,7 +3196,7 @@
       auxLabel: 'Load Chart'
     },
     'LIEBHERR LTM 1070-4.2': {
-      specUrl: '',
+      specUrl: 'https://superiorcranehire.com.au/wp-content/uploads/2023/03/LTM-1070.pdf',
       auxUrl: '',
       auxLabel: ''
     },
