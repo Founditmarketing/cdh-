@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" role="img" aria-label="CDH Crane Rentals concept A">
+  <rect width="320" height="96" fill="#14171c"/>
+  <text x="20" y="58" fill="#eae6dd" font-family="'Bebas Neue', sans-serif" font-size="56" letter-spacing="3">CDH</text>
+  <line x1="20" y1="70" x2="188" y2="70" stroke="#f4c542" stroke-width="2"/>
+  <text x="20" y="86" fill="#eae6dd" opacity="0.7" font-family="'JetBrains Mono', monospace" font-size="10" letter-spacing="2.5">CRANE RENTALS</text>
+</svg>
