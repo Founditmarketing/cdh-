@@ -960,9 +960,10 @@
     display: grid;
   }
   .fleet-carousel-mobile .crane-card {
-    min-width: 85vw;
-    max-width: 85vw;
-    scroll-snap-align: center;
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+    scroll-snap-align: start;
   }
   .fleet-pagination button {
     width: 44px;
@@ -1160,6 +1161,11 @@
       gap: 14px;
       scroll-snap-type: x mandatory;
       padding-bottom: 8px;
+    }
+    #fleet .fleet-carousel-mobile .crane-card {
+      min-width: 85vw;
+      max-width: 85vw;
+      scroll-snap-align: center;
     }
     .fleet-mobile-controls {
       align-items: center;
