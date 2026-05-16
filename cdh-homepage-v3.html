@@ -1133,6 +1133,18 @@
       max-width: 85vw;
       scroll-snap-align: center;
     }
+    .marquee-band {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+    }
+    .marquee-band .marquee-track {
+      font-size: 16px !important;
+      gap: 18px !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+      letter-spacing: 0.03em !important;
+      line-height: 1.1;
+    }
     #process .lift .font-display.text-\[176px\] { font-size: 96px; }
     #industries .grid.grid-cols-2.lg\:grid-cols-3 {
       grid-template-columns: 1fr;
@@ -1746,7 +1758,7 @@
 </section>
 
 <!-- ============ MARQUEE ============ -->
-<section class="bg-[var(--safety)] text-[var(--ink)] py-6 overflow-hidden border-y border-[var(--ink)]">
+<section class="marquee-band bg-[var(--safety)] text-[var(--ink)] py-6 overflow-hidden border-y border-[var(--ink)]">
   <div class="marquee-wrap whitespace-nowrap">
     <div class="marquee-track items-center gap-14 px-7 font-display text-[26px] uppercase tracking-[0.04em]" id="marquee-track">
       <span>★ Locally Owned & Operated</span><span class="opacity-40">/</span>
