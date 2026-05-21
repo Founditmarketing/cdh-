@@ -273,11 +273,13 @@ The landing pages already fire these events; the Ads side needs the conversion a
 
 | Action name | Category | Count | Value | Conversion window | Source |
 | --- | --- | --- | --- | --- | --- |
-| `LP · Lead Form Submit` | Submit lead form | Every | $150 (lead value) | 30 days | Website (gtag) |
+| `LP · Lead Form Submit` | Submit lead form | One per session | $150 (lead value) | 30 days | Website (gtag) — fires inline on submit AND on `/lp/thanks/` page load |
 | `LP · Phone Click` | Contact | One | $50 | 1 day | Website (gtag) |
 | `LP · Email Click` | Contact | One | $30 | 1 day | Website (gtag) |
 | `LP · Scroll 75%` (micro) | Other | One | $0 | 1 day | Website (gtag) — micro signal for smart bidding only |
 | `Call from Ads · Call Extension` | Phone calls | Every | $150 | 60 sec min duration | Google Ads native (call extension) |
+
+**Destination-URL conversion pattern:** The lead form posts to `/api/dispatch`, fires the conversion inline, then redirects to [`/lp/thanks/`](../lp/thanks/index.html) which re-fires the conversion on page load. Setting "Count = One per session" on the conversion action prevents double-counting. The benefit of this two-stage fire is robustness: the inline fire captures users whose redirect is blocked (rare), and the thank-you page fire is the canonical attribution moment Google's algorithm prefers for goal-completion modeling.
 
 ### Wiring it up
 1. In Google Ads → Tools → Conversions → New conversion action → Website. Use **gtag.js** (already on every landing page).

@@ -45,10 +45,10 @@
   gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true, send_page_view: true });
 </script>
 
-<!-- ==================== Google Ads conversion tracking ====================
-     TODO: replace AW-XXXXXXXXXX with the real Google Ads account ID.
-     TODO: replace the conversion labels in SITE.conversions inside build/site-data.js.
-     The conversion fires below are wired in cdh-lp.js (see body footer). -->
+<!-- ==================== Google Ads ====================
+     Landing page: full conversion + remarketing. Conversion fires happen in the LP script at the body footer.
+     TODO: replace SITE.googleAdsId in build/site-data.js with the real account ID.
+     Account ID currently configured: AW-XXXXXXXXXX -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -363,6 +363,8 @@
       <a href="mailto:office@cdhrentals.com" data-lp-email>office@cdhrentals.com</a>
       &nbsp;·&nbsp;
       <a href="/">Full site</a>
+      &nbsp;·&nbsp;
+      <a href="/privacy/">Privacy</a>
     </div>
   </div>
 </footer>
@@ -452,9 +454,17 @@
       }).then(function(){
         fire('quote_submit', { placement: 'lp', page_path: location.pathname, lp_slug: data.lp_slug });
         fireConversion(CONVERSIONS.form);
+        // Show inline success briefly, then redirect to the canonical thank-you page.
+        // Destination-URL conversion is the gold-standard pattern for Google Ads.
+        // The thank-you page fires the conversion event again on load — safe because
+        // Google Ads dedupes against the conversion's "count" setting.
         form.reset();
         if (success) success.classList.add('is-shown');
-        if (submit){ submit.textContent = 'Submitted'; setTimeout(function(){ submit.removeAttribute('disabled'); submit.textContent = 'Request quote'; }, 4000); }
+        if (submit){ submit.textContent = 'Submitted'; }
+        var slug = encodeURIComponent(data.lp_slug || '');
+        setTimeout(function(){
+          location.assign('/lp/thanks/' + (slug ? '?lp=' + slug : ''));
+        }, 800);
       }).catch(function(){
         if (error) error.classList.add('is-shown');
         if (submit){ submit.removeAttribute('disabled'); submit.textContent = 'Request quote'; }

@@ -134,8 +134,63 @@ for (const slug of LP_SLUGS) {
     ['No GSC verification meta on LPs', (h) => !/google-site-verification/.test(h)],
     ['Mobile sticky CTA bar present', (h) => /mobile-cta-bar/.test(h)],
     ['Final CTA section present', (h) => /lp-final/.test(h)],
+    ['Form redirects to /lp/thanks/ on success', (h) => /\/lp\/thanks\/'/.test(h) || /\/lp\/thanks\//.test(h)],
+    ['Footer links to /privacy/', (h) => /href="\/privacy\/"/.test(h)],
   ]));
 }
+
+/* --- LP thank-you page --- */
+console.log('\n--- LP thank-you page ---');
+results.push(checkFile('lp/thanks/index.html', [
+  ['noindex meta robots', (h) => /<meta name="robots" content="noindex/.test(h)],
+  ['canonical points to /lp/thanks/', (h) => /<link rel="canonical" href="https:\/\/cdhcranerentals\.com\/lp\/thanks\/"/.test(h)],
+  ['body has class="lp"', (h) => /<body class="lp">/.test(h)],
+  ['Google Ads gtag present', (h) => /googletagmanager\.com\/gtag\/js\?id=AW-/.test(h)],
+  ['GA4 gtag present', (h) => /googletagmanager\.com\/gtag\/js\?id=G-/.test(h)],
+  ['Fires conversion on page load (quote_submit event)', (h) => /quote_submit/.test(h) && /lp_thanks/.test(h)],
+  ['Reads ?lp= param for attribution', (h) => /\[\?&\]lp=/.test(h)],
+  ['No lead form on thanks page', (h) => !/data-lp-form/.test(h)],
+  ['Phone CTA still present + tracked', (h) => /data-lp-phone/.test(h)],
+  ['No JSON-LD (LP page)', (h) => !/application\/ld\+json/.test(h)],
+]));
+
+/* --- Legal pages (privacy + terms) --- */
+console.log('\n--- Legal pages ---');
+for (const slug of ['privacy', 'terms']) {
+  results.push(checkFile(`${slug}/index.html`, [
+    ['Title contains page name', (h) => new RegExp(slug === 'privacy' ? 'Privacy Policy' : 'Terms of Service', 'i').test(h)],
+    ['canonical points to /{slug}/', (h) => new RegExp(`<link rel="canonical" href="https://cdhcranerentals\\.com/${slug}/"`).test(h)],
+    ['indexable (no noindex)', (h) => !/<meta name="robots" content="noindex/.test(h)],
+    ['WebPage schema present', (h) => /"@type": "WebPage"/.test(h)],
+    ['BreadcrumbList schema present', (h) => /"@type": "BreadcrumbList"/.test(h)],
+    ['GA4 + Google Ads tags present', (h) => /googletagmanager\.com\/gtag\/js\?id=G-/.test(h) && /googletagmanager\.com\/gtag\/js\?id=AW-/.test(h)],
+    ['Contact info in body', (h) => /office@cdhrentals\.com/.test(h)],
+  ]));
+}
+
+/* --- Site-wide remarketing tag (Google Ads gtag on every public page) --- */
+console.log('\n--- Site-wide Google Ads remarketing tag ---');
+const REMARKETING_PAGES = [
+  'cdh-homepage-v3.html',
+  'locations/lafayette/index.html',
+  'fleet/500-ton/index.html',
+  'services/refinery-turnaround/index.html',
+  'industries/refining-petrochem/index.html',
+  'learn/how-to-pick-the-right-crane-tonnage/index.html',
+];
+for (const f of REMARKETING_PAGES) {
+  results.push(checkFile(f, [
+    ['Google Ads gtag present (remarketing audience signal)', (h) => /googletagmanager\.com\/gtag\/js\?id=AW-/.test(h)],
+  ]));
+}
+
+/* --- Sitemap update --- */
+console.log('\n--- Sitemap includes legal pages ---');
+results.push(checkFile('sitemap.xml', [
+  ['Privacy in sitemap', (h) => /\/privacy\//.test(h)],
+  ['Terms in sitemap', (h) => /\/terms\//.test(h)],
+  ['Thanks page NOT in sitemap', (h) => !/\/lp\/thanks\//.test(h)],
+]));
 
 const ok = results.every(Boolean);
 console.log(`\n${ok ? 'All sanity checks passed.' : 'Some checks failed — see [FAIL] lines above.'}`);

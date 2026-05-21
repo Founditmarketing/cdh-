@@ -89,7 +89,7 @@ Form questions (match LP form):
 5. Date needed (custom · date)
 6. Brief description (custom · long answer · optional)
 CTA button: `Get quote`
-Privacy policy URL: `https://cdhcranerentals.com/privacy/` (TODO: publish a privacy policy page)
+Privacy policy URL: `https://cdhcranerentals.com/privacy/` (live — see [`../../privacy/index.html`](../../privacy/index.html))
 Submission message headline: `Got it — we'll call within the next business hour.`
 Submission message description: `For anything urgent, call dispatch at 337-962-3999.`
 Lead delivery: enable both webhook → CRM AND CSV export.

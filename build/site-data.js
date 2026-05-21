@@ -1347,4 +1347,100 @@ const LANDING_FAQ_LIBRARY = {
   },
 };
 
-module.exports = { SITE, LOCATIONS, FLEET, SERVICES, INDUSTRIES, LEARN, LANDING_PAGES, TESTIMONIALS, LANDING_FAQ_LIBRARY };
+/* ============================================================
+ * LEGAL_PAGES — privacy / terms.
+ * Privacy is REQUIRED to launch the Google Ads Lead Form extension.
+ * Edit copy here; it will render at /{slug}/.
+ * ============================================================ */
+const LEGAL_PAGES = [
+  {
+    slug: 'privacy',
+    title: 'Privacy Policy',
+    headline: 'Privacy policy.',
+    lastUpdated: 'May 21, 2026',
+    intro: `This privacy policy explains what information ${'CDH Crane Rentals, LLC'} ("CDH", "we", "us") collects when you use our website at cdhcranerentals.com or contact us by phone or email, how we use it, and the choices you have. We keep this policy short and direct, the same way we run the business.`,
+    sections: [
+      {
+        h: 'Who we are',
+        p: `CDH Crane Rentals, LLC is a crane rental company headquartered in Lafayette, Louisiana, with yards in Lafayette, Baton Rouge, Lake Charles, New Orleans, and Baytown, TX. You can reach us by phone at 337-962-3999 or by email at office@cdhrentals.com. Our mailing address is on file at our HQ yard.`,
+      },
+      {
+        h: 'What information we collect',
+        p: `When you fill out a quote form on this site, we collect your name, phone number, email if you provide it, the jobsite city, the date you need a crane, the tonnage you need, and any description you provide. When you call dispatch, we may record the call for quality and training, subject to applicable law.
+
+When you visit any page on this site, our analytics and advertising tools (Google Analytics 4 and Google Ads) automatically collect standard technical information: your IP address (anonymized before storage), the pages you visit, the time you spend, how you arrived (referrer, search keyword if available), and device/browser information. We also use cookies and local storage for session continuity and for measuring marketing effectiveness.`,
+      },
+      {
+        h: 'How we use it',
+        p: `We use the information you provide to scope your crane rental, generate a quote, schedule the work, and contact you about it. We use analytics and advertising data to measure which pages and marketing channels are working, to improve our website, and to show our ads to people who have shown interest in crane rental.`,
+      },
+      {
+        h: 'Who we share it with',
+        p: `We do not sell your information. We share information with the third parties we use to operate the business: our customer relationship and dispatch software, our email provider (Resend) for transactional and notification emails, our analytics provider (Google Analytics 4), and our advertising provider (Google Ads). Each of those providers has its own privacy policy. We may also disclose information when required by law (subpoena, court order, regulatory request) or to protect our legal rights.`,
+      },
+      {
+        h: 'Cookies and tracking',
+        p: `This site uses cookies and similar technologies for three purposes: (1) to remember your session and the marketing source that brought you to the site, (2) to measure traffic and conversions through Google Analytics 4, and (3) to enable Google Ads remarketing — meaning we can show our ads to you on other websites after you have visited us. You can disable cookies in your browser settings; you can also opt out of Google Ads personalization at https://adssettings.google.com.`,
+      },
+      {
+        h: 'Your choices',
+        p: `You can opt out of marketing emails by replying STOP or unsubscribing. You can ask us to delete the personal information we hold about you by emailing office@cdhrentals.com — we will respond within 30 days. If you are a California, Virginia, Colorado, Connecticut, or Utah resident, you have additional rights under state law (access, correction, deletion, opt-out of sale or sharing); contact us at the same address to exercise them.`,
+      },
+      {
+        h: 'Data retention',
+        p: `We retain quote records and job history for as long as needed to operate the business and comply with tax, insurance, and contractual obligations. We delete inactive quote leads after 24 months unless you ask us to delete sooner.`,
+      },
+      {
+        h: 'Security',
+        p: `We use industry-standard security measures to protect your information in transit (HTTPS/TLS) and at rest. No system is perfectly secure; if a breach occurs that affects your information, we will notify you in accordance with applicable law.`,
+      },
+      {
+        h: 'Children',
+        p: `This site is not directed to children under 13. We do not knowingly collect personal information from children. If you believe we have, please contact us and we will delete it.`,
+      },
+      {
+        h: 'Changes to this policy',
+        p: `We may update this policy from time to time. When we do, we will revise the "last updated" date at the top. Material changes will be announced on this page.`,
+      },
+      {
+        h: 'Contact',
+        p: `Questions about this policy: office@cdhrentals.com or 337-962-3999. Ask for the office.`,
+      },
+    ],
+  },
+  {
+    slug: 'terms',
+    title: 'Terms of Service',
+    headline: 'Terms of service.',
+    lastUpdated: 'May 21, 2026',
+    intro: `These terms govern your use of cdhcranerentals.com. They do not govern the rental contract for any crane — that contract is a separate document signed at the time of rental. By using this site you agree to these terms.`,
+    sections: [
+      {
+        h: 'Use of the site',
+        p: `You may use this site for the lawful purpose of researching crane rental services and requesting a quote. You may not scrape, hammer, or interfere with the operation of the site, attempt unauthorized access, or use the site to transmit malware or unlawful content.`,
+      },
+      {
+        h: 'Quotes are not contracts',
+        p: `Prices, availability, and lead times displayed or quoted through this site are estimates. Binding pricing and terms are set out in the rental contract executed before the work begins.`,
+      },
+      {
+        h: 'No warranty',
+        p: `This site is provided "as is" without warranties of any kind. We make no representation that content on the site is accurate, current, or complete, although we work to keep it that way.`,
+      },
+      {
+        h: 'Limitation of liability',
+        p: `To the maximum extent permitted by law, CDH is not liable for any indirect, incidental, or consequential damages arising from your use of this site.`,
+      },
+      {
+        h: 'Governing law',
+        p: `These terms are governed by the laws of the State of Louisiana, without regard to conflict of laws principles. Disputes will be resolved in the state or federal courts in Lafayette Parish, Louisiana.`,
+      },
+      {
+        h: 'Contact',
+        p: `Questions: office@cdhrentals.com or 337-962-3999.`,
+      },
+    ],
+  },
+];
+
+module.exports = { SITE, LOCATIONS, FLEET, SERVICES, INDUSTRIES, LEARN, LANDING_PAGES, TESTIMONIALS, LANDING_FAQ_LIBRARY, LEGAL_PAGES };

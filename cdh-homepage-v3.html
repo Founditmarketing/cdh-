@@ -1550,6 +1550,20 @@
   gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true, send_page_view: true });
 </script>
 
+<!-- ==================== Google Ads (remarketing) ====================
+     Homepage: remarketing audience signal only — no conversion fires here.
+     Conversion fires live on the /lp/* landing pages and /lp/thanks/.
+     TODO: replace AW-XXXXXXXXXX with the real Google Ads account ID (must match
+     SITE.googleAdsId in build/site-data.js so the LPs and the homepage share the
+     same audience). -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'AW-XXXXXXXXXX');
+</script>
+
 </head>
 <body>
 

@@ -16,7 +16,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { LOCATIONS, FLEET, SERVICES, INDUSTRIES, LEARN, LANDING_PAGES } = require('./build/site-data.js');
+const { LOCATIONS, FLEET, SERVICES, INDUSTRIES, LEARN, LANDING_PAGES, LEGAL_PAGES } = require('./build/site-data.js');
 const {
   renderLocationPage,
   renderFleetPage,
@@ -24,6 +24,8 @@ const {
   renderIndustryPage,
   renderLearnPage,
   renderLandingPage,
+  renderLegalPage,
+  renderThanksPage,
   renderSitemap,
 } = require('./build/templates.js');
 
@@ -83,6 +85,22 @@ function run() {
   console.log('--- Building Google Ads landing pages (noindex) ---');
   for (const lp of LANDING_PAGES) {
     const p = writeFile(path.join('lp', lp.slug, 'index.html'), renderLandingPage(lp));
+    written.push(p);
+    count += 1;
+    console.log('  +', path.relative(ROOT, p));
+  }
+
+  console.log('--- Building LP thank-you page (noindex) ---');
+  {
+    const p = writeFile(path.join('lp', 'thanks', 'index.html'), renderThanksPage());
+    written.push(p);
+    count += 1;
+    console.log('  +', path.relative(ROOT, p));
+  }
+
+  console.log('--- Building legal pages ---');
+  for (const legal of LEGAL_PAGES) {
+    const p = writeFile(path.join(legal.slug, 'index.html'), renderLegalPage(legal));
     written.push(p);
     count += 1;
     console.log('  +', path.relative(ROOT, p));

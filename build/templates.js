@@ -4,7 +4,7 @@
  * Imported and orchestrated by ../build-pages.js.
  */
 
-const { SITE, LOCATIONS, FLEET, SERVICES, INDUSTRIES, LEARN, LANDING_PAGES, TESTIMONIALS, LANDING_FAQ_LIBRARY } = require('./site-data.js');
+const { SITE, LOCATIONS, FLEET, SERVICES, INDUSTRIES, LEARN, LANDING_PAGES, TESTIMONIALS, LANDING_FAQ_LIBRARY, LEGAL_PAGES } = require('./site-data.js');
 
 /* ---------- helpers ---------- */
 const esc = (s) => String(s == null ? '' : s)
@@ -63,22 +63,28 @@ function renderHead({
 <!-- TODO: Replace with real Bing Webmaster Tools verification token -->
 <meta name="msvalidate.01" content="REPLACE_WITH_BING_VERIFICATION_TOKEN" />`;
 
-  // Google Ads conversion tracking — only on landing pages (where paid traffic lands).
-  const googleAdsTag = includeGoogleAds
-    ? `
+  // Google Ads tag — emitted on every page so the remarketing audience builds from
+  // organic visitors too. On landing pages, conversion fires happen via the inline
+  // script at the bottom of the body (renderLpConversionScript). On all other pages
+  // this is remarketing-only — no conversion calls.
+  // The tag is rendered even when the account ID is still a placeholder so the wiring
+  // stays in place; replace SITE.googleAdsId in build/site-data.js and rebuild.
+  const adsRoleComment = includeGoogleAds
+    ? 'Landing page: full conversion + remarketing. Conversion fires happen in the LP script at the body footer.'
+    : 'SEO page: remarketing audience signal only — no conversion fires from this page.';
+  const googleAdsTag = `
 
-<!-- ==================== Google Ads conversion tracking ====================
-     TODO: replace ${SITE.googleAdsId} with the real Google Ads account ID.
-     TODO: replace the conversion labels in SITE.conversions inside build/site-data.js.
-     The conversion fires below are wired in cdh-lp.js (see body footer). -->
+<!-- ==================== Google Ads ====================
+     ${adsRoleComment}
+     TODO: replace SITE.googleAdsId in build/site-data.js with the real account ID.
+     Account ID currently configured: ${esc(SITE.googleAdsId)} -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${esc(SITE.googleAdsId)}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', '${esc(SITE.googleAdsId)}');
-</script>`
-    : '';
+</script>`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -1112,6 +1118,8 @@ function renderLpFooter() {
       <a href="mailto:${esc(SITE.email)}" data-lp-email>${esc(SITE.email)}</a>
       &nbsp;·&nbsp;
       <a href="/">Full site</a>
+      &nbsp;·&nbsp;
+      <a href="/privacy/">Privacy</a>
     </div>
   </div>
 </footer>
@@ -1414,9 +1422,17 @@ function renderLpConversionScript() {
       }).then(function(){
         fire('quote_submit', { placement: 'lp', page_path: location.pathname, lp_slug: data.lp_slug });
         fireConversion(CONVERSIONS.form);
+        // Show inline success briefly, then redirect to the canonical thank-you page.
+        // Destination-URL conversion is the gold-standard pattern for Google Ads.
+        // The thank-you page fires the conversion event again on load — safe because
+        // Google Ads dedupes against the conversion's "count" setting.
         form.reset();
         if (success) success.classList.add('is-shown');
-        if (submit){ submit.textContent = 'Submitted'; setTimeout(function(){ submit.removeAttribute('disabled'); submit.textContent = 'Request quote'; }, 4000); }
+        if (submit){ submit.textContent = 'Submitted'; }
+        var slug = encodeURIComponent(data.lp_slug || '');
+        setTimeout(function(){
+          location.assign('/lp/thanks/' + (slug ? '?lp=' + slug : ''));
+        }, 800);
       }).catch(function(){
         if (error) error.classList.add('is-shown');
         if (submit){ submit.removeAttribute('disabled'); submit.textContent = 'Request quote'; }
@@ -1473,6 +1489,170 @@ ${renderLpConversionScript()}
 }
 
 /* ============================================================
+   LEGAL PAGES (privacy / terms)
+   Linked from LP form copy and Google Ads Lead Form extension.
+============================================================ */
+function renderLegalPage(legal) {
+  const canonical = `${SITE.domain}/${legal.slug}/`;
+  const head = renderHead({
+    title: `${legal.title} | ${SITE.brand}`,
+    description: `${legal.title} for ${SITE.brand}. ${legal.intro.slice(0, 130).replace(/\s+/g, ' ').trim()}...`,
+    canonical,
+    schema: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: `${legal.title} | ${SITE.brand}`,
+        url: canonical,
+        isPartOf: { '@type': 'WebSite', name: SITE.brand, url: `${SITE.domain}/` },
+        publisher: organizationRef(),
+        dateModified: '2026-05-21',
+      },
+      breadcrumbSchema([{ name: 'Home', url: `${SITE.domain}/` }, { name: legal.title, url: canonical }]),
+    ],
+  });
+
+  return `${head}
+${renderUtilBar()}
+${renderNav()}
+${renderBreadcrumbs([{ name: 'Home', url: '/' }, { name: legal.title, url: `/${legal.slug}/` }])}
+<section class="page-hero" style="padding: 56px 0;">
+  <div class="container" style="max-width: 880px;">
+    <span class="tag" style="color: var(--safety);">Last updated · ${esc(legal.lastUpdated)}</span>
+    <h1 style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 6vw, 80px); line-height: 0.95; text-transform: uppercase; margin: 8px 0 24px;">${esc(legal.headline)}</h1>
+    <p style="font-size: 17px; color: rgba(234, 230, 221, 0.8); line-height: 1.7; max-width: 720px;">${esc(legal.intro)}</p>
+  </div>
+</section>
+<section class="section" style="padding: 0 0 80px;">
+  <div class="container" style="max-width: 880px;">
+    ${legal.sections.map((s) => `<div style="margin-bottom: 40px;">
+      <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: 28px; text-transform: uppercase; letter-spacing: 0.02em; color: var(--safety); margin: 0 0 14px;">${esc(s.h)}</h2>
+      ${s.p.split('\n\n').map((para) => `<p style="font-size: 15px; line-height: 1.75; color: rgba(234, 230, 221, 0.82); margin: 0 0 14px;">${esc(para)}</p>`).join('\n      ')}
+    </div>`).join('\n    ')}
+  </div>
+</section>
+${renderCtaBand()}
+${renderFooter()}
+</body>
+</html>`;
+}
+
+/* ============================================================
+   LP THANK-YOU PAGE
+   Form submit redirects here; conversion fires on page load.
+   Destination-URL conversion is the gold standard for Google Ads.
+============================================================ */
+function renderThanksPage() {
+  const canonical = `${SITE.domain}/lp/thanks/`;
+  const head = renderHead({
+    title: `Thanks — we got it | ${SITE.brand}`,
+    description: 'Thanks for your quote request. Dispatch will be in touch shortly.',
+    canonical,
+    schema: [],
+    noindex: true,
+    includeGoogleAds: true,
+    bodyClass: 'lp',
+  });
+
+  return `${head}
+${renderUtilBar()}
+${renderLpNav()}
+<section class="lp-hero" style="padding: 80px 0 100px;">
+  <div class="container" style="max-width: 720px; text-align: center;">
+    <span class="lp-hero-eyebrow" style="margin-bottom: 28px;"><span class="live-dot" aria-hidden="true"></span>Quote request received</span>
+    <h1 style="font-size: clamp(48px, 7vw, 96px);">
+      <span>Thanks —</span>
+      <span class="row-2">we got it.</span>
+    </h1>
+    <p class="lp-lede" style="margin: 0 auto 36px; max-width: 540px;">Dispatch has your request. We will call you within the next business hour with a price and an availability window. For anything urgent — same-day, after-hours, or storm response — call dispatch direct.</p>
+    <a href="tel:${esc(SITE.phoneTel.replace(/[^0-9+]/g, ''))}" class="lp-cta-card" data-lp-phone style="margin: 0 auto 32px;" aria-label="Call dispatch ${esc(SITE.phoneDisplay)}">
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </span>
+      <span class="copy">
+        <span class="label">Call dispatch · 24/7</span>
+        <span class="num">${esc(SITE.phoneDisplay)}</span>
+      </span>
+    </a>
+    <div class="lp-trust-row" style="justify-content: center;">
+      <span class="lp-trust-chip">NCCCO</span>
+      <span class="lp-trust-chip">ISN</span>
+      <span class="lp-trust-chip">AVETTA</span>
+      <span class="lp-trust-chip">EST. 2003</span>
+    </div>
+  </div>
+</section>
+<section class="lp-section alt">
+  <div class="container" style="max-width: 720px;">
+    <h2>What happens <span class="accent">next.</span></h2>
+    <div class="lp-feature-grid" style="grid-template-columns: 1fr;">
+      <div class="lp-feature">
+        <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="4,12 10,18 20,6"/></svg></span>
+        <p><strong>Within the next business hour:</strong> dispatch reviews your request and calls you back with a quote and a date.</p>
+      </div>
+      <div class="lp-feature alt">
+        <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="4,12 10,18 20,6"/></svg></span>
+        <p><strong>Before mobilization:</strong> we send a pre-job rigging review at no charge, get our operator badged for your site, and confirm any insurance requirements.</p>
+      </div>
+      <div class="lp-feature">
+        <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="4,12 10,18 20,6"/></svg></span>
+        <p><strong>Day of:</strong> crane arrives at the agreed time. Operator runs the pick. You get one phone number for any change — dispatch, 24/7.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="lp-section">
+  <div class="container" style="max-width: 720px; text-align: center;">
+    <h2>While you wait, <span class="accent">a few resources.</span></h2>
+    <div class="lp-mini-grid" style="grid-template-columns: 1fr 1fr; margin-top: 28px;">
+      <a href="/fleet/15-ton-boom-truck/" class="lp-mini" style="text-decoration: none;">
+        <div class="tag">Fleet</div>
+        <h3>Browse the fleet</h3>
+        <p>15 to 500 ton — see specs, photos, and yard availability.</p>
+      </a>
+      <a href="/learn/how-to-pick-the-right-crane-tonnage/" class="lp-mini" style="text-decoration: none;">
+        <div class="tag">Guide</div>
+        <h3>Sizing the right crane</h3>
+        <p>Quick read on how we pick crane tonnage for your pick.</p>
+      </a>
+    </div>
+  </div>
+</section>
+${renderLpFooter()}
+<script>
+(function(){
+  // Fire conversion on page load — this page IS the conversion destination.
+  function fireConversion(label){
+    if (typeof gtag !== 'function' || !label) return;
+    try { gtag('event', 'conversion', { send_to: label }); } catch(e){}
+  }
+  function fire(eventName, params){
+    if (typeof gtag !== 'function') return;
+    try { gtag('event', eventName, params || {}); } catch(e){}
+  }
+  var FORM_CONVERSION = ${JSON.stringify(SITE.conversions.formSubmit)};
+  var PHONE_CONVERSION = ${JSON.stringify(SITE.conversions.phoneClick)};
+  // Pull the originating LP slug from the URL (?lp=slug) for reporting in GA4.
+  var lpSlug = (function(){
+    var m = location.search.match(/[?&]lp=([^&#]+)/);
+    return m ? decodeURIComponent(m[1]) : '';
+  })();
+  fire('quote_submit', { placement: 'lp_thanks', page_path: location.pathname, lp_slug: lpSlug });
+  fireConversion(FORM_CONVERSION);
+  // Wire phone clicks on this page too (some people call from the thank-you page).
+  document.querySelectorAll('[data-lp-phone]').forEach(function(el){
+    el.addEventListener('click', function(){
+      fire('phone_click', { placement: 'lp_thanks', page_path: location.pathname });
+      fireConversion(PHONE_CONVERSION);
+    });
+  });
+})();
+</script>
+</body>
+</html>`;
+}
+
+/* ============================================================
    SITEMAP
 ============================================================ */
 function renderSitemap() {
@@ -1484,6 +1664,7 @@ function renderSitemap() {
     ...SERVICES.map((s) => ({ loc: `${SITE.domain}${serviceUrl(s.slug)}`, priority: '0.85', changefreq: 'monthly' })),
     ...INDUSTRIES.map((i) => ({ loc: `${SITE.domain}${industryUrl(i.slug)}`, priority: '0.75', changefreq: 'monthly' })),
     ...LEARN.map((l) => ({ loc: `${SITE.domain}${learnUrl(l.slug)}`, priority: '0.6', changefreq: 'quarterly' })),
+    ...LEGAL_PAGES.map((l) => ({ loc: `${SITE.domain}/${l.slug}/`, priority: '0.3', changefreq: 'yearly' })),
   ];
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -1507,5 +1688,7 @@ module.exports = {
   renderIndustryPage,
   renderLearnPage,
   renderLandingPage,
+  renderLegalPage,
+  renderThanksPage,
   renderSitemap,
 };
