@@ -2430,11 +2430,12 @@
     <div class="fleet-spec-library">
       <div class="tag">Spec Library · Current Fleet PDFs</div>
       <div class="fleet-spec-library-links">
-        <a class="fleet-spec-link" href="/pdf/liebherr-ltm-1070-4.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1070-4</span><span>PDF ↗</span></a>
-        <a class="fleet-spec-link" href="/pdf/tadano-atf-220g-5.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano ATF 220-5 · 250T</span><span>PDF ↗</span></a>
-        <a class="fleet-spec-link" href="mailto:office@cdhrentals.com?subject=Spec%20Sheet%20Request%3A%20Tadano%20GS%20300"><span>Tadano GS 300 · 30T</span><span>Request ↗</span></a>
-        <a class="fleet-spec-link" href="mailto:office@cdhrentals.com?subject=Spec%20Sheet%20Request%3A%20Liebherr%20LTM%201100-5.2"><span>Liebherr LTM 1100-5.2</span><span>Request ↗</span></a>
-        <a class="fleet-spec-link" href="mailto:office@cdhrentals.com?subject=Spec%20Sheet%20Request%3A%20Liebherr%20LTM%201100-5.2%20Load%20Chart"><span>Liebherr Load Chart</span><span>Request ↗</span></a>
+        <a class="fleet-spec-link" href="/public/Liebherr%20LTM%201070-4.2%20spec%20sheet.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1070-4</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="/public/TadanoATF220G-5(250%20Ton)specs.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano ATF 220-5 · 250T</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="/public/TadanoGS300XLspecs.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano GS 300 · 30T</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="/public/LTM1100-5.2specs.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1100-5.2</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="/public/LTM1100-5.2specs.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr Load Chart</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="/public/TadanoATF-80-4specs.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano ATF 80-4</span><span>PDF ↗</span></a>
       </div>
     </div>
 
@@ -3596,30 +3597,22 @@
   // Fleet brochure actions.
   const fleetModelDocs = {
     'TADANO GS 300': {
-      // Original spec PDF was hosted on the legacy cdhrentals.com WP site, which
-      // started returning 403 in May 2026; no Wayback snapshot exists. Falls back
-      // to the dispatch mailto via the spec-button JS below until a fresh PDF is
-      // available — drop it at /pdf/tadano-gs-300.pdf and set specUrl accordingly.
-      specUrl: '',
+      specUrl: '/public/TadanoGS300XLspecs.pdf',
       auxUrl: '',
       auxLabel: ''
     },
     'LIEBHERR LTM 1070-4': {
-      specUrl: '/pdf/liebherr-ltm-1070-4.pdf',
+      specUrl: '/public/Liebherr%20LTM%201070-4.2%20spec%20sheet.pdf',
       auxUrl: '',
       auxLabel: ''
     },
     'TADANO ATF 220-5': {
-      specUrl: '/pdf/tadano-atf-220g-5.pdf',
+      specUrl: '/public/TadanoATF220G-5(250%20Ton)specs.pdf',
       auxUrl: '',
       auxLabel: ''
     },
     'LIEBHERR LTM 1100-5': {
-      // Spec PDF + load chart were on the legacy cdhrentals.com WP site (now 403,
-      // no Wayback snapshot). Falls back to dispatch mailto via the spec-button JS.
-      // To restore: drop PDFs at /pdf/liebherr-ltm-1100-5.pdf and
-      // /pdf/liebherr-ltm-1100-5-load-chart.pdf, then update both URLs here.
-      specUrl: '',
+      specUrl: '/public/LTM1100-5.2specs.pdf',
       auxUrl: '',
       auxLabel: ''
     }
