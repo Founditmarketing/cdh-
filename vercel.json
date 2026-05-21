@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/cdh-homepage-v3.html" }
+  ]
+}

@@ -1,0 +1,11 @@
+node_modules/
+
+# Local QA artifacts
+qa-*.png
+lighthouse-*.json
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+
+.env
