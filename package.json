@@ -6,7 +6,7 @@
   "scripts": {
     "build:assets": "node build-assets.js",
     "build:pages": "node build-pages.js",
-    "build": "node build-pages.js && node build/sanity-check.js",
+    "build:all": "node build-pages.js && node build/sanity-check.js",
     "check:seo": "node build/sanity-check.js",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
