@@ -3649,28 +3649,34 @@
   });
 
   // PDF Modal logic
-  let pdfModal, pdfIframe, pdfClose;
+  let pdfModal, pdfObject, pdfClose;
   
   document.addEventListener('DOMContentLoaded', () => {
     pdfModal = document.getElementById('pdf-modal');
-    pdfIframe = document.getElementById('pdf-iframe');
+    pdfObject = document.getElementById('pdf-object');
     pdfClose = document.getElementById('pdf-modal-close');
 
     pdfClose?.addEventListener('click', closePdfModal);
   });
 
   const openPdfModal = (url) => {
-    if (!pdfIframe || !pdfModal) return;
-    pdfIframe.src = url;
+    if (!pdfObject || !pdfModal) return;
+    pdfObject.setAttribute('data', url);
+    const fallback = document.getElementById('pdf-iframe-fallback');
+    if (fallback) fallback.src = url;
     pdfModal.classList.add('is-visible');
     document.body.style.overflow = 'hidden';
   };
 
   const closePdfModal = () => {
-    if (!pdfModal || !pdfIframe) return;
+    if (!pdfModal || !pdfObject) return;
     pdfModal.classList.remove('is-visible');
     document.body.style.overflow = '';
-    setTimeout(() => { pdfIframe.src = ''; }, 300);
+    setTimeout(() => { 
+      pdfObject.setAttribute('data', ''); 
+      const fallback = document.getElementById('pdf-iframe-fallback');
+      if (fallback) fallback.src = '';
+    }, 300);
   };
 
   document.addEventListener('click', (e) => {
@@ -3701,8 +3707,6 @@
     inset: 0;
     z-index: 10000;
     background: rgba(11, 13, 16, 0.95);
-    display: flex;
-    flex-direction: column;
     opacity: 0;
     pointer-events: none;
     transition: opacity .3s ease;
@@ -3712,6 +3716,8 @@
     pointer-events: auto;
   }
   .pdf-modal-header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
     height: 60px;
     display: flex;
     align-items: center;
@@ -3719,6 +3725,7 @@
     padding: 0 20px;
     background: var(--ink);
     border-bottom: 1px solid var(--rebar);
+    z-index: 2;
   }
   .pdf-modal-close {
     color: var(--bone);
@@ -3741,14 +3748,16 @@
     background: rgba(244, 197, 66, 0.1);
   }
   .pdf-modal-content {
-    flex: 1;
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 60px; left: 0; right: 0; bottom: 0;
+    background: #525659; /* Standard PDF viewer background */
+    z-index: 1;
   }
-  .pdf-modal-content iframe {
+  .pdf-modal-content object, .pdf-modal-content iframe {
     width: 100%;
     height: 100%;
     border: none;
+    display: block;
   }
 </style>
 <div id="pdf-modal">
@@ -3759,7 +3768,9 @@
     </button>
   </div>
   <div class="pdf-modal-content">
-    <iframe id="pdf-iframe" src=""></iframe>
+    <object id="pdf-object" data="" type="application/pdf">
+      <iframe id="pdf-iframe-fallback" src=""></iframe>
+    </object>
   </div>
 </div>
 </body>
