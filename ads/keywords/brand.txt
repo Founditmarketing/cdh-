@@ -1,0 +1,28 @@
+# Ad group: CDH · Brand
+# Land: / (homepage)
+# Match: exact + phrase only. Keep CPC pinned to position 1.0-1.2.
+
+[cdh crane]
+[cdh crane rental]
+[cdh crane rentals]
+[cdh cranes]
+[cdh crane lafayette]
+[cdh crane louisiana]
+[cdh crane baton rouge]
+[cdh crane lake charles]
+[cdh crane new orleans]
+[cdh crane baytown]
+[cdh crane houston]
+[cdh rentals]
+[cdhcranerentals]
+[cdh crane company]
+"cdh crane"
+"cdh crane rental"
+"cdh crane rentals"
+"cdh crane company"
+"cdh crane lafayette"
+"cdh crane louisiana"
+"cdh crane baton rouge"
+"cdh crane lake charles"
+"cdh crane new orleans"
+"cdh crane baytown"

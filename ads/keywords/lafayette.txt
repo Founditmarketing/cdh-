@@ -1,0 +1,88 @@
+# Campaign: CDH · Lafayette
+# Five ad groups. Each section below = one ad group.
+
+# ============ Ad group: Lafayette · Generic ============
+# Land: /lp/crane-rental-lafayette/
+"crane rental lafayette"
+"crane rental lafayette la"
+"crane rental lafayette louisiana"
+"crane rental near lafayette"
+"crane rental near me lafayette"
+"crane company lafayette"
+"crane company lafayette la"
+"crane company in lafayette"
+"crane service lafayette"
+"crane service lafayette la"
+"crane services lafayette"
+"mobile crane rental lafayette"
+"mobile crane lafayette"
+"hire crane lafayette"
+"hire a crane lafayette"
+"lafayette crane"
+"lafayette crane rental"
+"lafayette crane service"
+"lafayette crane company"
+"acadiana crane rental"
+"crane rental new iberia"
+"crane rental broussard"
+"crane rental youngsville"
+"crane rental scott la"
+"crane rental crowley"
+"crane rental opelousas"
+"crane rental abbeville"
+"crane rental houma"
+"crane rental morgan city"
+[crane rental lafayette]
+[crane rental lafayette la]
+[crane company lafayette]
+[crane service lafayette]
+[lafayette crane rental]
+[acadiana crane rental]
+
+# ============ Ad group: Lafayette · Operated ============
+# Land: /lp/operated-crane-rental/
+"operated crane rental lafayette"
+"crane with operator lafayette"
+"crane and operator rental lafayette"
+"rent crane with operator lafayette"
+"operated crane lafayette la"
+[operated crane rental lafayette]
+[crane with operator lafayette]
+
+# ============ Ad group: Lafayette · Emergency ============
+# Land: /lp/emergency-24-7-crane-rental/
+"emergency crane rental lafayette"
+"24 hour crane rental lafayette"
+"24/7 crane lafayette"
+"same day crane rental lafayette"
+"after hours crane lafayette"
+"urgent crane rental lafayette"
+"crane rental tonight lafayette"
+[emergency crane rental lafayette]
+[24 hour crane lafayette]
+[same day crane rental lafayette]
+
+# ============ Ad group: Lafayette · Heavy Lift ============
+# Land: /lp/heavy-lift-crane-rental/
+"heavy lift crane rental lafayette"
+"large crane rental lafayette"
+"heavy crane rental lafayette"
+"200 ton crane rental lafayette"
+"300 ton crane rental lafayette"
+"500 ton crane rental lafayette"
+[heavy lift crane rental lafayette]
+[large crane rental lafayette]
+
+# ============ Ad group: Lafayette · Industry (Commercial) ============
+# Land: /lp/crane-rental-lafayette/
+"hvac crane rental lafayette"
+"rooftop hvac crane lafayette"
+"steel set crane lafayette"
+"commercial crane rental lafayette"
+"oilfield crane rental lafayette"
+"oilfield crane lafayette la"
+"sign installation crane lafayette"
+"generator set crane lafayette"
+[hvac crane rental lafayette]
+[steel set crane lafayette]
+[commercial crane rental lafayette]

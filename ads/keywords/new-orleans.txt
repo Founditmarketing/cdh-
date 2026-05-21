@@ -1,0 +1,84 @@
+# Campaign: CDH · New Orleans
+
+# ============ Ad group: NOLA · Generic ============
+# Land: /lp/crane-rental-new-orleans/
+"crane rental new orleans"
+"crane rental new orleans la"
+"crane rental new orleans louisiana"
+"crane rental nola"
+"crane rental near new orleans"
+"crane company new orleans"
+"crane company new orleans la"
+"crane service new orleans"
+"mobile crane rental new orleans"
+"mobile crane new orleans"
+"hire crane new orleans"
+"new orleans crane"
+"new orleans crane rental"
+"new orleans crane service"
+"new orleans crane company"
+"crane rental metairie"
+"crane rental kenner"
+"crane rental chalmette"
+"crane rental gretna"
+"crane rental harvey"
+"crane rental marrero"
+"crane rental laplace"
+"crane rental slidell"
+"crane rental norco"
+"crane rental reserve la"
+"french quarter crane rental"
+"cbd new orleans crane"
+[crane rental new orleans]
+[crane rental new orleans la]
+[crane company new orleans]
+[crane service new orleans]
+[new orleans crane rental]
+
+# ============ Ad group: NOLA · Operated ============
+# Land: /lp/operated-crane-rental/
+"operated crane rental new orleans"
+"crane with operator new orleans"
+"crane and operator new orleans"
+"rent crane with operator new orleans"
+[operated crane rental new orleans]
+[crane with operator new orleans]
+
+# ============ Ad group: NOLA · Emergency ============
+# Land: /lp/emergency-24-7-crane-rental/
+"emergency crane rental new orleans"
+"24 hour crane rental new orleans"
+"24/7 crane new orleans"
+"same day crane rental new orleans"
+"after hours crane new orleans"
+"urgent crane rental new orleans"
+"storm crane rental new orleans"
+"hurricane crane rental new orleans"
+[emergency crane rental new orleans]
+[24 hour crane new orleans]
+
+# ============ Ad group: NOLA · Heavy Lift ============
+# Land: /lp/heavy-lift-crane-rental/
+"heavy lift crane rental new orleans"
+"large crane rental new orleans"
+"heavy crane rental new orleans"
+"200 ton crane rental new orleans"
+"300 ton crane rental new orleans"
+[heavy lift crane rental new orleans]
+
+# ============ Ad group: NOLA · Industry (Marine) ============
+# Land: /lp/marine-crane-rental/
+"marine crane rental new orleans"
+"dock crane rental new orleans"
+"shipyard crane rental new orleans"
+"barge crane rental new orleans"
+"port crane rental new orleans"
+"port nola crane"
+"mississippi river crane rental"
+"vessel topside crane rental"
+"terminal crane rental new orleans"
+"harbor crane new orleans"
+[marine crane rental new orleans]
+[shipyard crane new orleans]
+[dock crane rental new orleans]
+[barge crane new orleans]

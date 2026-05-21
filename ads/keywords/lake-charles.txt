@@ -1,0 +1,91 @@
+# Campaign: CDH · Lake Charles
+
+# ============ Ad group: LC · Generic ============
+# Land: /lp/crane-rental-lake-charles/
+"crane rental lake charles"
+"crane rental lake charles la"
+"crane rental lake charles louisiana"
+"crane rental near lake charles"
+"crane company lake charles"
+"crane company lake charles la"
+"crane service lake charles"
+"mobile crane rental lake charles"
+"mobile crane lake charles"
+"hire crane lake charles"
+"lake charles crane"
+"lake charles crane rental"
+"lake charles crane service"
+"lake charles crane company"
+"calcasieu crane rental"
+"crane rental sulphur"
+"crane rental sulphur la"
+"crane rental westlake"
+"crane rental westlake la"
+"crane rental carlyss"
+"crane rental moss bluff"
+"crane rental iowa la"
+"crane rental dequincy"
+"crane rental cameron la"
+"crane rental hackberry"
+[crane rental lake charles]
+[crane rental lake charles la]
+[crane company lake charles]
+[crane service lake charles]
+[lake charles crane rental]
+
+# ============ Ad group: LC · Operated ============
+# Land: /lp/operated-crane-rental/
+"operated crane rental lake charles"
+"crane with operator lake charles"
+"crane and operator lake charles"
+"rent crane with operator lake charles"
+[operated crane rental lake charles]
+[crane with operator lake charles]
+
+# ============ Ad group: LC · Emergency ============
+# Land: /lp/emergency-24-7-crane-rental/
+"emergency crane rental lake charles"
+"24 hour crane rental lake charles"
+"24/7 crane lake charles"
+"same day crane rental lake charles"
+"after hours crane lake charles"
+"urgent crane rental lake charles"
+"storm crane rental lake charles"
+"hurricane crane rental lake charles"
+[emergency crane rental lake charles]
+[24 hour crane lake charles]
+[storm response crane lake charles]
+
+# ============ Ad group: LC · Heavy Lift ============
+# Land: /lp/heavy-lift-crane-rental/
+"heavy lift crane rental lake charles"
+"large crane rental lake charles"
+"heavy crane rental lake charles"
+"200 ton crane rental lake charles"
+"300 ton crane rental lake charles"
+"500 ton crane rental lake charles"
+"lng crane rental lake charles"
+"lng module set crane"
+[heavy lift crane rental lake charles]
+[500 ton crane rental lake charles]
+[lng crane lake charles]
+
+# ============ Ad group: LC · Industry (Refinery) ============
+# Land: /lp/refinery-turnaround-crane-rental/
+"refinery crane rental lake charles"
+"refinery crane rental sulphur"
+"refinery crane rental westlake"
+"plant turnaround crane lake charles"
+"shutdown crane lake charles"
+"petrochem crane rental lake charles"
+"petrochemical crane rental lake charles"
+"chemical plant crane rental lake charles"
+"phillips 66 crane"
+"citgo crane lake charles"
+"sasol crane rental"
+"westlake chemical crane"
+"channel crane rental"
+"calcasieu channel crane"
+[refinery crane rental lake charles]
+[refinery turnaround crane lake charles]
+[petrochem crane rental lake charles]

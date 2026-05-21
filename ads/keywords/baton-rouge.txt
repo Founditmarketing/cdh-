@@ -1,0 +1,82 @@
+# Campaign: CDH · Baton Rouge
+
+# ============ Ad group: BR · Generic ============
+# Land: /lp/crane-rental-baton-rouge/
+"crane rental baton rouge"
+"crane rental baton rouge la"
+"crane rental baton rouge louisiana"
+"crane rental near baton rouge"
+"crane rental near me baton rouge"
+"crane company baton rouge"
+"crane company baton rouge la"
+"crane service baton rouge"
+"crane service baton rouge la"
+"mobile crane rental baton rouge"
+"mobile crane baton rouge"
+"hire crane baton rouge"
+"hire a crane baton rouge"
+"baton rouge crane"
+"baton rouge crane rental"
+"baton rouge crane service"
+"baton rouge crane company"
+"capital region crane rental"
+"crane rental port allen"
+"crane rental plaquemine"
+"crane rental geismar"
+"crane rental gonzales"
+"crane rental donaldsonville"
+"crane rental zachary"
+"crane rental denham springs"
+"crane rental st gabriel"
+[crane rental baton rouge]
+[crane rental baton rouge la]
+[crane company baton rouge]
+[crane service baton rouge]
+[baton rouge crane rental]
+
+# ============ Ad group: BR · Operated ============
+# Land: /lp/operated-crane-rental/
+"operated crane rental baton rouge"
+"crane with operator baton rouge"
+"crane and operator baton rouge"
+"rent crane with operator baton rouge"
+[operated crane rental baton rouge]
+[crane with operator baton rouge]
+
+# ============ Ad group: BR · Emergency ============
+# Land: /lp/emergency-24-7-crane-rental/
+"emergency crane rental baton rouge"
+"24 hour crane rental baton rouge"
+"24/7 crane baton rouge"
+"same day crane rental baton rouge"
+"after hours crane baton rouge"
+"urgent crane rental baton rouge"
+[emergency crane rental baton rouge]
+[24 hour crane baton rouge]
+[same day crane rental baton rouge]
+
+# ============ Ad group: BR · Heavy Lift ============
+# Land: /lp/heavy-lift-crane-rental/
+"heavy lift crane rental baton rouge"
+"large crane rental baton rouge"
+"heavy crane rental baton rouge"
+"200 ton crane rental baton rouge"
+"300 ton crane rental baton rouge"
+"transformer set crane baton rouge"
+"substation crane baton rouge"
+[heavy lift crane rental baton rouge]
+
+# ============ Ad group: BR · Industry (Refinery) ============
+# Land: /lp/refinery-turnaround-crane-rental/
+"refinery crane rental baton rouge"
+"refinery crane rental geismar"
+"refinery crane rental plaquemine"
+"plant turnaround crane baton rouge"
+"shutdown crane baton rouge"
+"petrochem crane rental baton rouge"
+"petrochemical crane rental baton rouge"
+"chemical plant crane rental baton rouge"
+"exchanger pull crane baton rouge"
+[refinery crane rental baton rouge]
+[refinery turnaround crane baton rouge]
+[petrochem crane rental baton rouge]

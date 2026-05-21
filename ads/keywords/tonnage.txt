@@ -1,0 +1,100 @@
+# Campaign: CDH · Tonnage
+# Geo: all of LA + East TX.
+
+# ============ Ad group: 15-50T ============
+# Land: /lp/15-50-ton-crane-rental/
+"15 ton crane rental"
+"15 ton crane"
+"15 ton boom truck rental"
+"boom truck rental"
+"boom truck crane rental"
+"national boom truck rental"
+"40 ton crane rental"
+"40 ton rough terrain rental"
+"40 ton rough terrain crane"
+"50 ton crane rental"
+"50 ton mobile crane rental"
+"small crane rental"
+"small mobile crane rental"
+"compact crane rental"
+[15 ton crane rental]
+[40 ton crane rental]
+[50 ton crane rental]
+[boom truck rental]
+
+# ============ Ad group: 90-150T ============
+# Land: /lp/90-150-ton-crane-rental/
+"65 ton crane rental"
+"65 ton mobile crane"
+"90 ton crane rental"
+"90 ton all terrain rental"
+"100 ton crane rental"
+"100 ton mobile crane"
+"130 ton crane rental"
+"130 ton mobile crane"
+"150 ton crane rental"
+"all terrain crane rental"
+"all terrain crane rental near me"
+"mid-size crane rental"
+"medium crane rental"
+[65 ton crane rental]
+[90 ton crane rental]
+[100 ton crane rental]
+[130 ton crane rental]
+[150 ton crane rental]
+[all terrain crane rental]
+
+# ============ Ad group: 200-300T ============
+# Land: /lp/200-300-ton-crane-rental/
+"175 ton crane rental"
+"200 ton crane rental"
+"225 ton crane rental"
+"250 ton crane rental"
+"300 ton crane rental"
+"200 ton mobile crane"
+"300 ton mobile crane"
+"200 ton hydraulic crane rental"
+"300 ton hydraulic crane rental"
+"large crane rental"
+"large mobile crane rental"
+[175 ton crane rental]
+[200 ton crane rental]
+[225 ton crane rental]
+[250 ton crane rental]
+[300 ton crane rental]
+
+# ============ Ad group: 500T ============
+# Land: /lp/500-ton-crane-rental/
+"500 ton crane rental"
+"500 ton mobile crane rental"
+"500 ton hydraulic crane"
+"500 ton hydraulic crane rental"
+"500 ton all terrain crane rental"
+"biggest crane rental louisiana"
+"biggest crane rental texas"
+"largest crane rental louisiana"
+"largest crane rental near me"
+"largest mobile crane"
+[500 ton crane rental]
+[500 ton mobile crane rental]
+[500 ton hydraulic crane]
+[biggest crane rental louisiana]
+[biggest crane rental texas]
+
+# ============ Ad group: Generic Regional ============
+# Land: /lp/crane-rental-louisiana-east-texas/
+"crane rental louisiana"
+"louisiana crane company"
+"louisiana crane rental"
+"crane rental near me louisiana"
+"crane company louisiana"
+"crane service louisiana"
+"gulf south crane rental"
+"east texas crane rental"
+"southeast texas crane rental"
+"crane rental gulf coast"
+[crane rental louisiana]
+[louisiana crane rental]
+[louisiana crane company]
+[gulf south crane rental]
+[east texas crane rental]

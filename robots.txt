@@ -1,0 +1,21 @@
+# CDH Crane Rentals — robots.txt
+# https://cdhcranerentals.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Google Ads landing pages: noindex via meta tag + X-Robots-Tag header (vercel.json).
+# We intentionally allow crawling here so Google Ads can verify the destination URL,
+# but they will not be indexed. Do NOT disallow /lp/ here.
+
+# Block staging/preview deployments from indexing.
+# Vercel preview hostnames end in .vercel.app; the in-page script and vercel.json
+# X-Robots-Tag handle that.
+
+# Google image bot — explicitly allow crawling our fleet photography.
+User-agent: Googlebot-Image
+Allow: /img/
+Allow: /
+
+Sitemap: https://cdhcranerentals.com/sitemap.xml

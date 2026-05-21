@@ -1,0 +1,125 @@
+# Campaign: CDH · Service & Intent
+# Geo: all of LA + East TX. Phrase + Exact only at launch.
+
+# ============ Ad group: Operated ============
+# Land: /lp/operated-crane-rental/
+"operated crane rental"
+"operated crane rental near me"
+"crane with operator rental"
+"crane and operator rental"
+"rent crane with operator"
+"rent a crane with operator"
+"crane rental with operator"
+"crane rental and operator"
+"hire crane with operator"
+"operated crane services"
+"operator crane rental"
+[operated crane rental]
+[crane with operator rental]
+[crane rental with operator]
+[rent crane with operator]
+
+# ============ Ad group: Emergency 24/7 ============
+# Land: /lp/emergency-24-7-crane-rental/
+"emergency crane rental"
+"emergency crane services"
+"emergency crane near me"
+"24 hour crane rental"
+"24/7 crane service"
+"24/7 crane rental"
+"24 7 crane rental"
+"same day crane rental"
+"same day crane service"
+"urgent crane rental"
+"after hours crane"
+"after hours crane rental"
+"crane rental tonight"
+"weekend crane rental"
+"saturday crane rental"
+"sunday crane rental"
+"storm response crane"
+"hurricane crane response"
+"crane rental for emergency"
+"crane company that works weekends"
+"crane company open now"
+[emergency crane rental]
+[24 hour crane rental]
+[24/7 crane rental]
+[same day crane rental]
+[urgent crane rental]
+[after hours crane]
+
+# ============ Ad group: Heavy Lift ============
+# Land: /lp/heavy-lift-crane-rental/
+"heavy lift crane rental"
+"heavy lift crane services"
+"heavy lift crane company"
+"engineered lift services"
+"engineered lift crane"
+"critical lift crane"
+"critical lift services"
+"heavy crane rental"
+"large crane rental"
+"large crane rental near me"
+"big crane rental"
+"giant crane rental"
+"500 ton crane rental"
+"300 ton crane rental"
+"sealed lift plan"
+"pe sealed lift plan"
+[heavy lift crane rental]
+[engineered lift services]
+[critical lift crane]
+[large crane rental]
+
+# ============ Ad group: Refinery Turnaround ============
+# Land: /lp/refinery-turnaround-crane-rental/
+"refinery crane rental"
+"refinery crane services"
+"refinery turnaround crane"
+"turnaround crane services"
+"turnaround crane rental"
+"shutdown crane"
+"shutdown crane rental"
+"plant turnaround crane"
+"petrochem crane rental"
+"petrochem crane services"
+"petrochemical crane rental"
+"chemical plant crane rental"
+"chemical plant crane services"
+"exchanger pull crane"
+"reactor set crane"
+"coker turnaround crane"
+"cracker turnaround crane"
+"pre-staged crane refinery"
+"isn certified crane company"
+"avetta certified crane company"
+[refinery crane rental]
+[refinery turnaround crane]
+[shutdown crane]
+[turnaround crane services]
+[petrochem crane rental]
+
+# ============ Ad group: Marine ============
+# Land: /lp/marine-crane-rental/
+"marine crane rental"
+"marine crane services"
+"dock crane rental"
+"dock crane services"
+"shipyard crane rental"
+"shipyard crane services"
+"barge crane rental"
+"barge crane services"
+"port crane rental"
+"vessel topside crane"
+"vessel topside crane rental"
+"terminal crane rental"
+"harbor crane rental"
+"mississippi river crane"
+"calcasieu channel crane rental"
+"houston ship channel crane rental"
+[marine crane rental]
+[dock crane rental]
+[shipyard crane rental]
+[barge crane rental]
+[vessel topside crane]

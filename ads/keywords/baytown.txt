@@ -1,0 +1,100 @@
+# Campaign: CDH · Baytown
+
+# ============ Ad group: Baytown · Generic ============
+# Land: /lp/crane-rental-baytown-tx/
+"crane rental baytown"
+"crane rental baytown tx"
+"crane rental baytown texas"
+"crane rental near baytown"
+"crane company baytown"
+"crane company baytown tx"
+"crane service baytown"
+"mobile crane rental baytown"
+"mobile crane baytown"
+"hire crane baytown"
+"baytown crane"
+"baytown crane rental"
+"baytown crane service"
+"baytown crane company"
+"crane rental la porte"
+"crane rental la porte tx"
+"crane rental pasadena tx"
+"crane rental deer park"
+"crane rental deer park tx"
+"crane rental channelview"
+"crane rental galena park"
+"crane rental mont belvieu"
+"crane rental anahuac"
+"crane rental highlands tx"
+"crane rental crosby tx"
+"crane rental east harris county"
+"ship channel crane rental"
+"houston ship channel crane"
+"crane rental houston ship channel"
+"crane rental houston east"
+[crane rental baytown]
+[crane rental baytown tx]
+[crane company baytown]
+[ship channel crane rental]
+[crane rental la porte]
+[crane rental deer park]
+
+# ============ Ad group: Baytown · Operated ============
+# Land: /lp/operated-crane-rental/
+"operated crane rental baytown"
+"crane with operator baytown"
+"crane and operator baytown"
+"rent crane with operator baytown"
+"operated crane rental houston ship channel"
+[operated crane rental baytown]
+[crane with operator baytown]
+
+# ============ Ad group: Baytown · Emergency ============
+# Land: /lp/emergency-24-7-crane-rental/
+"emergency crane rental baytown"
+"24 hour crane rental baytown"
+"24/7 crane baytown"
+"same day crane rental baytown"
+"after hours crane baytown"
+"urgent crane rental baytown"
+"emergency crane houston ship channel"
+"storm crane rental houston"
+[emergency crane rental baytown]
+[24 hour crane baytown]
+[emergency crane ship channel]
+
+# ============ Ad group: Baytown · Heavy Lift ============
+# Land: /lp/heavy-lift-crane-rental/
+"heavy lift crane rental baytown"
+"heavy lift crane rental houston"
+"large crane rental baytown"
+"large crane rental houston"
+"heavy crane rental baytown"
+"200 ton crane rental baytown"
+"300 ton crane rental baytown"
+"500 ton crane rental baytown"
+"500 ton crane rental houston"
+[heavy lift crane rental baytown]
+[500 ton crane rental baytown]
+[500 ton crane rental houston]
+
+# ============ Ad group: Baytown · Industry (Refinery) ============
+# Land: /lp/refinery-turnaround-crane-rental/
+"refinery crane rental baytown"
+"refinery crane rental la porte"
+"refinery crane rental deer park"
+"plant turnaround crane baytown"
+"shutdown crane baytown"
+"petrochem crane rental baytown"
+"petrochem crane rental ship channel"
+"petrochemical crane rental baytown"
+"chemical plant crane rental baytown"
+"reactor set crane baytown"
+"coker crane rental"
+"cracker crane rental"
+"exxonmobil baytown crane"
+"channel crane rental"
+[refinery crane rental baytown]
+[refinery turnaround crane baytown]
+[petrochem crane rental baytown]
+[petrochem crane rental ship channel]
