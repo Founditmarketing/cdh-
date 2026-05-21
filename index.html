@@ -3647,7 +3647,113 @@
 
     specsBlock.insertAdjacentElement('afterend', row);
   });
+
+  // PDF Modal logic
+  const pdfModal = document.getElementById('pdf-modal');
+  const pdfIframe = document.getElementById('pdf-iframe');
+  const pdfClose = document.getElementById('pdf-modal-close');
+
+  const openPdfModal = (url) => {
+    pdfIframe.src = url;
+    pdfModal.classList.add('is-visible');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closePdfModal = () => {
+    pdfModal.classList.remove('is-visible');
+    document.body.style.overflow = '';
+    // delay removing src to allow fade out
+    setTimeout(() => { pdfIframe.src = ''; }, 300);
+  };
+
+  pdfClose?.addEventListener('click', closePdfModal);
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (href && href.toLowerCase().endsWith('.pdf')) {
+      e.preventDefault();
+      openPdfModal(href);
+    }
+  });
+
+  // Close on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && pdfModal.classList.contains('is-visible')) {
+      closePdfModal();
+    }
+  });
 </script>
+
+<!-- PDF Modal Overlay -->
+<style>
+  #pdf-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(11, 13, 16, 0.95);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  #pdf-modal.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .pdf-modal-header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 20px;
+    background: var(--ink);
+    border-bottom: 1px solid var(--rebar);
+  }
+  .pdf-modal-close {
+    color: var(--bone);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.05);
+    padding: 8px 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all .2s;
+    cursor: pointer;
+  }
+  .pdf-modal-close:hover {
+    color: var(--safety);
+    border-color: var(--safety);
+    background: rgba(244, 197, 66, 0.1);
+  }
+  .pdf-modal-content {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+  }
+  .pdf-modal-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+<div id="pdf-modal">
+  <div class="pdf-modal-header">
+    <button id="pdf-modal-close" class="pdf-modal-close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      Close
+    </button>
+  </div>
+  <div class="pdf-modal-content">
+    <iframe id="pdf-iframe" src=""></iframe>
+  </div>
+</div>
 
 </body>
 </html>
