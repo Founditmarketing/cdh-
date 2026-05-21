@@ -83,7 +83,7 @@ const server = http.createServer((req, res) => {
   }
 
   let pathname = decodeURIComponent(url.pathname);
-  if (pathname === '/') pathname = '/cdh-homepage-v3.html';
+  if (pathname === '/') pathname = '/index.html';
   const filePath = path.join(ROOT, pathname);
   if (!filePath.startsWith(ROOT)) {
     sendJson(res, 403, { ok: false, error: 'Forbidden' });

@@ -26,7 +26,7 @@ function checkFile(relPath, checks) {
 
 const results = [];
 
-results.push(checkFile('cdh-homepage-v3.html', [
+results.push(checkFile('index.html', [
   ['Title rewritten with city + service combo', (h) => /Crane Rental in Louisiana/.test(h)],
   ['Canonical points to cdhcranerentals.com', (h) => /<link rel="canonical" href="https:\/\/cdhcranerentals\.com\/"/.test(h)],
   ['OG URL points to cdhcranerentals.com', (h) => /og:url" content="https:\/\/cdhcranerentals\.com\/"/.test(h)],
@@ -171,7 +171,7 @@ for (const slug of ['privacy', 'terms']) {
 /* --- Site-wide remarketing tag (Google Ads gtag on every public page) --- */
 console.log('\n--- Site-wide Google Ads remarketing tag ---');
 const REMARKETING_PAGES = [
-  'cdh-homepage-v3.html',
+  'index.html',
   'locations/lafayette/index.html',
   'fleet/500-ton/index.html',
   'services/refinery-turnaround/index.html',

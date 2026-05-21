@@ -1,9 +1,7 @@
 {
   "cleanUrls": true,
   "trailingSlash": true,
-  "rewrites": [
-    { "source": "/", "destination": "/cdh-homepage-v3.html" }
-  ],
+
   "redirects": [
     { "source": "/cdh-homepage-v3.html", "destination": "/", "permanent": true },
     { "source": "/index.html", "destination": "/", "permanent": true },
