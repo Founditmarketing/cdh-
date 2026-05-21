@@ -2430,11 +2430,11 @@
     <div class="fleet-spec-library">
       <div class="tag">Spec Library · Current Fleet PDFs</div>
       <div class="fleet-spec-library-links">
-        <a class="fleet-spec-link" href="https://superiorcranehire.com.au/wp-content/uploads/2023/03/LTM-1070.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1070-4</span><span>PDF ↗</span></a>
-        <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2021/09/GS-300-1-90101_US-04-2.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano GS 300 · 30T</span><span>PDF ↗</span></a>
-        <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2022/06/liebherr_ltm_1100_5_2.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1100-5</span><span>PDF ↗</span></a>
-        <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2025/05/liebherr_ltm_1100-5.2_load_chart.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr Load Chart</span><span>PDF ↗</span></a>
-        <a class="fleet-spec-link" href="https://cdhrentals.com/wp-content/uploads/2021/09/Tadano-ATF-220G-5-imperial-screen-compressed.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano ATF 220-5 · 250T</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="/pdf/liebherr-ltm-1070-4.pdf" target="_blank" rel="noopener noreferrer"><span>Liebherr LTM 1070-4</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="/pdf/tadano-atf-220g-5.pdf" target="_blank" rel="noopener noreferrer"><span>Tadano ATF 220-5 · 250T</span><span>PDF ↗</span></a>
+        <a class="fleet-spec-link" href="mailto:office@cdhrentals.com?subject=Spec%20Sheet%20Request%3A%20Tadano%20GS%20300"><span>Tadano GS 300 · 30T</span><span>Request ↗</span></a>
+        <a class="fleet-spec-link" href="mailto:office@cdhrentals.com?subject=Spec%20Sheet%20Request%3A%20Liebherr%20LTM%201100-5.2"><span>Liebherr LTM 1100-5.2</span><span>Request ↗</span></a>
+        <a class="fleet-spec-link" href="mailto:office@cdhrentals.com?subject=Spec%20Sheet%20Request%3A%20Liebherr%20LTM%201100-5.2%20Load%20Chart"><span>Liebherr Load Chart</span><span>Request ↗</span></a>
       </div>
     </div>
 
@@ -3596,24 +3596,32 @@
   // Fleet brochure actions.
   const fleetModelDocs = {
     'TADANO GS 300': {
-      specUrl: 'https://cdhrentals.com/wp-content/uploads/2021/09/GS-300-1-90101_US-04-2.pdf',
-      auxUrl: 'https://cdhrentals.com/wp-content/uploads/2021/09/GS-300-1-90101_US-04-2.pdf',
-      auxLabel: 'Load Chart'
+      // Original spec PDF was hosted on the legacy cdhrentals.com WP site, which
+      // started returning 403 in May 2026; no Wayback snapshot exists. Falls back
+      // to the dispatch mailto via the spec-button JS below until a fresh PDF is
+      // available — drop it at /pdf/tadano-gs-300.pdf and set specUrl accordingly.
+      specUrl: '',
+      auxUrl: '',
+      auxLabel: ''
     },
     'LIEBHERR LTM 1070-4': {
-      specUrl: 'https://superiorcranehire.com.au/wp-content/uploads/2023/03/LTM-1070.pdf',
+      specUrl: '/pdf/liebherr-ltm-1070-4.pdf',
       auxUrl: '',
       auxLabel: ''
     },
     'TADANO ATF 220-5': {
-      specUrl: 'https://cdhrentals.com/wp-content/uploads/2021/09/Tadano-ATF-220G-5-imperial-screen-compressed.pdf',
+      specUrl: '/pdf/tadano-atf-220g-5.pdf',
       auxUrl: '',
       auxLabel: ''
     },
     'LIEBHERR LTM 1100-5': {
-      specUrl: 'https://cdhrentals.com/wp-content/uploads/2022/06/liebherr_ltm_1100_5_2.pdf',
-      auxUrl: 'https://cdhrentals.com/wp-content/uploads/2025/05/liebherr_ltm_1100-5.2_load_chart.pdf',
-      auxLabel: 'Load Chart'
+      // Spec PDF + load chart were on the legacy cdhrentals.com WP site (now 403,
+      // no Wayback snapshot). Falls back to dispatch mailto via the spec-button JS.
+      // To restore: drop PDFs at /pdf/liebherr-ltm-1100-5.pdf and
+      // /pdf/liebherr-ltm-1100-5-load-chart.pdf, then update both URLs here.
+      specUrl: '',
+      auxUrl: '',
+      auxLabel: ''
     }
   };
   document.querySelectorAll('#fleet .crane-card').forEach((card) => {
