@@ -2216,62 +2216,20 @@
     <!-- Fleet grid -->
     <div id="fleet-carousel" class="mobile-fleet-grid fleet-carousel-mobile grid md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-      <!-- CARD 1 -->
+      <!-- CARD 1 — 30 TON -->
       <div class="crane-card bg-[var(--ink-2)] border border-[var(--rebar)] overflow-hidden flex flex-col">
-        <div class="photo-cinematic fleet-photo fleet-photo-1 aspect-[4/3] relative">
-          <div class="fleet-photo-image"></div>
-          <div class="lens-flare" style="top: 10%; right: 15%; width: 120px; height: 120px; opacity: 0.5;"></div>
-          <div class="absolute inset-0 flex items-end justify-center opacity-50 pb-4">
-            <svg viewBox="0 0 200 130" class="w-3/4">
-              <line x1="40" y1="110" x2="180" y2="40" stroke="#f4c542" stroke-width="2"/>
-              <line x1="40" y1="110" x2="180" y2="46" stroke="#f4c542" stroke-width="2"/>
-              <rect x="22" y="98" width="40" height="16" fill="#f4c542"/>
-              <rect x="36" y="85" width="22" height="13" fill="#f4c542"/>
-              <circle cx="28" cy="120" r="6" fill="#f4c542"/>
-              <circle cx="48" cy="120" r="6" fill="#f4c542"/>
-            </svg>
-          </div>
-          <div class="photo-meta">
-            <span class="photo-meta-label">BLUE / WHITE AT</span>
-            <span class="hidden md:inline">250 TON</span>
-          </div>
-        </div>
-
-        <div class="p-7 flex-1 flex flex-col">
-          <div class="flex items-start justify-between mb-5">
-            <div>
-              <div class="tag">All-Terrain</div>
-              <h3 class="font-display text-[24px] mt-1.5 uppercase tracking-wide leading-tight">Tadano ATF 220-5</h3>
-            </div>
-            <div class="text-right">
-              <div class="crane-num font-display text-[46px] leading-none transition-colors">250</div>
-              <div class="tag mt-0.5">Ton</div>
-            </div>
-          </div>
-
-          <div class="space-y-2.5 text-[13px] mt-auto pt-5 border-t border-[var(--rebar)]/50">
-            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">REACH</span><span class="font-mono text-[12px]">223 FT</span></div>
-            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">TYPE</span><span class="font-mono text-[12px]">ALL-TERRAIN</span></div>
-            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">IDEAL</span><span>Heavy Industrial</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CARD 2 -->
-      <div class="crane-card bg-[var(--ink-2)] border border-[var(--rebar)] overflow-hidden flex flex-col">
-        <div class="photo-cinematic fleet-photo fleet-photo-2 aspect-[4/3] relative">
-          <div class="fleet-photo-image"></div>
-          <div class="lens-flare" style="top: 5%; right: 10%; width: 120px; height: 120px; opacity: 0.5;"></div>
-          <div class="absolute inset-0 flex items-end justify-center opacity-50 pb-4">
-            <svg viewBox="0 0 200 130" class="w-3/4">
-              <line x1="40" y1="110" x2="190" y2="20" stroke="#f4c542" stroke-width="2"/>
-              <line x1="40" y1="110" x2="190" y2="28" stroke="#f4c542" stroke-width="2"/>
-              <rect x="14" y="98" width="48" height="16" fill="#f4c542"/>
-              <rect x="32" y="82" width="26" height="16" fill="#f4c542"/>
-              <circle cx="22" cy="120" r="6" fill="#f4c542"/>
-              <circle cx="40" cy="120" r="6" fill="#f4c542"/>
-              <circle cx="58" cy="120" r="6" fill="#f4c542"/>
-            </svg>
+        <div id="crane-slider-30t" class="photo-cinematic fleet-photo aspect-[4/3] relative overflow-hidden">
+          <div class="crane-slide-30t absolute inset-0 transition-opacity duration-500" style="background-image:url('/img/fleet/gs300-front.jpg'); background-size:cover; background-position:center 30%;"></div>
+          <div class="crane-slide-30t absolute inset-0 transition-opacity duration-500 opacity-0" style="background-image:url('/img/fleet/gs300-side.jpg'); background-size:cover; background-position:center;"></div>
+          <button onclick="gs300Nav(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/75 text-white w-8 h-8 flex items-center justify-center rounded transition-colors" aria-label="Previous photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button onclick="gs300Nav(1)" class="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/75 text-white w-8 h-8 flex items-center justify-center rounded transition-colors" aria-label="Next photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <div class="absolute bottom-9 left-0 right-0 flex justify-center gap-2 z-10" id="gs300-dots">
+            <button onclick="gs300Go(0)" class="w-2 h-2 rounded-full bg-white transition-opacity" aria-label="Photo 1"></button>
+            <button onclick="gs300Go(1)" class="w-2 h-2 rounded-full bg-white/35 transition-opacity" aria-label="Photo 2"></button>
           </div>
           <div class="photo-meta">
             <span class="photo-meta-label">WHITE 3-AXLE</span>
@@ -2283,7 +2241,7 @@
           <div class="flex items-start justify-between mb-5">
             <div>
               <div class="tag">Truck Crane</div>
-              <h3 class="font-display text-[24px] mt-1.5 uppercase tracking-wide leading-tight">Tadano GS 300</h3>
+              <h3 class="font-display text-[24px] mt-1.5 uppercase tracking-wide leading-tight">GS300XL</h3>
             </div>
             <div class="text-right">
               <div class="crane-num font-display text-[46px] leading-none transition-colors">30</div>
@@ -2299,7 +2257,7 @@
         </div>
       </div>
 
-      <!-- CARD 3 -->
+      <!-- CARD 2 — 80 TON -->
       <div class="crane-card bg-[var(--ink-2)] border border-[var(--rebar)] overflow-hidden flex flex-col">
         <div class="photo-cinematic fleet-photo fleet-photo-3 aspect-[4/3] relative">
           <div class="fleet-photo-image"></div>
@@ -2341,7 +2299,47 @@
         </div>
       </div>
 
-      <!-- CARD 4 -->
+      <!-- CARD 3 — 80 TON -->
+      <div class="crane-card bg-[var(--ink-2)] border border-[var(--rebar)] overflow-hidden flex flex-col">
+        <div class="photo-cinematic fleet-photo fleet-photo-5 aspect-[4/3] relative">
+          <div class="fleet-photo-image"></div>
+          <div class="lens-flare" style="top: 8%; right: 6%; width: 150px; height: 150px; opacity: 0.5;"></div>
+          <div class="absolute inset-0 flex items-end justify-center opacity-50 pb-4">
+            <svg viewBox="0 0 200 130" class="w-3/4">
+              <line x1="62" y1="110" x2="200" y2="0" stroke="#f4c542" stroke-width="3"/>
+              <line x1="62" y1="110" x2="200" y2="12" stroke="#f4c542" stroke-width="3"/>
+              <rect x="6" y="90" width="74" height="24" fill="#f4c542"/>
+              <rect x="34" y="70" width="32" height="20" fill="#f4c542"/>
+              <rect x="2" y="114" width="82" height="6" fill="#f4c542"/>
+            </svg>
+          </div>
+          <div class="photo-meta">
+            <span class="photo-meta-label">YELLOW 5-AXLE</span>
+            <span class="hidden md:inline">80 TON</span>
+          </div>
+        </div>
+
+        <div class="p-7 flex-1 flex flex-col">
+          <div class="flex items-start justify-between mb-5">
+            <div>
+              <div class="tag">All-Terrain</div>
+              <h3 class="font-display text-[24px] mt-1.5 uppercase tracking-wide leading-tight">Liebherr LTM 1070-4</h3>
+            </div>
+            <div class="text-right">
+              <div class="crane-num font-display text-[46px] leading-none transition-colors">80</div>
+              <div class="tag mt-0.5">Ton</div>
+            </div>
+          </div>
+
+          <div class="space-y-2.5 text-[13px] mt-auto pt-5 border-t border-[var(--rebar)]/50">
+            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">REACH</span><span class="font-mono text-[12px]">164 FT</span></div>
+            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">TYPE</span><span class="font-mono text-[12px]">ALL-TERRAIN</span></div>
+            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">IDEAL</span><span>Industrial · Plants</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4 — 120 TON -->
       <div class="crane-card bg-[var(--ink-2)] border border-[var(--rebar)] overflow-hidden flex flex-col">
         <div class="photo-cinematic fleet-photo fleet-photo-4 aspect-[4/3] relative">
           <div class="fleet-photo-image"></div>
@@ -2384,23 +2382,24 @@
         </div>
       </div>
 
-      <!-- CARD 5 -->
+      <!-- CARD 5 — 250 TON -->
       <div class="crane-card bg-[var(--ink-2)] border border-[var(--rebar)] overflow-hidden flex flex-col">
-        <div class="photo-cinematic fleet-photo fleet-photo-5 aspect-[4/3] relative">
-          <div class="fleet-photo-image"></div>
-          <div class="lens-flare" style="top: 8%; right: 6%; width: 150px; height: 150px; opacity: 0.5;"></div>
-          <div class="absolute inset-0 flex items-end justify-center opacity-50 pb-4">
-            <svg viewBox="0 0 200 130" class="w-3/4">
-              <line x1="62" y1="110" x2="200" y2="0" stroke="#f4c542" stroke-width="3"/>
-              <line x1="62" y1="110" x2="200" y2="12" stroke="#f4c542" stroke-width="3"/>
-              <rect x="6" y="90" width="74" height="24" fill="#f4c542"/>
-              <rect x="34" y="70" width="32" height="20" fill="#f4c542"/>
-              <rect x="2" y="114" width="82" height="6" fill="#f4c542"/>
-            </svg>
+        <div id="crane-slider-250t" class="photo-cinematic fleet-photo aspect-[4/3] relative overflow-hidden">
+          <div class="crane-slide-250t absolute inset-0 transition-opacity duration-500" style="background-image:url('/img/fleet/atf220-cdh.jpg'); background-size:cover; background-position:center;"></div>
+          <div class="crane-slide-250t absolute inset-0 transition-opacity duration-500 opacity-0" style="background-image:url('https://cdn.jsdelivr.net/gh/Founditmarketing/cdh-@master/img/fleet/fleet-1-960-v5.jpg'); background-position:46% 58%; background-size:cover;"></div>
+          <button onclick="gs250Nav(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/75 text-white w-8 h-8 flex items-center justify-center rounded transition-colors" aria-label="Previous photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button onclick="gs250Nav(1)" class="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/75 text-white w-8 h-8 flex items-center justify-center rounded transition-colors" aria-label="Next photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <div class="absolute bottom-9 left-0 right-0 flex justify-center gap-2 z-10" id="gs250-dots">
+            <button onclick="gs250Go(0)" class="w-2 h-2 rounded-full bg-white transition-opacity" aria-label="Photo 1"></button>
+            <button onclick="gs250Go(1)" class="w-2 h-2 rounded-full bg-white/35 transition-opacity" aria-label="Photo 2"></button>
           </div>
           <div class="photo-meta">
-            <span class="photo-meta-label">YELLOW 5-AXLE</span>
-            <span class="hidden md:inline">80 TON</span>
+            <span class="photo-meta-label">BLUE / WHITE AT</span>
+            <span class="hidden md:inline">250 TON</span>
           </div>
         </div>
 
@@ -2408,18 +2407,18 @@
           <div class="flex items-start justify-between mb-5">
             <div>
               <div class="tag">All-Terrain</div>
-              <h3 class="font-display text-[24px] mt-1.5 uppercase tracking-wide leading-tight">Liebherr LTM 1070-4</h3>
+              <h3 class="font-display text-[24px] mt-1.5 uppercase tracking-wide leading-tight">ATF 220 G – 5<br><span class="text-[17px] tracking-normal normal-case font-sans font-medium text-[var(--bone)]/70">250 ton US</span></h3>
             </div>
             <div class="text-right">
-              <div class="crane-num font-display text-[46px] leading-none transition-colors">80</div>
+              <div class="crane-num font-display text-[46px] leading-none transition-colors">250</div>
               <div class="tag mt-0.5">Ton</div>
             </div>
           </div>
 
           <div class="space-y-2.5 text-[13px] mt-auto pt-5 border-t border-[var(--rebar)]/50">
-            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">REACH</span><span class="font-mono text-[12px]">164 FT</span></div>
+            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">REACH</span><span class="font-mono text-[12px]">223 FT</span></div>
             <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">TYPE</span><span class="font-mono text-[12px]">ALL-TERRAIN</span></div>
-            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">IDEAL</span><span>Industrial · Plants</span></div>
+            <div class="flex justify-between items-baseline"><span class="text-[var(--bone)]/45 font-mono text-[10px] tracking-[0.18em]">IDEAL</span><span>Heavy Industrial</span></div>
           </div>
         </div>
       </div>
@@ -3596,7 +3595,7 @@
 
   // Fleet brochure actions.
   const fleetModelDocs = {
-    'TADANO GS 300': {
+    'GS300XL': {
       specUrl: '/pdf/TadanoGS300XLspecs.pdf',
       auxUrl: '',
       auxLabel: ''
@@ -3606,7 +3605,7 @@
       auxUrl: '',
       auxLabel: ''
     },
-    'TADANO ATF 220-5': {
+    'ATF 220 G – 5250 TON US': {
       specUrl: '/pdf/TadanoATF220G-5(250%20Ton)specs.pdf',
       auxUrl: '',
       auxLabel: ''
@@ -3769,5 +3768,35 @@
     </object>
   </div>
 </div>
+<script>
+(function () {
+  var idx = 0;
+  var slides = document.querySelectorAll('.crane-slide-30t');
+  var dots = document.querySelectorAll('#gs300-dots button');
+  function goTo(n) {
+    slides[idx].style.opacity = '0';
+    dots[idx].style.opacity = '0.35';
+    idx = (n + slides.length) % slides.length;
+    slides[idx].style.opacity = '1';
+    dots[idx].style.opacity = '1';
+  }
+  window.gs300Nav = function (dir) { goTo(idx + dir); };
+  window.gs300Go = function (n) { goTo(n); };
+})();
+(function () {
+  var idx = 0;
+  var slides = document.querySelectorAll('.crane-slide-250t');
+  var dots = document.querySelectorAll('#gs250-dots button');
+  function goTo(n) {
+    slides[idx].style.opacity = '0';
+    dots[idx].style.opacity = '0.35';
+    idx = (n + slides.length) % slides.length;
+    slides[idx].style.opacity = '1';
+    dots[idx].style.opacity = '1';
+  }
+  window.gs250Nav = function (dir) { goTo(idx + dir); };
+  window.gs250Go = function (n) { goTo(n); };
+})();
+</script>
 </body>
 </html>
