@@ -2341,20 +2341,18 @@
 
       <!-- CARD 4 — 120 TON -->
       <div class="crane-card bg-[var(--ink-2)] border border-[var(--rebar)] overflow-hidden flex flex-col">
-        <div class="photo-cinematic fleet-photo fleet-photo-4 aspect-[4/3] relative">
-          <div class="fleet-photo-image"></div>
-          <div class="lens-flare" style="top: 5%; right: 8%; width: 140px; height: 140px; opacity: 0.55;"></div>
-          <div class="absolute inset-0 flex items-end justify-center opacity-50 pb-4">
-            <svg viewBox="0 0 200 130" class="w-3/4">
-              <line x1="52" y1="110" x2="198" y2="4" stroke="#f4c542" stroke-width="2.5"/>
-              <line x1="52" y1="110" x2="198" y2="14" stroke="#f4c542" stroke-width="2.5"/>
-              <rect x="10" y="94" width="60" height="20" fill="#f4c542"/>
-              <rect x="34" y="74" width="32" height="20" fill="#f4c542"/>
-              <circle cx="18" cy="120" r="6" fill="#f4c542"/>
-              <circle cx="34" cy="120" r="6" fill="#f4c542"/>
-              <circle cx="50" cy="120" r="6" fill="#f4c542"/>
-              <circle cx="66" cy="120" r="6" fill="#f4c542"/>
-            </svg>
+        <div id="crane-slider-120t" class="photo-cinematic fleet-photo aspect-[4/3] relative overflow-hidden">
+          <div class="crane-slide-120t absolute inset-0 transition-opacity duration-500" style="background-image:url('/img/fleet/ltm1100-side.jpg'); background-size:cover; background-position:center;"></div>
+          <div class="crane-slide-120t absolute inset-0 transition-opacity duration-500 opacity-0" style="background-image:url('/img/fleet/cdh120ton.jpeg'); background-size:cover; background-position:center;"></div>
+          <button onclick="ltm1100Nav(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/75 text-white w-8 h-8 flex items-center justify-center rounded transition-colors" aria-label="Previous photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button onclick="ltm1100Nav(1)" class="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/75 text-white w-8 h-8 flex items-center justify-center rounded transition-colors" aria-label="Next photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <div class="absolute bottom-9 left-0 right-0 flex justify-center gap-2 z-10" id="ltm1100-dots">
+            <button onclick="ltm1100Go(0)" class="w-2 h-2 rounded-full bg-white transition-opacity" aria-label="Photo 1"></button>
+            <button onclick="ltm1100Go(1)" class="w-2 h-2 rounded-full bg-white/35 transition-opacity" aria-label="Photo 2"></button>
           </div>
           <div class="photo-meta">
             <span class="photo-meta-label">YELLOW 5-AXLE</span>
@@ -3796,6 +3794,20 @@
   }
   window.gs250Nav = function (dir) { goTo(idx + dir); };
   window.gs250Go = function (n) { goTo(n); };
+})();
+(function () {
+  var idx = 0;
+  var slides = document.querySelectorAll('.crane-slide-120t');
+  var dots = document.querySelectorAll('#ltm1100-dots button');
+  function goTo(n) {
+    slides[idx].style.opacity = '0';
+    dots[idx].style.opacity = '0.35';
+    idx = (n + slides.length) % slides.length;
+    slides[idx].style.opacity = '1';
+    dots[idx].style.opacity = '1';
+  }
+  window.ltm1100Nav = function (dir) { goTo(idx + dir); };
+  window.ltm1100Go = function (n) { goTo(n); };
 })();
 </script>
 </body>
