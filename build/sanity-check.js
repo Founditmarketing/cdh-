@@ -28,8 +28,8 @@ const results = [];
 
 results.push(checkFile('index.html', [
   ['Title rewritten with city + service combo', (h) => /Crane Rental in Louisiana/.test(h)],
-  ['Canonical points to cdhcranerentals.com', (h) => /<link rel="canonical" href="https:\/\/cdhcranerentals\.com\/"/.test(h)],
-  ['OG URL points to cdhcranerentals.com', (h) => /og:url" content="https:\/\/cdhcranerentals\.com\/"/.test(h)],
+  ['Canonical points to cdhrentals.com', (h) => /<link rel="canonical" href="https:\/\/cdhrentals\.com\/"/.test(h)],
+  ['OG URL points to cdhrentals.com', (h) => /og:url" content="https:\/\/cdhrentals\.com\/"/.test(h)],
   ['Twitter card present', (h) => /twitter:card/.test(h)],
   ['Organization schema present', (h) => /"@type": "Organization"/.test(h)],
   ['WebSite schema present', (h) => /"@type": "WebSite"/.test(h)],
@@ -47,7 +47,7 @@ results.push(checkFile('index.html', [
 
 results.push(checkFile('locations/lafayette/index.html', [
   ['Title is "Lafayette Crane Rental | ..."', (h) => /<title>Lafayette Crane Rental/.test(h)],
-  ['Canonical points to /locations/lafayette/', (h) => /<link rel="canonical" href="https:\/\/cdhcranerentals\.com\/locations\/lafayette\/"/.test(h)],
+  ['Canonical points to /locations/lafayette/', (h) => /<link rel="canonical" href="https:\/\/cdhrentals\.com\/locations\/lafayette\/"/.test(h)],
   ['LocalBusiness schema present', (h) => /"@type": "LocalBusiness"/.test(h)],
   ['parentOrganization reference present', (h) => /parentOrganization/.test(h)],
   ['BreadcrumbList schema present', (h) => /"@type": "BreadcrumbList"/.test(h)],
@@ -62,7 +62,7 @@ results.push(checkFile('locations/lafayette/index.html', [
 
 results.push(checkFile('fleet/500-ton/index.html', [
   ['Title is "500-Ton ..."', (h) => /<title>500-Ton Heavy Lift Rental/.test(h)],
-  ['Canonical correct', (h) => /<link rel="canonical" href="https:\/\/cdhcranerentals\.com\/fleet\/500-ton\/"/.test(h)],
+  ['Canonical correct', (h) => /<link rel="canonical" href="https:\/\/cdhrentals\.com\/fleet\/500-ton\/"/.test(h)],
   ['Service schema present', (h) => /"@type": "Service"/.test(h)],
   ['Product schema present', (h) => /"@type": "Product"/.test(h)],
   ['BreadcrumbList schema present', (h) => /"@type": "BreadcrumbList"/.test(h)],
@@ -86,7 +86,7 @@ results.push(checkFile('learn/how-to-pick-the-right-crane-tonnage/index.html', [
 ]));
 
 results.push(checkFile('robots.txt', [
-  ['References sitemap URL', (h) => /Sitemap: https:\/\/cdhcranerentals\.com\/sitemap\.xml/.test(h)],
+  ['References sitemap URL', (h) => /Sitemap: https:\/\/cdhrentals\.com\/sitemap\.xml/.test(h)],
 ]));
 
 results.push(checkFile('sitemap.xml', [
@@ -121,7 +121,7 @@ for (const slug of LP_SLUGS) {
   results.push(checkFile(`lp/${slug}/index.html`, [
     ['noindex meta robots', (h) => /<meta name="robots" content="noindex/.test(h)],
     ['noindex googlebot', (h) => /<meta name="googlebot" content="noindex/.test(h)],
-    ['canonical points to /lp/{slug}/', (h) => new RegExp(`<link rel="canonical" href="https://cdhcranerentals\\.com/lp/${slug.replace(/[-/]/g, '\\$&')}/"`).test(h)],
+    ['canonical points to /lp/{slug}/', (h) => new RegExp(`<link rel="canonical" href="https://cdhrentals\\.com/lp/${slug.replace(/[-/]/g, '\\$&')}/"`).test(h)],
     ['body has class="lp"', (h) => /<body class="lp">/.test(h)],
     ['Google Ads gtag present', (h) => /googletagmanager\.com\/gtag\/js\?id=AW-/.test(h)],
     ['GA4 gtag present', (h) => /googletagmanager\.com\/gtag\/js\?id=G-/.test(h)],
@@ -143,7 +143,7 @@ for (const slug of LP_SLUGS) {
 console.log('\n--- LP thank-you page ---');
 results.push(checkFile('lp/thanks/index.html', [
   ['noindex meta robots', (h) => /<meta name="robots" content="noindex/.test(h)],
-  ['canonical points to /lp/thanks/', (h) => /<link rel="canonical" href="https:\/\/cdhcranerentals\.com\/lp\/thanks\/"/.test(h)],
+  ['canonical points to /lp/thanks/', (h) => /<link rel="canonical" href="https:\/\/cdhrentals\.com\/lp\/thanks\/"/.test(h)],
   ['body has class="lp"', (h) => /<body class="lp">/.test(h)],
   ['Google Ads gtag present', (h) => /googletagmanager\.com\/gtag\/js\?id=AW-/.test(h)],
   ['GA4 gtag present', (h) => /googletagmanager\.com\/gtag\/js\?id=G-/.test(h)],
@@ -159,7 +159,7 @@ console.log('\n--- Legal pages ---');
 for (const slug of ['privacy', 'terms']) {
   results.push(checkFile(`${slug}/index.html`, [
     ['Title contains page name', (h) => new RegExp(slug === 'privacy' ? 'Privacy Policy' : 'Terms of Service', 'i').test(h)],
-    ['canonical points to /{slug}/', (h) => new RegExp(`<link rel="canonical" href="https://cdhcranerentals\\.com/${slug}/"`).test(h)],
+    ['canonical points to /{slug}/', (h) => new RegExp(`<link rel="canonical" href="https://cdhrentals\\.com/${slug}/"`).test(h)],
     ['indexable (no noindex)', (h) => !/<meta name="robots" content="noindex/.test(h)],
     ['WebPage schema present', (h) => /"@type": "WebPage"/.test(h)],
     ['BreadcrumbList schema present', (h) => /"@type": "BreadcrumbList"/.test(h)],
