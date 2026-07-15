@@ -5,7 +5,7 @@
  */
 
 const SITE = {
-  domain: 'https://cdhcranerentals.com',
+  domain: 'https://cdhrentals.com',
   brand: 'CDH Crane Rentals',
   legalName: 'CDH Crane Rentals, LLC',
   shortBrand: 'CDH',
@@ -14,8 +14,8 @@ const SITE = {
   phoneDisplay: '337.962.3999',
   email: 'office@cdhrentals.com',
   founded: '2003',
-  defaultOgImage: 'https://cdhcranerentals.com/img/og/og-1200x630.jpg',
-  logo: 'https://cdhcranerentals.com/img/brand/cdh-logo-512.png',
+  defaultOgImage: 'https://cdhrentals.com/img/og/og-1200x630.jpg',
+  logo: 'https://cdhrentals.com/img/brand/cdh-logo-512.png',
   // TODO: paste real social URLs here once available
   sameAs: [
     'REPLACE_WITH_FACEBOOK_URL',
@@ -1358,7 +1358,7 @@ const LEGAL_PAGES = [
     title: 'Privacy Policy',
     headline: 'Privacy policy.',
     lastUpdated: 'May 21, 2026',
-    intro: `This privacy policy explains what information ${'CDH Crane Rentals, LLC'} ("CDH", "we", "us") collects when you use our website at cdhcranerentals.com or contact us by phone or email, how we use it, and the choices you have. We keep this policy short and direct, the same way we run the business.`,
+    intro: `This privacy policy explains what information ${'CDH Crane Rentals, LLC'} ("CDH", "we", "us") collects when you use our website at cdhrentals.com or contact us by phone or email, how we use it, and the choices you have. We keep this policy short and direct, the same way we run the business.`,
     sections: [
       {
         h: 'Who we are',
@@ -1413,7 +1413,7 @@ When you visit any page on this site, our analytics and advertising tools (Googl
     title: 'Terms of Service',
     headline: 'Terms of service.',
     lastUpdated: 'May 21, 2026',
-    intro: `These terms govern your use of cdhcranerentals.com. They do not govern the rental contract for any crane — that contract is a separate document signed at the time of rental. By using this site you agree to these terms.`,
+    intro: `These terms govern your use of cdhrentals.com. They do not govern the rental contract for any crane — that contract is a separate document signed at the time of rental. By using this site you agree to these terms.`,
     sections: [
       {
         h: 'Use of the site',
