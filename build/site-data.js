@@ -53,7 +53,7 @@ const LOCATIONS = [
       zip: '70506',
       country: 'US',
     },
-    geo: { lat: 30.2241, lng: -92.0198 },
+    geo: { lat: 30.198063, lng: -92.064225 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
@@ -135,7 +135,7 @@ const LOCATIONS = [
       zip: '70605',
       country: 'US',
     },
-    geo: { lat: 30.2266, lng: -93.2174 },
+    geo: { lat: 30.170813, lng: -93.266298 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
@@ -176,7 +176,7 @@ const LOCATIONS = [
       zip: '70126',
       country: 'US',
     },
-    geo: { lat: 29.9511, lng: -90.0715 },
+    geo: { lat: 30.035090, lng: -90.025657 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
@@ -217,7 +217,7 @@ const LOCATIONS = [
       zip: '77521',
       country: 'US',
     },
-    geo: { lat: 29.7355, lng: -94.9774 },
+    geo: { lat: 29.804769, lng: -95.031924 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
