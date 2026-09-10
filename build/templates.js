@@ -5,6 +5,7 @@
  */
 
 const { SITE, LOCATIONS, FLEET, SERVICES, INDUSTRIES, LEARN, LANDING_PAGES, TESTIMONIALS, LANDING_FAQ_LIBRARY, LEGAL_PAGES } = require('./site-data.js');
+const { GEOGRAPHY, locationFaqs, serviceFaqs, fleetFaqs, industryFaqs } = require('./local-content.js');
 
 /* ---------- helpers ---------- */
 const esc = (s) => String(s == null ? '' : s)
@@ -323,6 +324,84 @@ function organizationRef() {
 }
 
 /* ---------- CTA band ---------- */
+/* FAQ block, rendered visibly and mirrored into FAQPage schema.
+ * Generative search engines lean heavily on question-and-answer pairs,
+ * and only the homepage had any. */
+function renderFaqSection(items, heading = 'Frequently asked.') {
+  if (!items || !items.length) return '';
+  const [lead, ...rest] = heading.split(' ');
+  return `<section class="section">
+  <div class="container" style="max-width: 880px;">
+    <div class="section-eyebrow">
+      <span class="section-marker">&sect; FAQ</span>
+      <span class="bar"></span>
+      <span class="tag">Questions dispatch gets asked</span>
+    </div>
+    <h2>${esc(lead)} <span class="accent">${esc(rest.join(' '))}</span></h2>
+    <div style="margin-top: 28px;">
+      ${items.map((it, idx) => `<details class="faq"${idx === 0 ? ' open' : ''}>
+        <summary><h3>${esc(it.q)}</h3><span class="plus" aria-hidden="true">+</span></summary>
+        <div class="answer"><p>${esc(it.a)}</p></div>
+      </details>`).join('\n      ')}
+    </div>
+  </div>
+</section>`;
+}
+
+function faqSchema(items, canonical) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${canonical}#faq`,
+    mainEntity: items.map((it) => ({
+      '@type': 'Question',
+      name: it.q,
+      acceptedAnswer: { '@type': 'Answer', text: it.a },
+    })),
+  };
+}
+
+/* Named corridors, parishes, waterways and industrial anchors. These are
+ * the entities an AI search engine uses to tie the business to a place. */
+function renderCoverageSection(loc) {
+  const g = GEOGRAPHY[loc.slug];
+  if (!g) return '';
+  const chips = (arr) => arr.map((x) => `<span class="chip">${esc(x)}</span>`).join('\n        ');
+  return `<section class="section alt">
+  <div class="container">
+    <div class="section-eyebrow">
+      <span class="section-marker">&sect; 04b</span>
+      <span class="bar"></span>
+      <span class="tag">Coverage &amp; access</span>
+    </div>
+    <h2>Getting to your site in ${esc(g.region)}.</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: rgba(234, 230, 221, 0.82); max-width: 760px; margin-top: 14px;">${esc(g.access)}</p>
+    <div class="grid-2" style="margin-top: 36px;">
+      <div class="card">
+        <div class="tag" style="margin-bottom: 12px; color: var(--safety);">Routes we run</div>
+        <div class="chip-row">
+        ${chips(g.corridors)}
+        </div>
+        <div class="tag" style="margin: 20px 0 12px; color: var(--safety);">Water</div>
+        <div class="chip-row">
+        ${chips(g.waterways)}
+        </div>
+      </div>
+      <div class="card">
+        <div class="tag" style="margin-bottom: 12px; color: var(--safety);">Parishes &amp; counties covered</div>
+        <div class="chip-row">
+        ${chips(g.admin)}
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top: 20px;">
+      <div class="tag" style="margin-bottom: 12px; color: var(--safety);">Where we work around ${esc(loc.city)}</div>
+      <p>${esc(g.anchors.join(' · '))}</p>
+    </div>
+  </div>
+</section>`;
+}
+
 function renderCtaBand(headline = 'Have a lift in mind?', subhead = 'Call dispatch around the clock or send a quote request. We will get back to you fast.') {
   return `<section class="cta-band">
   <div class="container">
@@ -382,9 +461,11 @@ function renderLocationPage(loc) {
     sameAs: [loc.gbpUrl].filter(Boolean),
   };
 
+  const locFaqs = locationFaqs(loc);
+
   const breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Locations', url: '/#locations' },
+    { name: 'Locations', url: '/locations/' },
     { name: loc.city, url: locationUrl(loc.slug) },
   ];
 
@@ -392,7 +473,7 @@ function renderLocationPage(loc) {
     title,
     description,
     canonical,
-    schema: [localBusinessSchema, breadcrumbSchema(breadcrumbs)],
+    schema: [localBusinessSchema, breadcrumbSchema(breadcrumbs), ...(locFaqs.length ? [faqSchema(locFaqs, canonical)] : [])],
     geo: { region: loc.state, placename: `${loc.city}, ${loc.stateName}`, lat: loc.geo.lat, lng: loc.geo.lng },
   });
 
@@ -553,6 +634,10 @@ ${renderBreadcrumbs(breadcrumbs)}
   </div>
 </section>
 
+${renderCoverageSection(loc)}
+
+${renderFaqSection(locFaqs, `Crane rental in ${loc.city}, answered.`)}
+
 ${renderCtaBand(`Need a crane in ${loc.city}?`, `Dispatch is staffed 24/7. Two-minute call to scope the pick, same-day quote in most cases.`)}
 
 ${renderFooter()}`;
@@ -599,9 +684,11 @@ function renderFleetPage(item) {
     image: `${SITE.domain}${item.imagePath}`,
   };
 
+  const fltFaqs = fleetFaqs(item);
+
   const breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Fleet', url: '/#fleet' },
+    { name: 'Fleet', url: '/fleet/' },
     { name: item.name, url: fleetUrl(item.slug) },
   ];
 
@@ -609,7 +696,7 @@ function renderFleetPage(item) {
     title,
     description,
     canonical,
-    schema: [serviceSchema, productSchema, breadcrumbSchema(breadcrumbs)],
+    schema: [serviceSchema, productSchema, breadcrumbSchema(breadcrumbs), ...(fltFaqs.length ? [faqSchema(fltFaqs, canonical)] : [])],
   });
 
   return `${head}
@@ -718,6 +805,8 @@ ${renderBreadcrumbs(breadcrumbs)}
   </div>
 </section>
 
+${renderFaqSection(fltFaqs, `The ${item.name}, answered.`)}
+
 ${renderCtaBand(`Need a ${item.tonnage}-ton crane?`, `Two-minute call and we can quote a date, a rate, and a yard.`)}
 
 ${renderFooter()}`;
@@ -742,9 +831,11 @@ function renderServicePage(item) {
     areaServed: LOCATIONS.map((l) => ({ '@type': 'City', name: `${l.city}, ${l.state}` })),
   };
 
+  const svcFaqs = serviceFaqs(item.slug);
+
   const breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Services', url: '/' },
+    { name: 'Services', url: '/services/' },
     { name: item.name, url: serviceUrl(item.slug) },
   ];
 
@@ -752,7 +843,7 @@ function renderServicePage(item) {
     title,
     description,
     canonical,
-    schema: [serviceSchema, breadcrumbSchema(breadcrumbs)],
+    schema: [serviceSchema, breadcrumbSchema(breadcrumbs), ...(svcFaqs.length ? [faqSchema(svcFaqs, canonical)] : [])],
   });
 
   return `${head}
@@ -859,6 +950,8 @@ ${renderBreadcrumbs(breadcrumbs)}
   </div>
 </section>
 
+${renderFaqSection(svcFaqs, `${item.name}, answered.`)}
+
 ${renderCtaBand('Talk through your project.', 'Dispatch is staffed 24/7. We can scope, quote, and book your pick on the same call.')}
 
 ${renderFooter()}`;
@@ -883,9 +976,11 @@ function renderIndustryPage(item) {
     inLanguage: 'en-US',
   };
 
+  const indFaqs = industryFaqs(item.slug);
+
   const breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Industries', url: '/#industries' },
+    { name: 'Industries', url: '/industries/' },
     { name: item.name, url: industryUrl(item.slug) },
   ];
 
@@ -893,7 +988,7 @@ function renderIndustryPage(item) {
     title,
     description,
     canonical,
-    schema: [aboutSchema, breadcrumbSchema(breadcrumbs)],
+    schema: [aboutSchema, breadcrumbSchema(breadcrumbs), ...(indFaqs.length ? [faqSchema(indFaqs, canonical)] : [])],
   });
 
   return `${head}
@@ -1017,6 +1112,8 @@ ${renderBreadcrumbs(breadcrumbs)}
     </div>
   </div>
 </section>
+
+${renderFaqSection(indFaqs, `${item.name} crane work, answered.`)}
 
 ${renderCtaBand(`Have ${item.name.toLowerCase()} work coming up?`, 'Two-minute call to scope the pick. Same-day quote in most cases.')}
 
