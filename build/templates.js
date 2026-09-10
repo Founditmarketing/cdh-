@@ -25,6 +25,42 @@ const serviceUrl = (slug) => `/services/${slug}/`;
 const industryUrl = (slug) => `/industries/${slug}/`;
 const learnUrl = (slug) => `/learn/${slug}/`;
 
+/* SEO length budgets. Google truncates titles near 65 chars and descriptions
+ * near 155, so both are enforced here rather than left to whoever writes copy.
+ * fitTitle drops optional middle segments, least important first, until the
+ * whole title fits; the lead and the brand are never dropped. */
+const TITLE_MAX = 65;
+const DESC_MAX = 155;
+
+function fitTitle(lead, optional = [], max = TITLE_MAX) {
+  const opts = optional.filter(Boolean).slice();
+  while (opts.length) {
+    const t = [lead, ...opts, SITE.brand].join(' | ');
+    if (t.length <= max) return t;
+    opts.pop();
+  }
+  return `${lead} | ${SITE.brand}`;
+}
+
+function fitDesc(lead, tails = [], max = DESC_MAX) {
+  const t = tails.filter(Boolean).slice();
+  while (t.length) {
+    const s = [lead, ...t].join(' ').replace(/\s+/g, ' ').trim();
+    if (s.length <= max) return s;
+    t.pop();
+  }
+  return clampDesc(lead, max);
+}
+
+function clampDesc(text, max = DESC_MAX) {
+  const t = String(text == null ? '' : text).replace(/\s+/g, ' ').trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max);
+  const sp = cut.lastIndexOf(' ');
+  const body = sp > max * 0.6 ? cut.slice(0, sp) : cut;
+  return `${body.replace(/[\s.,;:—–-]+$/, '')}.`;
+}
+
 /* ---------- shared head ---------- */
 function renderHead({
   title,
@@ -114,7 +150,7 @@ function renderHead({
 <meta name="twitter:description" content="${esc(description)}" />
 <meta name="twitter:image" content="${esc(ogImage)}" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/Founditmarketing/cdh-@master/img/favicons/apple-touch-icon-180.png" />
+<link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon-180.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&display=swap">
@@ -305,8 +341,8 @@ function renderCtaBand(headline = 'Have a lift in mind?', subhead = 'Call dispat
 ============================================================ */
 function renderLocationPage(loc) {
   const canonical = `${SITE.domain}${locationUrl(loc.slug)}`;
-  const title = `${loc.city} Crane Rental | 15–500 Ton | ${SITE.brand}`;
-  const description = `Crane rental in ${loc.city}, ${loc.state} — 15 to 500 ton cranes, NCCCO operators, 24/7 dispatch. ${loc.yardCharacter}. Serving ${loc.nearbyTowns.slice(0, 3).join(', ')} and surrounding ${loc.stateName}.`;
+  const title = fitTitle(`${loc.city} Crane Rental`, ['15–500 Ton']);
+  const description = fitDesc(`Crane rental in ${loc.city}, ${loc.state}. 15 to 500 ton cranes, NCCCO operators, 24/7 dispatch.`, [`Serving ${loc.nearbyTowns.slice(0, 2).join(' and ')}.`]);
 
   const localBusinessSchema = {
     '@context': 'https://schema.org',
@@ -527,8 +563,8 @@ ${renderFooter()}`;
 ============================================================ */
 function renderFleetPage(item) {
   const canonical = `${SITE.domain}${fleetUrl(item.slug)}`;
-  const title = `${item.name} Rental | Louisiana & East Texas | ${SITE.brand}`;
-  const description = `${item.shortDescription} Available at ${item.availableAtYards.length} CDH yards across Louisiana and East Texas. NCCCO operators, 24/7 dispatch.`;
+  const title = fitTitle(`${item.name} Rental`, ['Gulf South']);
+  const description = fitDesc(item.shortDescription, [`At ${item.availableAtYards.length} CDH yards.`, 'NCCCO operators, 24/7 dispatch.']);
 
   const serviceSchema = {
     '@context': 'https://schema.org',
@@ -692,8 +728,8 @@ ${renderFooter()}`;
 ============================================================ */
 function renderServicePage(item) {
   const canonical = `${SITE.domain}${serviceUrl(item.slug)}`;
-  const title = `${item.name} | Louisiana & East Texas | ${SITE.brand}`;
-  const description = `${item.shortDescription} Available across all five CDH yards: Lafayette, Baton Rouge, Lake Charles, New Orleans, and Baytown.`;
+  const title = fitTitle(item.name, ['Gulf South']);
+  const description = fitDesc(item.shortDescription, ['All five CDH yards, Louisiana and East Texas.']);
 
   const serviceSchema = {
     '@context': 'https://schema.org',
@@ -833,8 +869,8 @@ ${renderFooter()}`;
 ============================================================ */
 function renderIndustryPage(item) {
   const canonical = `${SITE.domain}${industryUrl(item.slug)}`;
-  const title = `${item.name} Crane Services | Louisiana & East Texas | ${SITE.brand}`;
-  const description = `${item.shortDescription} 20+ years of ${item.name.toLowerCase()} crane work across the Gulf South.`;
+  const title = fitTitle(`${item.name} Crane Services`, ['Gulf South']);
+  const description = fitDesc(item.shortDescription, [`20+ years of ${item.name.toLowerCase()} crane work across the Gulf South.`]);
 
   const aboutSchema = {
     '@context': 'https://schema.org',
@@ -992,8 +1028,8 @@ ${renderFooter()}`;
 ============================================================ */
 function renderLearnPage(item) {
   const canonical = `${SITE.domain}${learnUrl(item.slug)}`;
-  const title = `${item.title} | Crane Rental Guides | ${SITE.brand}`;
-  const description = item.summary;
+  const title = fitTitle(item.seoTitle || item.title, ['Crane Rental Guides']);
+  const description = clampDesc(item.summary);
 
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -1453,7 +1489,7 @@ function renderLandingPage(lp) {
   const cityForTitle = lp.cityRef ? byLocationSlug(lp.cityRef).city : null;
   const titleParts = [lp.h1Top.replace(/\.$/, '').trim(), lp.h1Bottom.replace(/\.$/, '').trim(), SITE.brand];
   const title = `${titleParts[0]} — ${titleParts[1]} | ${SITE.brand}`;
-  const description = `${lp.lede.slice(0, 155).trim()}${lp.lede.length > 155 ? '...' : ''}`;
+  const description = clampDesc(lp.lede);
   const geo = cityForTitle
     ? { region: byLocationSlug(lp.cityRef).state, placename: `${cityForTitle}, ${byLocationSlug(lp.cityRef).stateName}`, lat: byLocationSlug(lp.cityRef).geo.lat, lng: byLocationSlug(lp.cityRef).geo.lng }
     : undefined;
@@ -1493,8 +1529,8 @@ ${renderLpConversionScript()}
 function renderLegalPage(legal) {
   const canonical = `${SITE.domain}/${legal.slug}/`;
   const head = renderHead({
-    title: `${legal.title} | ${SITE.brand}`,
-    description: `${legal.title} for ${SITE.brand}. ${legal.intro.slice(0, 130).replace(/\s+/g, ' ').trim()}...`,
+    title: fitTitle(legal.title),
+    description: clampDesc(`${legal.title} for ${SITE.brand}. ${legal.intro}`),
     canonical,
     schema: [
       {

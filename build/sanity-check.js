@@ -40,7 +40,7 @@ results.push(checkFile('index.html', [
   ['Footer links to /locations/lafayette/', (h) => /href="\/locations\/lafayette\/"/.test(h)],
   ['Footer links to /fleet/15-ton-boom-truck/', (h) => /href="\/fleet\/15-ton-boom-truck\/"/.test(h)],
   ['H1 contains "crane rental"', (h) => /<h1[^>]*>[\s\S]*?crane rental[\s\S]*?<\/h1>/i.test(h)],
-  ['GA4 placeholder present', (h) => /G-XXXXXXXXXX/.test(h)],
+  ['GA4 tag present with a real measurement ID', (h) => /gtag\/js\?id=G-(?!XXXX)[A-Z0-9]{6,}/.test(h)],
   ['Vercel-preview noindex guard present', (h) => /vercel\.app/.test(h)],
   ['No localhost canonical/OG remaining', (h) => !/localhost:8000\/cdh-homepage-v3\.html/.test(h)],
 ]));
@@ -51,12 +51,12 @@ results.push(checkFile('locations/lafayette/index.html', [
   ['LocalBusiness schema present', (h) => /"@type": "LocalBusiness"/.test(h)],
   ['parentOrganization reference present', (h) => /parentOrganization/.test(h)],
   ['BreadcrumbList schema present', (h) => /"@type": "BreadcrumbList"/.test(h)],
-  ['Geo meta present', (h) => /geo\.position" content="30\.2241/.test(h)],
+  ['Geo meta present', (h) => /geo\.position" content="30\.19/.test(h)],
   ['Embedded Google Map present', (h) => /google\.com\/maps/.test(h)],
   ['Internal link to a fleet page', (h) => /href="\/fleet\//.test(h)],
   ['Phone number in tel: link', (h) => /href="tel:\+13379623999"/.test(h) || /href="tel:13379623999"/.test(h)],
   ['Shared subpage CSS linked', (h) => /\/dist\/cdh-subpages\.css/.test(h)],
-  ['GA4 placeholder present', (h) => /G-XXXXXXXXXX/.test(h)],
+  ['GA4 tag present with a real measurement ID', (h) => /gtag\/js\?id=G-(?!XXXX)[A-Z0-9]{6,}/.test(h)],
   ['Vercel-preview noindex guard present', (h) => /vercel\.app/.test(h)],
 ]));
 
@@ -191,6 +191,50 @@ results.push(checkFile('sitemap.xml', [
   ['Terms in sitemap', (h) => /\/terms\//.test(h)],
   ['Thanks page NOT in sitemap', (h) => !/\/lp\/thanks\//.test(h)],
 ]));
+
+/* --- Release gate: scan every built page, not just the samples --- */
+console.log('\n--- Release gate (all built pages) ---');
+const ROOT = path.join(__dirname, '..');
+const SKIP = new Set(['node_modules', '.git', 'dist', 'build', 'img', 'pdf', 'ads', 'seo']);
+function walk(dir, out = []) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (e.isDirectory()) { if (!SKIP.has(e.name)) walk(path.join(dir, e.name), out); }
+    else if (e.name.endsWith('.html')) out.push(path.join(dir, e.name));
+  }
+  return out;
+}
+const pages = walk(ROOT);
+const indexable = pages.filter((f) => !f.includes(`${path.sep}lp${path.sep}`));
+const problems = { placeholder: [], title: [], desc: [], canonical: [] };
+
+for (const f of pages) {
+  const rel = path.relative(ROOT, f);
+  const h = fs.readFileSync(f, 'utf8');
+  const ph = h.match(/REPLACE_WITH_[A-Z_]+|G-XXXXXXXXXX|AW-XXXXXXXXXX/g);
+  if (ph) problems.placeholder.push(`${rel} — ${[...new Set(ph)].join(', ')}`);
+  if (!indexable.includes(f)) continue;
+  const dec = (x) => x.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+  const t = h.match(/<title>([\s\S]*?)<\/title>/);
+  const d = h.match(/<meta name="description" content="([\s\S]*?)"/);
+  const c = h.match(/<link rel="canonical"/g);
+  if (t && dec(t[1]).length > 65) problems.title.push(`${rel} — ${dec(t[1]).length} chars`);
+  if (d && dec(d[1]).length > 155) problems.desc.push(`${rel} — ${dec(d[1]).length} chars`);
+  if (!c || c.length !== 1) problems.canonical.push(`${rel} — ${c ? c.length : 0} canonical tags`);
+}
+
+const gates = [
+  ['No placeholder strings in any built page', problems.placeholder],
+  ['Every title within 65 characters', problems.title],
+  ['Every meta description within 155 characters', problems.desc],
+  ['Exactly one canonical tag per indexable page', problems.canonical],
+];
+console.log(`  scanned ${pages.length} pages (${indexable.length} indexable)`);
+for (const [label, list] of gates) {
+  results.push(check(`${label}${list.length ? ` — ${list.length} offending` : ''}`, list.length === 0));
+  for (const line of list.slice(0, 8)) console.log(`         ${line}`);
+  if (list.length > 8) console.log(`         ... +${list.length - 8} more`);
+}
 
 const ok = results.every(Boolean);
 console.log(`\n${ok ? 'All sanity checks passed.' : 'Some checks failed — see [FAIL] lines above.'}`);

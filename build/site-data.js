@@ -757,6 +757,7 @@ const INDUSTRIES = [
 const LEARN = [
   {
     slug: 'how-to-pick-the-right-crane-tonnage',
+    seoTitle: 'How to Pick the Right Crane Tonnage',
     title: 'How to pick the right crane tonnage',
     summary: 'A practical guide to sizing a crane for your pick — load weight, lift radius, pick height, and the 75% rule of thumb.',
     bodyParagraphs: [
@@ -782,10 +783,11 @@ const LEARN = [
         body: 'A two-minute conversation with a dispatcher can save a wasted morning of crane sizing. Tell us the pick weight, radius, height, jobsite type, and date — we will recommend the right crane (or tell you if a different rig altogether is a better fit).',
       },
     ],
-    cta: 'Need a crane sized for a specific pick? Call dispatch at 337-962-3999.',
+    cta: 'Need a crane sized for a specific pick? Call dispatch at 337.962.3999.',
   },
   {
     slug: 'operated-vs-bare-rental',
+    seoTitle: 'Operated vs Bare Crane Rental',
     title: 'Operated vs bare crane rental: which one fits your job?',
     summary: 'Operated rental is the default for most picks; bare rental fits long-duration in-house programs. Here is how to choose.',
     bodyParagraphs: [
@@ -810,10 +812,11 @@ const LEARN = [
         body: 'Bare rental rates are lower per hour or per day, but the math shifts once you include your operator labor, fuel, insurance loading, and operational management. For most short-duration picks, operated is cheaper all-in.',
       },
     ],
-    cta: 'Not sure which model fits? Call dispatch at 337-962-3999 and we will walk through it.',
+    cta: 'Not sure which model fits? Call dispatch at 337.962.3999 and we will walk through it.',
   },
   {
     slug: 'what-nccco-certification-means',
+    seoTitle: 'What NCCCO Certification Means',
     title: 'What NCCCO certification means (and why it matters on your job)',
     summary: 'NCCCO is the national certification standard for crane operators. Here is what the test covers, why it matters, and what to ask for.',
     bodyParagraphs: [
@@ -834,10 +837,11 @@ const LEARN = [
         body: 'When quoting a job, ask the crane company for NCCCO documentation and current OSHA training records. Ask specifically about the operator who will run the pick — not just the company-wide average. CDH supplies this documentation as part of the standard quote package on request.',
       },
     ],
-    cta: 'Questions about operator credentials? Call dispatch at 337-962-3999.',
+    cta: 'Questions about operator credentials? Call dispatch at 337.962.3999.',
   },
   {
     slug: 'crane-permits-louisiana',
+    seoTitle: 'Crane Permits in Louisiana',
     title: 'Crane permits in Louisiana: a practical guide for project managers',
     summary: 'When you need a crane permit in Louisiana, who issues it, and what to expect for road closures and traffic control.',
     bodyParagraphs: [
@@ -862,7 +866,7 @@ const LEARN = [
         body: 'For routine city permits, 5–10 business days is usually enough. For state DOTD permits with route surveys and escorts, 2–3 weeks is the safe planning window. For emergency picks, we work with you on the fastest path through the permit process.',
       },
     ],
-    cta: 'Project with permit complexity? Call dispatch at 337-962-3999 and we will plan it.',
+    cta: 'Project with permit complexity? Call dispatch at 337.962.3999 and we will plan it.',
   },
 ];
 
@@ -1362,7 +1366,7 @@ const LEGAL_PAGES = [
     sections: [
       {
         h: 'Who we are',
-        p: `CDH Crane Rentals, LLC is a crane rental company headquartered in Lafayette, Louisiana, with yards in Lafayette, Baton Rouge, Lake Charles, New Orleans, and Baytown, TX. You can reach us by phone at 337-962-3999 or by email at office@cdhrentals.com. Our mailing address is on file at our HQ yard.`,
+        p: `CDH Crane Rentals, LLC is a crane rental company headquartered in Lafayette, Louisiana, with yards in Lafayette, Baton Rouge, Lake Charles, New Orleans, and Baytown, TX. You can reach us by phone at 337.962.3999 or by email at office@cdhrentals.com. Our mailing address is on file at our HQ yard.`,
       },
       {
         h: 'What information we collect',
@@ -1404,7 +1408,7 @@ When you visit any page on this site, our analytics and advertising tools (Googl
       },
       {
         h: 'Contact',
-        p: `Questions about this policy: office@cdhrentals.com or 337-962-3999. Ask for the office.`,
+        p: `Questions about this policy: office@cdhrentals.com or 337.962.3999. Ask for the office.`,
       },
     ],
   },
@@ -1437,7 +1441,7 @@ When you visit any page on this site, our analytics and advertising tools (Googl
       },
       {
         h: 'Contact',
-        p: `Questions: office@cdhrentals.com or 337-962-3999.`,
+        p: `Questions: office@cdhrentals.com or 337.962.3999.`,
       },
     ],
   },
