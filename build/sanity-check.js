@@ -223,8 +223,29 @@ for (const f of pages) {
   if (!c || c.length !== 1) problems.canonical.push(`${rel} — ${c ? c.length : 0} canonical tags`);
 }
 
+/* Config gate: the tags are suppressed when their IDs are placeholders, so the
+ * page scan alone can no longer tell you the site is unconfigured. Check the
+ * source of truth instead. */
+const { SITE, LOCATIONS } = require('./site-data.js');
+const unset = [];
+const needs = [
+  ['ga4Id', SITE.ga4Id, 'Google Analytics is not recording anything'],
+  ['googleAdsId', SITE.googleAdsId, 'Google Ads conversions and remarketing are off'],
+  ['gscVerification', SITE.gscVerification, 'Search Console ownership cannot be verified, so the sitemap cannot be submitted'],
+  ['bingVerification', SITE.bingVerification, 'Bing Webmaster ownership cannot be verified'],
+];
+for (const [key, val, why] of needs) {
+  if (!val || /X{4,}|^REPLACE_WITH/.test(val)) unset.push(`SITE.${key} — ${why}`);
+}
+for (const l of LOCATIONS) {
+  const a = l.address || {};
+  if (/REPLACE_WITH/.test(`${a.street} ${a.zip}`)) unset.push(`${l.city} address — placeholder still rendered to visitors`);
+  if (/REPLACE_WITH/.test(String(l.gbpUrl))) unset.push(`${l.city} gbpUrl — no Google Business Profile linked`);
+}
+
 const gates = [
   ['No placeholder strings in any built page', problems.placeholder],
+  ['Site configuration complete', unset],
   ['Every title within 65 characters', problems.title],
   ['Every meta description within 155 characters', problems.desc],
   ['Exactly one canonical tag per indexable page', problems.canonical],

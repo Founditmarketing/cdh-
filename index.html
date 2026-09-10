@@ -16,10 +16,8 @@
 <meta name="geo.position" content="30.198063;-92.064225" />
 <meta name="ICBM" content="30.198063, -92.064225" />
 <link rel="canonical" href="https://cdhrentals.com/" />
-<!-- TODO: Replace with real Google Search Console verification token -->
-<meta name="google-site-verification" content="REPLACE_WITH_GSC_VERIFICATION_TOKEN" />
-<!-- TODO: Replace with real Bing Webmaster Tools verification token -->
-<meta name="msvalidate.01" content="REPLACE_WITH_BING_VERIFICATION_TOKEN" />
+<!-- Search Console / Bing verification meta go here once the tokens exist.
+     Keep them in step with gscVerification and bingVerification in build/site-data.js. -->
 <meta name="theme-color" content="#0b0d10" />
 <meta property="og:site_name" content="CDH Crane Rentals" />
 <meta property="og:title" content="Crane Rental in Louisiana & East Texas | 15–500 Ton | CDH Crane Rentals" />
@@ -1376,14 +1374,6 @@
         "crawler crane"
       ],
       "sameAs": [
-        "REPLACE_WITH_GOOGLE_BUSINESS_PROFILE_URL_LAFAYETTE",
-        "REPLACE_WITH_GOOGLE_BUSINESS_PROFILE_URL_BATON_ROUGE",
-        "REPLACE_WITH_GOOGLE_BUSINESS_PROFILE_URL_LAKE_CHARLES",
-        "REPLACE_WITH_GOOGLE_BUSINESS_PROFILE_URL_NEW_ORLEANS",
-        "REPLACE_WITH_GOOGLE_BUSINESS_PROFILE_URL_BAYTOWN",
-        "REPLACE_WITH_FACEBOOK_URL",
-        "REPLACE_WITH_LINKEDIN_URL",
-        "REPLACE_WITH_INSTAGRAM_URL"
       ],
       "contactPoint": [
         {
@@ -1544,30 +1534,23 @@
 }
 </script>
 
-<!-- ==================== GA4 ====================
-     TODO: replace G-XXXXXXXXXX with the real GA4 measurement ID.
-     Until replaced, no data is sent. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true, send_page_view: true });
-</script>
+<!-- ==================== Analytics ====================
+     Neither tag is emitted while its ID is a placeholder. Shipping gtag for
+     accounts that do not exist pulled 429 KB on every visit and recorded
+     nothing at all.
 
-<!-- ==================== Google Ads (remarketing) ====================
-     Homepage: remarketing audience signal only — no conversion fires here.
-     Conversion fires live on the /lp/* landing pages and /lp/thanks/.
-     TODO: replace AW-XXXXXXXXXX with the real Google Ads account ID (must match
-     SITE.googleAdsId in build/site-data.js so the LPs and the homepage share the
-     same audience). -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'AW-XXXXXXXXXX');
-</script>
+     To turn analytics on, paste the real IDs here AND in build/site-data.js
+     (ga4Id and googleAdsId), so this page and the generated pages agree, then
+     run: npm run build:all
+
+     GA4          <script async src="https://www.googletagmanager.com/gtag/js?id=G-REAL-ID"></script>
+                  gtag('config', 'G-REAL-ID', { anonymize_ip: true, send_page_view: true });
+
+     Google Ads   remarketing audience signal only on this page; conversions
+                  fire from /lp/* and /lp/thanks/.
+                  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-REAL-ID"></script>
+                  gtag('config', 'AW-REAL-ID');
+-->
 
 </head>
 <body>

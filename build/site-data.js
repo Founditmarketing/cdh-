@@ -26,6 +26,14 @@ const SITE = {
   // googleAdsId: 'AW-123456789'  -> the account conversion ID
   // conversions: { formSubmit: '...', phoneClick: '...', emailClick: '...' }
   //   each value is the conversion label from Google Ads ("AW-XXXX/LABEL")
+  // Analytics. While either of these still contains XXXX the tag is not
+  // emitted at all: shipping gtag for an account that does not exist cost
+  // 429 KB a visit and recorded nothing. Paste the real IDs and rebuild.
+  // Search engine ownership verification. Same rule as the analytics IDs:
+  // a placeholder emits no meta tag at all rather than a junk one.
+  gscVerification: 'REPLACE_WITH_GSC_VERIFICATION_TOKEN',
+  bingVerification: 'REPLACE_WITH_BING_VERIFICATION_TOKEN',
+  ga4Id: 'G-XXXXXXXXXX',
   googleAdsId: 'AW-XXXXXXXXXX',
   conversions: {
     formSubmit: 'AW-XXXXXXXXXX/REPLACE_FORM_LABEL',

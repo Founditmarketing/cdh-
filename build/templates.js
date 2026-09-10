@@ -15,6 +15,9 @@ const esc = (s) => String(s == null ? '' : s)
   .replace(/"/g, '&quot;')
   .replace(/'/g, '&#39;');
 
+const isConfigured = (id) => Boolean(id) && !/X{4,}/.test(id);
+const conv = (label) => (isConfigured(label) && !/REPLACE_/.test(label) ? label : '');
+
 const byFleetSlug = (slug) => FLEET.find((f) => f.slug === slug);
 const byLocationSlug = (slug) => LOCATIONS.find((l) => l.slug === slug);
 const byServiceSlug = (slug) => SERVICES.find((s) => s.slug === slug);
@@ -92,13 +95,12 @@ function renderHead({
   const googlebotContent = noindex ? 'noindex, nofollow' : 'index, follow';
 
   // Verification meta only on indexable pages (not landing pages).
+  const verifyTag = (name, value) => (isConfigured(value) && !/^REPLACE_WITH/.test(value)
+    ? `\n<meta name="${name}" content="${esc(value)}" />`
+    : '');
   const verificationMeta = noindex
     ? ''
-    : `
-<!-- TODO: Replace with real Google Search Console verification token -->
-<meta name="google-site-verification" content="REPLACE_WITH_GSC_VERIFICATION_TOKEN" />
-<!-- TODO: Replace with real Bing Webmaster Tools verification token -->
-<meta name="msvalidate.01" content="REPLACE_WITH_BING_VERIFICATION_TOKEN" />`;
+    : `${verifyTag('google-site-verification', SITE.gscVerification)}${verifyTag('msvalidate.01', SITE.bingVerification)}`;
 
   // Google Ads tag — emitted on every page so the remarketing audience builds from
   // organic visitors too. On landing pages, conversion fires happen via the inline
@@ -109,19 +111,34 @@ function renderHead({
   const adsRoleComment = includeGoogleAds
     ? 'Landing page: full conversion + remarketing. Conversion fires happen in the LP script at the body footer.'
     : 'SEO page: remarketing audience signal only — no conversion fires from this page.';
-  const googleAdsTag = `
+  const ga4Tag = isConfigured(SITE.ga4Id) ? `
+
+<!-- ==================== GA4 ==================== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${esc(SITE.ga4Id)}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '${esc(SITE.ga4Id)}', { anonymize_ip: true, send_page_view: true });
+</script>` : `
+
+<!-- GA4 tag omitted: SITE.ga4Id in build/site-data.js is still a placeholder.
+     Paste the real G- measurement ID and rebuild to enable it. -->`;
+
+  const googleAdsTag = isConfigured(SITE.googleAdsId) ? `
 
 <!-- ==================== Google Ads ====================
-     ${adsRoleComment}
-     TODO: replace SITE.googleAdsId in build/site-data.js with the real account ID.
-     Account ID currently configured: ${esc(SITE.googleAdsId)} -->
+     ${adsRoleComment} -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${esc(SITE.googleAdsId)}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', '${esc(SITE.googleAdsId)}');
-</script>`;
+</script>` : `
+
+<!-- Google Ads tag omitted: SITE.googleAdsId in build/site-data.js is still a
+     placeholder. Paste the real AW- account ID and rebuild to enable it. -->`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -159,16 +176,7 @@ function renderHead({
 ${extraMeta}
 ${schemaBlocks}
 
-<!-- ==================== GA4 ====================
-     TODO: replace G-XXXXXXXXXX with the real GA4 measurement ID.
-     Until replaced, no data is sent. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true, send_page_view: true });
-</script>${googleAdsTag}
+${ga4Tag}${googleAdsTag}
 </head>
 <body${bodyClass ? ` class="${esc(bodyClass)}"` : ''}>`;
 }
@@ -458,7 +466,7 @@ function renderLocationPage(loc) {
       '@type': 'OpeningHoursSpecification',
       ...spec,
     })),
-    sameAs: [loc.gbpUrl].filter(Boolean),
+    sameAs: [loc.gbpUrl].filter((u) => u && !/^REPLACE_WITH/.test(u)),
   };
 
   const locFaqs = locationFaqs(loc);
@@ -1511,9 +1519,9 @@ function renderLpConversionScript() {
     try { gtag('event', 'conversion', { send_to: label }); } catch(e){}
   }
   var CONVERSIONS = {
-    phone: ${JSON.stringify(SITE.conversions.phoneClick)},
-    email: ${JSON.stringify(SITE.conversions.emailClick)},
-    form:  ${JSON.stringify(SITE.conversions.formSubmit)}
+    phone: ${JSON.stringify(conv(SITE.conversions.phoneClick))},
+    email: ${JSON.stringify(conv(SITE.conversions.emailClick))},
+    form:  ${JSON.stringify(conv(SITE.conversions.formSubmit))}
   };
 
   // Phone clicks
@@ -1761,8 +1769,8 @@ ${renderLpFooter()}
     if (typeof gtag !== 'function') return;
     try { gtag('event', eventName, params || {}); } catch(e){}
   }
-  var FORM_CONVERSION = ${JSON.stringify(SITE.conversions.formSubmit)};
-  var PHONE_CONVERSION = ${JSON.stringify(SITE.conversions.phoneClick)};
+  var FORM_CONVERSION = ${JSON.stringify(conv(SITE.conversions.formSubmit))};
+  var PHONE_CONVERSION = ${JSON.stringify(conv(SITE.conversions.phoneClick))};
   // Pull the originating LP slug from the URL (?lp=slug) for reporting in GA4.
   var lpSlug = (function(){
     var m = location.search.match(/[?&]lp=([^&#]+)/);

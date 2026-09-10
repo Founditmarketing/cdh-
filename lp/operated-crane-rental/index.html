@@ -34,28 +34,13 @@
 
 
 
-<!-- ==================== GA4 ====================
-     TODO: replace G-XXXXXXXXXX with the real GA4 measurement ID.
-     Until replaced, no data is sent. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true, send_page_view: true });
-</script>
 
-<!-- ==================== Google Ads ====================
-     Landing page: full conversion + remarketing. Conversion fires happen in the LP script at the body footer.
-     TODO: replace SITE.googleAdsId in build/site-data.js with the real account ID.
-     Account ID currently configured: AW-XXXXXXXXXX -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'AW-XXXXXXXXXX');
-</script>
+
+<!-- GA4 tag omitted: SITE.ga4Id in build/site-data.js is still a placeholder.
+     Paste the real G- measurement ID and rebuild to enable it. -->
+
+<!-- Google Ads tag omitted: SITE.googleAdsId in build/site-data.js is still a
+     placeholder. Paste the real AW- account ID and rebuild to enable it. -->
 </head>
 <body class="lp">
 <div class="util-bar">
@@ -412,9 +397,9 @@
     try { gtag('event', 'conversion', { send_to: label }); } catch(e){}
   }
   var CONVERSIONS = {
-    phone: "AW-XXXXXXXXXX/REPLACE_PHONE_LABEL",
-    email: "AW-XXXXXXXXXX/REPLACE_EMAIL_LABEL",
-    form:  "AW-XXXXXXXXXX/REPLACE_FORM_LABEL"
+    phone: "",
+    email: "",
+    form:  ""
   };
 
   // Phone clicks
