@@ -6,10 +6,11 @@
   "scripts": {
     "build:assets": "node build-assets.js",
     "build:pages": "node build-pages.js",
-    "build:all": "node build-pages.js && node build/sanity-check.js",
+    "build:all": "npm run build:css && node build-pages.js && node build/sanity-check.js",
     "check:seo": "node build/sanity-check.js",
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "tailwindcss -c tailwind.config.js -i build/css/tailwind-input.css -o dist/cdh-tailwind.css --minify"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +21,8 @@
     "playwright": "^1.60.0",
     "resend": "^6.12.3",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
   }
 }
