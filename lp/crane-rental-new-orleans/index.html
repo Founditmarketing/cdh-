@@ -6,7 +6,7 @@
 <!-- Block preview deployments from indexing while keeping production indexable. -->
 <script>(function(){if(location.hostname.endsWith('.vercel.app')){var m=document.createElement('meta');m.name='robots';m.content='noindex,nofollow';document.head.appendChild(m);}})();</script>
 <title>New Orleans crane rental — Port, river, French Quarter, Gulf | CDH Crane Rentals</title>
-<meta name="description" content="Marine-spec crane rental for shipyards, terminals, and the Mississippi River. Downtown-capable cranes for French Quarter and CBD picks with overnight stree..." />
+<meta name="description" content="Marine-spec crane rental for shipyards, terminals, and the Mississippi River. Downtown-capable cranes for French Quarter and CBD picks with overnight." />
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
 <meta name="googlebot" content="noindex, nofollow" />
 <meta name="author" content="CDH Crane Rentals, LLC" />
@@ -14,11 +14,11 @@
 <meta name="theme-color" content="#0b0d10" />
 <meta name="geo.region" content="US-LA" />
 <meta name="geo.placename" content="New Orleans, Louisiana" />
-<meta name="geo.position" content="29.9511;-90.0715" />
-<meta name="ICBM" content="29.9511, -90.0715" />
+<meta name="geo.position" content="30.03509;-90.025657" />
+<meta name="ICBM" content="30.03509, -90.025657" />
 <meta property="og:site_name" content="CDH Crane Rentals" />
 <meta property="og:title" content="New Orleans crane rental — Port, river, French Quarter, Gulf | CDH Crane Rentals" />
-<meta property="og:description" content="Marine-spec crane rental for shipyards, terminals, and the Mississippi River. Downtown-capable cranes for French Quarter and CBD picks with overnight stree..." />
+<meta property="og:description" content="Marine-spec crane rental for shipyards, terminals, and the Mississippi River. Downtown-capable cranes for French Quarter and CBD picks with overnight." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content="https://cdhrentals.com/lp/crane-rental-new-orleans/" />
@@ -27,10 +27,10 @@
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="New Orleans crane rental — Port, river, French Quarter, Gulf | CDH Crane Rentals" />
-<meta name="twitter:description" content="Marine-spec crane rental for shipyards, terminals, and the Mississippi River. Downtown-capable cranes for French Quarter and CBD picks with overnight stree..." />
+<meta name="twitter:description" content="Marine-spec crane rental for shipyards, terminals, and the Mississippi River. Downtown-capable cranes for French Quarter and CBD picks with overnight." />
 <meta name="twitter:image" content="https://cdhrentals.com/img/og/og-1200x630.jpg" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/Founditmarketing/cdh-@master/img/favicons/apple-touch-icon-180.png" />
+<link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon-180.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&display=swap">
@@ -38,28 +38,13 @@
 
 
 
-<!-- ==================== GA4 ====================
-     TODO: replace G-XXXXXXXXXX with the real GA4 measurement ID.
-     Until replaced, no data is sent. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true, send_page_view: true });
-</script>
 
-<!-- ==================== Google Ads ====================
-     Landing page: full conversion + remarketing. Conversion fires happen in the LP script at the body footer.
-     TODO: replace SITE.googleAdsId in build/site-data.js with the real account ID.
-     Account ID currently configured: AW-XXXXXXXXXX -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'AW-XXXXXXXXXX');
-</script>
+
+<!-- GA4 tag omitted: SITE.ga4Id in build/site-data.js is still a placeholder.
+     Paste the real G- measurement ID and rebuild to enable it. -->
+
+<!-- Google Ads tag omitted: SITE.googleAdsId in build/site-data.js is still a
+     placeholder. Paste the real AW- account ID and rebuild to enable it. -->
 </head>
 <body class="lp">
 <div class="util-bar">
@@ -377,9 +362,9 @@
     try { gtag('event', 'conversion', { send_to: label }); } catch(e){}
   }
   var CONVERSIONS = {
-    phone: "AW-XXXXXXXXXX/REPLACE_PHONE_LABEL",
-    email: "AW-XXXXXXXXXX/REPLACE_EMAIL_LABEL",
-    form:  "AW-XXXXXXXXXX/REPLACE_FORM_LABEL"
+    phone: "",
+    email: "",
+    form:  ""
   };
 
   // Phone clicks

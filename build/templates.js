@@ -5,6 +5,7 @@
  */
 
 const { SITE, LOCATIONS, FLEET, SERVICES, INDUSTRIES, LEARN, LANDING_PAGES, TESTIMONIALS, LANDING_FAQ_LIBRARY, LEGAL_PAGES } = require('./site-data.js');
+const { GEOGRAPHY, locationFaqs, serviceFaqs, fleetFaqs, industryFaqs } = require('./local-content.js');
 
 /* ---------- helpers ---------- */
 const esc = (s) => String(s == null ? '' : s)
@@ -13,6 +14,9 @@ const esc = (s) => String(s == null ? '' : s)
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;')
   .replace(/'/g, '&#39;');
+
+const isConfigured = (id) => Boolean(id) && !/X{4,}/.test(id);
+const conv = (label) => (isConfigured(label) && !/REPLACE_/.test(label) ? label : '');
 
 const byFleetSlug = (slug) => FLEET.find((f) => f.slug === slug);
 const byLocationSlug = (slug) => LOCATIONS.find((l) => l.slug === slug);
@@ -24,6 +28,42 @@ const locationUrl = (slug) => `/locations/${slug}/`;
 const serviceUrl = (slug) => `/services/${slug}/`;
 const industryUrl = (slug) => `/industries/${slug}/`;
 const learnUrl = (slug) => `/learn/${slug}/`;
+
+/* SEO length budgets. Google truncates titles near 65 chars and descriptions
+ * near 155, so both are enforced here rather than left to whoever writes copy.
+ * fitTitle drops optional middle segments, least important first, until the
+ * whole title fits; the lead and the brand are never dropped. */
+const TITLE_MAX = 65;
+const DESC_MAX = 155;
+
+function fitTitle(lead, optional = [], max = TITLE_MAX) {
+  const opts = optional.filter(Boolean).slice();
+  while (opts.length) {
+    const t = [lead, ...opts, SITE.brand].join(' | ');
+    if (t.length <= max) return t;
+    opts.pop();
+  }
+  return `${lead} | ${SITE.brand}`;
+}
+
+function fitDesc(lead, tails = [], max = DESC_MAX) {
+  const t = tails.filter(Boolean).slice();
+  while (t.length) {
+    const s = [lead, ...t].join(' ').replace(/\s+/g, ' ').trim();
+    if (s.length <= max) return s;
+    t.pop();
+  }
+  return clampDesc(lead, max);
+}
+
+function clampDesc(text, max = DESC_MAX) {
+  const t = String(text == null ? '' : text).replace(/\s+/g, ' ').trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max);
+  const sp = cut.lastIndexOf(' ');
+  const body = sp > max * 0.6 ? cut.slice(0, sp) : cut;
+  return `${body.replace(/[\s.,;:—–-]+$/, '')}.`;
+}
 
 /* ---------- shared head ---------- */
 function renderHead({
@@ -55,13 +95,12 @@ function renderHead({
   const googlebotContent = noindex ? 'noindex, nofollow' : 'index, follow';
 
   // Verification meta only on indexable pages (not landing pages).
+  const verifyTag = (name, value) => (isConfigured(value) && !/^REPLACE_WITH/.test(value)
+    ? `\n<meta name="${name}" content="${esc(value)}" />`
+    : '');
   const verificationMeta = noindex
     ? ''
-    : `
-<!-- TODO: Replace with real Google Search Console verification token -->
-<meta name="google-site-verification" content="REPLACE_WITH_GSC_VERIFICATION_TOKEN" />
-<!-- TODO: Replace with real Bing Webmaster Tools verification token -->
-<meta name="msvalidate.01" content="REPLACE_WITH_BING_VERIFICATION_TOKEN" />`;
+    : `${verifyTag('google-site-verification', SITE.gscVerification)}${verifyTag('msvalidate.01', SITE.bingVerification)}`;
 
   // Google Ads tag — emitted on every page so the remarketing audience builds from
   // organic visitors too. On landing pages, conversion fires happen via the inline
@@ -72,19 +111,34 @@ function renderHead({
   const adsRoleComment = includeGoogleAds
     ? 'Landing page: full conversion + remarketing. Conversion fires happen in the LP script at the body footer.'
     : 'SEO page: remarketing audience signal only — no conversion fires from this page.';
-  const googleAdsTag = `
+  const ga4Tag = isConfigured(SITE.ga4Id) ? `
+
+<!-- ==================== GA4 ==================== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${esc(SITE.ga4Id)}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '${esc(SITE.ga4Id)}', { anonymize_ip: true, send_page_view: true });
+</script>` : `
+
+<!-- GA4 tag omitted: SITE.ga4Id in build/site-data.js is still a placeholder.
+     Paste the real G- measurement ID and rebuild to enable it. -->`;
+
+  const googleAdsTag = isConfigured(SITE.googleAdsId) ? `
 
 <!-- ==================== Google Ads ====================
-     ${adsRoleComment}
-     TODO: replace SITE.googleAdsId in build/site-data.js with the real account ID.
-     Account ID currently configured: ${esc(SITE.googleAdsId)} -->
+     ${adsRoleComment} -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${esc(SITE.googleAdsId)}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', '${esc(SITE.googleAdsId)}');
-</script>`;
+</script>` : `
+
+<!-- Google Ads tag omitted: SITE.googleAdsId in build/site-data.js is still a
+     placeholder. Paste the real AW- account ID and rebuild to enable it. -->`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -114,7 +168,7 @@ function renderHead({
 <meta name="twitter:description" content="${esc(description)}" />
 <meta name="twitter:image" content="${esc(ogImage)}" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/Founditmarketing/cdh-@master/img/favicons/apple-touch-icon-180.png" />
+<link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon-180.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&display=swap">
@@ -122,16 +176,7 @@ function renderHead({
 ${extraMeta}
 ${schemaBlocks}
 
-<!-- ==================== GA4 ====================
-     TODO: replace G-XXXXXXXXXX with the real GA4 measurement ID.
-     Until replaced, no data is sent. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true, send_page_view: true });
-</script>${googleAdsTag}
+${ga4Tag}${googleAdsTag}
 </head>
 <body${bodyClass ? ` class="${esc(bodyClass)}"` : ''}>`;
 }
@@ -287,6 +332,84 @@ function organizationRef() {
 }
 
 /* ---------- CTA band ---------- */
+/* FAQ block, rendered visibly and mirrored into FAQPage schema.
+ * Generative search engines lean heavily on question-and-answer pairs,
+ * and only the homepage had any. */
+function renderFaqSection(items, heading = 'Frequently asked.') {
+  if (!items || !items.length) return '';
+  const [lead, ...rest] = heading.split(' ');
+  return `<section class="section">
+  <div class="container" style="max-width: 880px;">
+    <div class="section-eyebrow">
+      <span class="section-marker">&sect; FAQ</span>
+      <span class="bar"></span>
+      <span class="tag">Questions dispatch gets asked</span>
+    </div>
+    <h2>${esc(lead)} <span class="accent">${esc(rest.join(' '))}</span></h2>
+    <div style="margin-top: 28px;">
+      ${items.map((it, idx) => `<details class="faq"${idx === 0 ? ' open' : ''}>
+        <summary><h3>${esc(it.q)}</h3><span class="plus" aria-hidden="true">+</span></summary>
+        <div class="answer"><p>${esc(it.a)}</p></div>
+      </details>`).join('\n      ')}
+    </div>
+  </div>
+</section>`;
+}
+
+function faqSchema(items, canonical) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${canonical}#faq`,
+    mainEntity: items.map((it) => ({
+      '@type': 'Question',
+      name: it.q,
+      acceptedAnswer: { '@type': 'Answer', text: it.a },
+    })),
+  };
+}
+
+/* Named corridors, parishes, waterways and industrial anchors. These are
+ * the entities an AI search engine uses to tie the business to a place. */
+function renderCoverageSection(loc) {
+  const g = GEOGRAPHY[loc.slug];
+  if (!g) return '';
+  const chips = (arr) => arr.map((x) => `<span class="chip">${esc(x)}</span>`).join('\n        ');
+  return `<section class="section alt">
+  <div class="container">
+    <div class="section-eyebrow">
+      <span class="section-marker">&sect; 04b</span>
+      <span class="bar"></span>
+      <span class="tag">Coverage &amp; access</span>
+    </div>
+    <h2>Getting to your site in ${esc(g.region)}.</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: rgba(234, 230, 221, 0.82); max-width: 760px; margin-top: 14px;">${esc(g.access)}</p>
+    <div class="grid-2" style="margin-top: 36px;">
+      <div class="card">
+        <div class="tag" style="margin-bottom: 12px; color: var(--safety);">Routes we run</div>
+        <div class="chip-row">
+        ${chips(g.corridors)}
+        </div>
+        <div class="tag" style="margin: 20px 0 12px; color: var(--safety);">Water</div>
+        <div class="chip-row">
+        ${chips(g.waterways)}
+        </div>
+      </div>
+      <div class="card">
+        <div class="tag" style="margin-bottom: 12px; color: var(--safety);">Parishes &amp; counties covered</div>
+        <div class="chip-row">
+        ${chips(g.admin)}
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top: 20px;">
+      <div class="tag" style="margin-bottom: 12px; color: var(--safety);">Where we work around ${esc(loc.city)}</div>
+      <p>${esc(g.anchors.join(' · '))}</p>
+    </div>
+  </div>
+</section>`;
+}
+
 function renderCtaBand(headline = 'Have a lift in mind?', subhead = 'Call dispatch around the clock or send a quote request. We will get back to you fast.') {
   return `<section class="cta-band">
   <div class="container">
@@ -305,8 +428,8 @@ function renderCtaBand(headline = 'Have a lift in mind?', subhead = 'Call dispat
 ============================================================ */
 function renderLocationPage(loc) {
   const canonical = `${SITE.domain}${locationUrl(loc.slug)}`;
-  const title = `${loc.city} Crane Rental | 15–500 Ton | ${SITE.brand}`;
-  const description = `Crane rental in ${loc.city}, ${loc.state} — 15 to 500 ton cranes, NCCCO operators, 24/7 dispatch. ${loc.yardCharacter}. Serving ${loc.nearbyTowns.slice(0, 3).join(', ')} and surrounding ${loc.stateName}.`;
+  const title = fitTitle(`${loc.city} Crane Rental`, ['15–500 Ton']);
+  const description = fitDesc(`Crane rental in ${loc.city}, ${loc.state}. 15 to 500 ton cranes, NCCCO operators, 24/7 dispatch.`, [`Serving ${loc.nearbyTowns.slice(0, 2).join(' and ')}.`]);
 
   const localBusinessSchema = {
     '@context': 'https://schema.org',
@@ -343,12 +466,14 @@ function renderLocationPage(loc) {
       '@type': 'OpeningHoursSpecification',
       ...spec,
     })),
-    sameAs: [loc.gbpUrl].filter(Boolean),
+    sameAs: [loc.gbpUrl].filter((u) => u && !/^REPLACE_WITH/.test(u)),
   };
+
+  const locFaqs = locationFaqs(loc);
 
   const breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Locations', url: '/#locations' },
+    { name: 'Locations', url: '/locations/' },
     { name: loc.city, url: locationUrl(loc.slug) },
   ];
 
@@ -356,7 +481,7 @@ function renderLocationPage(loc) {
     title,
     description,
     canonical,
-    schema: [localBusinessSchema, breadcrumbSchema(breadcrumbs)],
+    schema: [localBusinessSchema, breadcrumbSchema(breadcrumbs), ...(locFaqs.length ? [faqSchema(locFaqs, canonical)] : [])],
     geo: { region: loc.state, placename: `${loc.city}, ${loc.stateName}`, lat: loc.geo.lat, lng: loc.geo.lng },
   });
 
@@ -517,6 +642,10 @@ ${renderBreadcrumbs(breadcrumbs)}
   </div>
 </section>
 
+${renderCoverageSection(loc)}
+
+${renderFaqSection(locFaqs, `Crane rental in ${loc.city}, answered.`)}
+
 ${renderCtaBand(`Need a crane in ${loc.city}?`, `Dispatch is staffed 24/7. Two-minute call to scope the pick, same-day quote in most cases.`)}
 
 ${renderFooter()}`;
@@ -527,8 +656,8 @@ ${renderFooter()}`;
 ============================================================ */
 function renderFleetPage(item) {
   const canonical = `${SITE.domain}${fleetUrl(item.slug)}`;
-  const title = `${item.name} Rental | Louisiana & East Texas | ${SITE.brand}`;
-  const description = `${item.shortDescription} Available at ${item.availableAtYards.length} CDH yards across Louisiana and East Texas. NCCCO operators, 24/7 dispatch.`;
+  const title = fitTitle(`${item.name} Rental`, ['Gulf South']);
+  const description = fitDesc(item.shortDescription, [`At ${item.availableAtYards.length} CDH yards.`, 'NCCCO operators, 24/7 dispatch.']);
 
   const serviceSchema = {
     '@context': 'https://schema.org',
@@ -563,9 +692,11 @@ function renderFleetPage(item) {
     image: `${SITE.domain}${item.imagePath}`,
   };
 
+  const fltFaqs = fleetFaqs(item);
+
   const breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Fleet', url: '/#fleet' },
+    { name: 'Fleet', url: '/fleet/' },
     { name: item.name, url: fleetUrl(item.slug) },
   ];
 
@@ -573,7 +704,7 @@ function renderFleetPage(item) {
     title,
     description,
     canonical,
-    schema: [serviceSchema, productSchema, breadcrumbSchema(breadcrumbs)],
+    schema: [serviceSchema, productSchema, breadcrumbSchema(breadcrumbs), ...(fltFaqs.length ? [faqSchema(fltFaqs, canonical)] : [])],
   });
 
   return `${head}
@@ -682,6 +813,8 @@ ${renderBreadcrumbs(breadcrumbs)}
   </div>
 </section>
 
+${renderFaqSection(fltFaqs, `The ${item.name}, answered.`)}
+
 ${renderCtaBand(`Need a ${item.tonnage}-ton crane?`, `Two-minute call and we can quote a date, a rate, and a yard.`)}
 
 ${renderFooter()}`;
@@ -692,8 +825,8 @@ ${renderFooter()}`;
 ============================================================ */
 function renderServicePage(item) {
   const canonical = `${SITE.domain}${serviceUrl(item.slug)}`;
-  const title = `${item.name} | Louisiana & East Texas | ${SITE.brand}`;
-  const description = `${item.shortDescription} Available across all five CDH yards: Lafayette, Baton Rouge, Lake Charles, New Orleans, and Baytown.`;
+  const title = fitTitle(item.name, ['Gulf South']);
+  const description = fitDesc(item.shortDescription, ['All five CDH yards, Louisiana and East Texas.']);
 
   const serviceSchema = {
     '@context': 'https://schema.org',
@@ -706,9 +839,11 @@ function renderServicePage(item) {
     areaServed: LOCATIONS.map((l) => ({ '@type': 'City', name: `${l.city}, ${l.state}` })),
   };
 
+  const svcFaqs = serviceFaqs(item.slug);
+
   const breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Services', url: '/' },
+    { name: 'Services', url: '/services/' },
     { name: item.name, url: serviceUrl(item.slug) },
   ];
 
@@ -716,7 +851,7 @@ function renderServicePage(item) {
     title,
     description,
     canonical,
-    schema: [serviceSchema, breadcrumbSchema(breadcrumbs)],
+    schema: [serviceSchema, breadcrumbSchema(breadcrumbs), ...(svcFaqs.length ? [faqSchema(svcFaqs, canonical)] : [])],
   });
 
   return `${head}
@@ -823,6 +958,8 @@ ${renderBreadcrumbs(breadcrumbs)}
   </div>
 </section>
 
+${renderFaqSection(svcFaqs, `${item.name}, answered.`)}
+
 ${renderCtaBand('Talk through your project.', 'Dispatch is staffed 24/7. We can scope, quote, and book your pick on the same call.')}
 
 ${renderFooter()}`;
@@ -833,8 +970,8 @@ ${renderFooter()}`;
 ============================================================ */
 function renderIndustryPage(item) {
   const canonical = `${SITE.domain}${industryUrl(item.slug)}`;
-  const title = `${item.name} Crane Services | Louisiana & East Texas | ${SITE.brand}`;
-  const description = `${item.shortDescription} 20+ years of ${item.name.toLowerCase()} crane work across the Gulf South.`;
+  const title = fitTitle(`${item.name} Crane Services`, ['Gulf South']);
+  const description = fitDesc(item.shortDescription, [`20+ years of ${item.name.toLowerCase()} crane work across the Gulf South.`]);
 
   const aboutSchema = {
     '@context': 'https://schema.org',
@@ -847,9 +984,11 @@ function renderIndustryPage(item) {
     inLanguage: 'en-US',
   };
 
+  const indFaqs = industryFaqs(item.slug);
+
   const breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Industries', url: '/#industries' },
+    { name: 'Industries', url: '/industries/' },
     { name: item.name, url: industryUrl(item.slug) },
   ];
 
@@ -857,7 +996,7 @@ function renderIndustryPage(item) {
     title,
     description,
     canonical,
-    schema: [aboutSchema, breadcrumbSchema(breadcrumbs)],
+    schema: [aboutSchema, breadcrumbSchema(breadcrumbs), ...(indFaqs.length ? [faqSchema(indFaqs, canonical)] : [])],
   });
 
   return `${head}
@@ -982,6 +1121,8 @@ ${renderBreadcrumbs(breadcrumbs)}
   </div>
 </section>
 
+${renderFaqSection(indFaqs, `${item.name} crane work, answered.`)}
+
 ${renderCtaBand(`Have ${item.name.toLowerCase()} work coming up?`, 'Two-minute call to scope the pick. Same-day quote in most cases.')}
 
 ${renderFooter()}`;
@@ -992,8 +1133,8 @@ ${renderFooter()}`;
 ============================================================ */
 function renderLearnPage(item) {
   const canonical = `${SITE.domain}${learnUrl(item.slug)}`;
-  const title = `${item.title} | Crane Rental Guides | ${SITE.brand}`;
-  const description = item.summary;
+  const title = fitTitle(item.seoTitle || item.title, ['Crane Rental Guides']);
+  const description = clampDesc(item.summary);
 
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -1378,9 +1519,9 @@ function renderLpConversionScript() {
     try { gtag('event', 'conversion', { send_to: label }); } catch(e){}
   }
   var CONVERSIONS = {
-    phone: ${JSON.stringify(SITE.conversions.phoneClick)},
-    email: ${JSON.stringify(SITE.conversions.emailClick)},
-    form:  ${JSON.stringify(SITE.conversions.formSubmit)}
+    phone: ${JSON.stringify(conv(SITE.conversions.phoneClick))},
+    email: ${JSON.stringify(conv(SITE.conversions.emailClick))},
+    form:  ${JSON.stringify(conv(SITE.conversions.formSubmit))}
   };
 
   // Phone clicks
@@ -1453,7 +1594,7 @@ function renderLandingPage(lp) {
   const cityForTitle = lp.cityRef ? byLocationSlug(lp.cityRef).city : null;
   const titleParts = [lp.h1Top.replace(/\.$/, '').trim(), lp.h1Bottom.replace(/\.$/, '').trim(), SITE.brand];
   const title = `${titleParts[0]} — ${titleParts[1]} | ${SITE.brand}`;
-  const description = `${lp.lede.slice(0, 155).trim()}${lp.lede.length > 155 ? '...' : ''}`;
+  const description = clampDesc(lp.lede);
   const geo = cityForTitle
     ? { region: byLocationSlug(lp.cityRef).state, placename: `${cityForTitle}, ${byLocationSlug(lp.cityRef).stateName}`, lat: byLocationSlug(lp.cityRef).geo.lat, lng: byLocationSlug(lp.cityRef).geo.lng }
     : undefined;
@@ -1493,8 +1634,8 @@ ${renderLpConversionScript()}
 function renderLegalPage(legal) {
   const canonical = `${SITE.domain}/${legal.slug}/`;
   const head = renderHead({
-    title: `${legal.title} | ${SITE.brand}`,
-    description: `${legal.title} for ${SITE.brand}. ${legal.intro.slice(0, 130).replace(/\s+/g, ' ').trim()}...`,
+    title: fitTitle(legal.title),
+    description: clampDesc(`${legal.title} for ${SITE.brand}. ${legal.intro}`),
     canonical,
     schema: [
       {
@@ -1628,8 +1769,8 @@ ${renderLpFooter()}
     if (typeof gtag !== 'function') return;
     try { gtag('event', eventName, params || {}); } catch(e){}
   }
-  var FORM_CONVERSION = ${JSON.stringify(SITE.conversions.formSubmit)};
-  var PHONE_CONVERSION = ${JSON.stringify(SITE.conversions.phoneClick)};
+  var FORM_CONVERSION = ${JSON.stringify(conv(SITE.conversions.formSubmit))};
+  var PHONE_CONVERSION = ${JSON.stringify(conv(SITE.conversions.phoneClick))};
   // Pull the originating LP slug from the URL (?lp=slug) for reporting in GA4.
   var lpSlug = (function(){
     var m = location.search.match(/[?&]lp=([^&#]+)/);
@@ -1653,10 +1794,194 @@ ${renderLpFooter()}
 /* ============================================================
    SITEMAP
 ============================================================ */
+
+/* ============================================================
+   HUB PAGES (/locations/ /fleet/ /services/ /industries/ /learn/)
+   Every child page existed but the parent paths 404'd, so trimming a
+   URL or crawling upward hit nothing. These also carry the broad head
+   terms the individual pages are too specific to rank for.
+============================================================ */
+const HUBS = [
+  {
+    slug: 'locations',
+    lead: 'Crane Rental Locations',
+    eyebrow: 'Five yards · Louisiana & East Texas',
+    headline: 'Yards',
+    intro: 'Five yards cover the Gulf South, from the Atchafalaya Basin to the Houston Ship Channel. Every yard runs the same fleet standard, the same NCCCO-certified operators, and the same 24/7 dispatch line.',
+    items: () => LOCATIONS.map((l) => ({
+      url: locationUrl(l.slug),
+      tag: `Yard ${l.yardNumber} · ${l.state}`,
+      name: `${l.city} Crane Rental`,
+      desc: l.yardCharacter,
+      cta: 'Yard details',
+    })),
+  },
+  {
+    slug: 'fleet',
+    lead: 'Crane Fleet',
+    eyebrow: '15 to 500 ton · Boom truck to heavy lift',
+    headline: 'Fleet',
+    intro: 'Boom trucks for HVAC sets through 500-ton hydraulic cranes for refinery and offshore module work. Every unit carries current annual inspection and a published load chart.',
+    items: () => FLEET.map((f) => ({
+      url: fleetUrl(f.slug),
+      tag: `${f.tonnage} ton · ${f.classType}`,
+      name: f.name,
+      desc: f.shortDescription,
+      cta: 'Spec sheet',
+    })),
+  },
+  {
+    slug: 'services',
+    lead: 'Crane Services',
+    eyebrow: 'Operated, bare, and engineered lifts',
+    headline: 'Services',
+    intro: 'Operated and bare rental, engineered critical lifts, refinery turnarounds, marine work, and emergency response. If the pick needs a plan before it needs a crane, we write the plan.',
+    items: () => SERVICES.map((sv) => ({
+      url: serviceUrl(sv.slug),
+      tag: 'Service',
+      name: sv.name,
+      desc: sv.shortDescription,
+      cta: 'What is included',
+    })),
+  },
+  {
+    slug: 'industries',
+    lead: 'Industries We Serve',
+    eyebrow: 'Refining · Marine · Construction · Utilities',
+    headline: 'Industries',
+    intro: 'Two decades of Gulf South work means the badging, the safety paperwork, and the site rules are already familiar. These are the sectors we run in most weeks of the year.',
+    items: () => INDUSTRIES.map((i) => ({
+      url: industryUrl(i.slug),
+      tag: 'Industry',
+      name: i.name,
+      desc: i.shortDescription,
+      cta: 'How we work here',
+    })),
+  },
+  {
+    slug: 'learn',
+    lead: 'Crane Rental Guides',
+    eyebrow: 'Plain answers to the questions dispatch gets asked',
+    headline: 'Guides',
+    intro: 'Tonnage, operated versus bare, what NCCCO certification actually covers, and how Louisiana crane permits work. Written for the person who has to specify the crane, not for search engines.',
+    items: () => LEARN.map((l) => ({
+      url: learnUrl(l.slug),
+      tag: 'Guide',
+      name: l.seoTitle || l.title,
+      desc: l.summary,
+      cta: 'Read the guide',
+    })),
+  },
+];
+
+function renderHubPage(hub) {
+  const canonical = `${SITE.domain}/${hub.slug}/`;
+  const items = hub.items();
+  const gridClass = items.length >= 8 ? 'grid-3' : items.length >= 4 ? 'grid-3' : 'grid-2';
+
+  const head = renderHead({
+    title: fitTitle(hub.lead, ['Louisiana & East Texas']),
+    description: fitDesc(hub.intro),
+    canonical,
+    schema: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        '@id': `${canonical}#page`,
+        name: `${hub.lead} | ${SITE.brand}`,
+        url: canonical,
+        description: fitDesc(hub.intro),
+        isPartOf: { '@type': 'WebSite', name: SITE.brand, url: `${SITE.domain}/` },
+        publisher: organizationRef(),
+        mainEntity: {
+          '@type': 'ItemList',
+          numberOfItems: items.length,
+          itemListElement: items.map((it, n) => ({
+            '@type': 'ListItem',
+            position: n + 1,
+            name: it.name,
+            url: `${SITE.domain}${it.url}`,
+          })),
+        },
+      },
+      breadcrumbSchema([
+        { name: 'Home', url: `${SITE.domain}/` },
+        { name: hub.lead, url: canonical },
+      ]),
+    ],
+  });
+
+  return `${head}
+${renderUtilBar()}
+${renderNav()}
+${renderBreadcrumbs([{ name: 'Home', url: '/' }, { name: hub.lead, url: `/${hub.slug}/` }])}
+<section class="page-hero" style="padding: 56px 0 40px;">
+  <div class="container" style="max-width: 980px;">
+    <span class="tag" style="color: var(--safety);">${esc(hub.eyebrow)}</span>
+    <h1 style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(44px, 8vw, 96px); line-height: 0.92; text-transform: uppercase; margin: 10px 0 22px;">${esc(hub.headline)}</h1>
+    <p style="font-size: 18px; color: rgba(234, 230, 221, 0.82); line-height: 1.7; max-width: 720px;">${esc(hub.intro)}</p>
+  </div>
+</section>
+<section class="section" style="padding: 0 0 80px;">
+  <div class="container">
+    <div class="${gridClass}">
+      ${items.map((it) => `<a href="${it.url}" class="card card-link">
+        <div class="tag" style="margin-bottom: 10px; color: var(--safety);">${esc(it.tag)}</div>
+        <h3>${esc(it.name)}</h3>
+        <p>${esc(it.desc)}</p>
+        <div class="arrow">${esc(it.cta)} <span>&rarr;</span></div>
+      </a>`).join('\n      ')}
+    </div>
+  </div>
+</section>
+${renderCtaBand()}
+${renderFooter()}
+</body>
+</html>`;
+}
+
+
+/* ============================================================
+   llms.txt — a plain-text index for AI search crawlers.
+   Generated from the same data as the sitemap so the two cannot drift.
+============================================================ */
+function renderLlmsTxt() {
+  const line = (name, url, note) => `- [${name}](${SITE.domain}${url})${note ? `: ${note}` : ''}`;
+  return `# ${SITE.brand}
+
+> Crane rental across south Louisiana and east Texas. 15 to 500 ton hydraulic
+> cranes, boom trucks, and heavy-lift units with NCCCO-certified operators and
+> 24/7 dispatch. Family owned and operating since ${SITE.founded}.
+
+Dispatch: ${SITE.phoneDisplay} (24/7) · ${SITE.email}
+Yards: ${LOCATIONS.map((l) => `${l.city}, ${l.state}`).join(' · ')}
+
+## Locations
+${LOCATIONS.map((l) => line(`${l.city} crane rental`, locationUrl(l.slug), l.yardCharacter)).join('\n')}
+
+## Fleet
+${FLEET.map((f) => line(f.name, fleetUrl(f.slug), `${f.tonnage} ton ${f.classType.toLowerCase()}`)).join('\n')}
+
+## Services
+${SERVICES.map((sv) => line(sv.name, serviceUrl(sv.slug), sv.shortDescription)).join('\n')}
+
+## Industries
+${INDUSTRIES.map((i) => line(i.name, industryUrl(i.slug), i.shortDescription)).join('\n')}
+
+## Guides
+${LEARN.map((l) => line(l.seoTitle || l.title, learnUrl(l.slug), l.summary)).join('\n')}
+
+## Optional
+- [Privacy policy](${SITE.domain}/privacy/)
+- [Terms of service](${SITE.domain}/terms/)
+`;
+}
+
 function renderSitemap() {
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
     { loc: `${SITE.domain}/`, priority: '1.0', changefreq: 'weekly' },
+    ...HUBS.map((h) => ({ loc: `${SITE.domain}/${h.slug}/`, priority: '0.85', changefreq: 'monthly' })),
     ...LOCATIONS.map((l) => ({ loc: `${SITE.domain}${locationUrl(l.slug)}`, priority: '0.9', changefreq: 'monthly' })),
     ...FLEET.map((f) => ({ loc: `${SITE.domain}${fleetUrl(f.slug)}`, priority: '0.8', changefreq: 'monthly' })),
     ...SERVICES.map((s) => ({ loc: `${SITE.domain}${serviceUrl(s.slug)}`, priority: '0.85', changefreq: 'monthly' })),
@@ -1680,6 +2005,9 @@ ${urls.map((u) => `  <url>
 }
 
 module.exports = {
+  HUBS,
+  renderLlmsTxt,
+  renderHubPage,
   renderLocationPage,
   renderFleetPage,
   renderServicePage,

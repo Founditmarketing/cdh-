@@ -26,6 +26,14 @@ const SITE = {
   // googleAdsId: 'AW-123456789'  -> the account conversion ID
   // conversions: { formSubmit: '...', phoneClick: '...', emailClick: '...' }
   //   each value is the conversion label from Google Ads ("AW-XXXX/LABEL")
+  // Analytics. While either of these still contains XXXX the tag is not
+  // emitted at all: shipping gtag for an account that does not exist cost
+  // 429 KB a visit and recorded nothing. Paste the real IDs and rebuild.
+  // Search engine ownership verification. Same rule as the analytics IDs:
+  // a placeholder emits no meta tag at all rather than a junk one.
+  gscVerification: 'REPLACE_WITH_GSC_VERIFICATION_TOKEN',
+  bingVerification: 'REPLACE_WITH_BING_VERIFICATION_TOKEN',
+  ga4Id: 'G-XXXXXXXXXX',
   googleAdsId: 'AW-XXXXXXXXXX',
   conversions: {
     formSubmit: 'AW-XXXXXXXXXX/REPLACE_FORM_LABEL',
@@ -47,13 +55,13 @@ const LOCATIONS = [
     serviceRadiusMi: 90,
     // TODO: replace with real yard address before launch
     address: {
-      street: 'REPLACE_WITH_LAFAYETTE_STREET',
+      street: '121 Faculty Dr',
       city: 'Lafayette',
       state: 'LA',
-      zip: 'REPLACE_WITH_ZIP',
+      zip: '70506',
       country: 'US',
     },
-    geo: { lat: 30.2241, lng: -92.0198 },
+    geo: { lat: 30.198063, lng: -92.064225 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
@@ -88,13 +96,13 @@ const LOCATIONS = [
     yardCharacter: '15–275T fleet · Industrial corridor',
     serviceRadiusMi: 70,
     address: {
-      street: 'REPLACE_WITH_BATON_ROUGE_STREET',
+      street: '9530 Dawnadele Ave',
       city: 'Baton Rouge',
       state: 'LA',
-      zip: 'REPLACE_WITH_ZIP',
+      zip: '70809',
       country: 'US',
     },
-    geo: { lat: 30.4515, lng: -91.1871 },
+    geo: { lat: 30.421933, lng: -91.078034 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
@@ -129,13 +137,13 @@ const LOCATIONS = [
     yardCharacter: 'Petrochem · LNG',
     serviceRadiusMi: 70,
     address: {
-      street: 'REPLACE_WITH_LAKE_CHARLES_STREET',
+      street: '4852 Ihles Rd, Ste 2134',
       city: 'Lake Charles',
       state: 'LA',
-      zip: 'REPLACE_WITH_ZIP',
+      zip: '70605',
       country: 'US',
     },
-    geo: { lat: 30.2266, lng: -93.2174 },
+    geo: { lat: 30.170813, lng: -93.266298 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
@@ -170,13 +178,13 @@ const LOCATIONS = [
     yardCharacter: 'Marine · Port · Dock',
     serviceRadiusMi: 80,
     address: {
-      street: 'REPLACE_WITH_NEW_ORLEANS_STREET',
+      street: '5801 Walter Beech St, Ste. B',
       city: 'New Orleans',
       state: 'LA',
-      zip: 'REPLACE_WITH_ZIP',
+      zip: '70126',
       country: 'US',
     },
-    geo: { lat: 29.9511, lng: -90.0715 },
+    geo: { lat: 30.035090, lng: -90.025657 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
@@ -211,13 +219,13 @@ const LOCATIONS = [
     yardCharacter: 'Refinery · Petrochem',
     serviceRadiusMi: 60,
     address: {
-      street: 'REPLACE_WITH_BAYTOWN_STREET',
+      street: '7400 Thompson Road',
       city: 'Baytown',
       state: 'TX',
-      zip: 'REPLACE_WITH_ZIP',
+      zip: '77521',
       country: 'US',
     },
-    geo: { lat: 29.7355, lng: -94.9774 },
+    geo: { lat: 29.804769, lng: -95.031924 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
@@ -757,6 +765,7 @@ const INDUSTRIES = [
 const LEARN = [
   {
     slug: 'how-to-pick-the-right-crane-tonnage',
+    seoTitle: 'How to Pick the Right Crane Tonnage',
     title: 'How to pick the right crane tonnage',
     summary: 'A practical guide to sizing a crane for your pick — load weight, lift radius, pick height, and the 75% rule of thumb.',
     bodyParagraphs: [
@@ -782,10 +791,11 @@ const LEARN = [
         body: 'A two-minute conversation with a dispatcher can save a wasted morning of crane sizing. Tell us the pick weight, radius, height, jobsite type, and date — we will recommend the right crane (or tell you if a different rig altogether is a better fit).',
       },
     ],
-    cta: 'Need a crane sized for a specific pick? Call dispatch at 337-962-3999.',
+    cta: 'Need a crane sized for a specific pick? Call dispatch at 337.962.3999.',
   },
   {
     slug: 'operated-vs-bare-rental',
+    seoTitle: 'Operated vs Bare Crane Rental',
     title: 'Operated vs bare crane rental: which one fits your job?',
     summary: 'Operated rental is the default for most picks; bare rental fits long-duration in-house programs. Here is how to choose.',
     bodyParagraphs: [
@@ -810,10 +820,11 @@ const LEARN = [
         body: 'Bare rental rates are lower per hour or per day, but the math shifts once you include your operator labor, fuel, insurance loading, and operational management. For most short-duration picks, operated is cheaper all-in.',
       },
     ],
-    cta: 'Not sure which model fits? Call dispatch at 337-962-3999 and we will walk through it.',
+    cta: 'Not sure which model fits? Call dispatch at 337.962.3999 and we will walk through it.',
   },
   {
     slug: 'what-nccco-certification-means',
+    seoTitle: 'What NCCCO Certification Means',
     title: 'What NCCCO certification means (and why it matters on your job)',
     summary: 'NCCCO is the national certification standard for crane operators. Here is what the test covers, why it matters, and what to ask for.',
     bodyParagraphs: [
@@ -834,10 +845,11 @@ const LEARN = [
         body: 'When quoting a job, ask the crane company for NCCCO documentation and current OSHA training records. Ask specifically about the operator who will run the pick — not just the company-wide average. CDH supplies this documentation as part of the standard quote package on request.',
       },
     ],
-    cta: 'Questions about operator credentials? Call dispatch at 337-962-3999.',
+    cta: 'Questions about operator credentials? Call dispatch at 337.962.3999.',
   },
   {
     slug: 'crane-permits-louisiana',
+    seoTitle: 'Crane Permits in Louisiana',
     title: 'Crane permits in Louisiana: a practical guide for project managers',
     summary: 'When you need a crane permit in Louisiana, who issues it, and what to expect for road closures and traffic control.',
     bodyParagraphs: [
@@ -862,7 +874,7 @@ const LEARN = [
         body: 'For routine city permits, 5–10 business days is usually enough. For state DOTD permits with route surveys and escorts, 2–3 weeks is the safe planning window. For emergency picks, we work with you on the fastest path through the permit process.',
       },
     ],
-    cta: 'Project with permit complexity? Call dispatch at 337-962-3999 and we will plan it.',
+    cta: 'Project with permit complexity? Call dispatch at 337.962.3999 and we will plan it.',
   },
 ];
 
@@ -1362,7 +1374,7 @@ const LEGAL_PAGES = [
     sections: [
       {
         h: 'Who we are',
-        p: `CDH Crane Rentals, LLC is a crane rental company headquartered in Lafayette, Louisiana, with yards in Lafayette, Baton Rouge, Lake Charles, New Orleans, and Baytown, TX. You can reach us by phone at 337-962-3999 or by email at office@cdhrentals.com. Our mailing address is on file at our HQ yard.`,
+        p: `CDH Crane Rentals, LLC is a crane rental company headquartered in Lafayette, Louisiana, with yards in Lafayette, Baton Rouge, Lake Charles, New Orleans, and Baytown, TX. You can reach us by phone at 337.962.3999 or by email at office@cdhrentals.com. Our mailing address is on file at our HQ yard.`,
       },
       {
         h: 'What information we collect',
@@ -1404,7 +1416,7 @@ When you visit any page on this site, our analytics and advertising tools (Googl
       },
       {
         h: 'Contact',
-        p: `Questions about this policy: office@cdhrentals.com or 337-962-3999. Ask for the office.`,
+        p: `Questions about this policy: office@cdhrentals.com or 337.962.3999. Ask for the office.`,
       },
     ],
   },
@@ -1437,7 +1449,7 @@ When you visit any page on this site, our analytics and advertising tools (Googl
       },
       {
         h: 'Contact',
-        p: `Questions: office@cdhrentals.com or 337-962-3999.`,
+        p: `Questions: office@cdhrentals.com or 337.962.3999.`,
       },
     ],
   },

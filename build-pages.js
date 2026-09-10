@@ -3,6 +3,7 @@
  * CDH Crane Rentals — Static page generator
  *
  * Reads build/site-data.js + build/templates.js and writes:
+ *   /{locations,fleet,services,industries,learn}/index.html   (hub pages)
  *   /locations/{slug}/index.html
  *   /fleet/{slug}/index.html
  *   /services/{slug}/index.html
@@ -18,6 +19,9 @@ const fs = require('fs');
 const path = require('path');
 const { LOCATIONS, FLEET, SERVICES, INDUSTRIES, LEARN, LANDING_PAGES, LEGAL_PAGES } = require('./build/site-data.js');
 const {
+  HUBS,
+  renderLlmsTxt,
+  renderHubPage,
   renderLocationPage,
   renderFleetPage,
   renderServicePage,
@@ -41,6 +45,14 @@ function writeFile(relPath, contents) {
 function run() {
   let count = 0;
   const written = [];
+
+  console.log('--- Building hub pages ---');
+  for (const hub of HUBS) {
+    const p = writeFile(path.join(hub.slug, 'index.html'), renderHubPage(hub));
+    written.push(p);
+    count += 1;
+    console.log('  +', path.relative(ROOT, p));
+  }
 
   console.log('--- Building location pages ---');
   for (const loc of LOCATIONS) {
@@ -108,6 +120,10 @@ function run() {
 
   console.log('--- Regenerating sitemap.xml ---');
   const p = writeFile('sitemap.xml', renderSitemap());
+
+  const lp2 = writeFile('llms.txt', renderLlmsTxt());
+  written.push(lp2);
+  console.log('  +', path.relative(ROOT, lp2));
   written.push(p);
   console.log('  +', path.relative(ROOT, p));
 
