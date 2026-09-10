@@ -96,13 +96,13 @@ const LOCATIONS = [
     yardCharacter: '15–275T fleet · Industrial corridor',
     serviceRadiusMi: 70,
     address: {
-      street: 'REPLACE_WITH_BATON_ROUGE_STREET',
+      street: '9530 Dawnadele Ave',
       city: 'Baton Rouge',
       state: 'LA',
-      zip: 'REPLACE_WITH_ZIP',
+      zip: '70809',
       country: 'US',
     },
-    geo: { lat: 30.4515, lng: -91.1871 },
+    geo: { lat: 30.421933, lng: -91.078034 },
     hours: '24/7 dispatch · Office Mon–Fri 7a–5p',
     openingHoursSpec: [
       { dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '17:00' },
