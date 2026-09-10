@@ -1689,10 +1689,194 @@ ${renderLpFooter()}
 /* ============================================================
    SITEMAP
 ============================================================ */
+
+/* ============================================================
+   HUB PAGES (/locations/ /fleet/ /services/ /industries/ /learn/)
+   Every child page existed but the parent paths 404'd, so trimming a
+   URL or crawling upward hit nothing. These also carry the broad head
+   terms the individual pages are too specific to rank for.
+============================================================ */
+const HUBS = [
+  {
+    slug: 'locations',
+    lead: 'Crane Rental Locations',
+    eyebrow: 'Five yards · Louisiana & East Texas',
+    headline: 'Yards',
+    intro: 'Five yards cover the Gulf South, from the Atchafalaya Basin to the Houston Ship Channel. Every yard runs the same fleet standard, the same NCCCO-certified operators, and the same 24/7 dispatch line.',
+    items: () => LOCATIONS.map((l) => ({
+      url: locationUrl(l.slug),
+      tag: `Yard ${l.yardNumber} · ${l.state}`,
+      name: `${l.city} Crane Rental`,
+      desc: l.yardCharacter,
+      cta: 'Yard details',
+    })),
+  },
+  {
+    slug: 'fleet',
+    lead: 'Crane Fleet',
+    eyebrow: '15 to 500 ton · Boom truck to heavy lift',
+    headline: 'Fleet',
+    intro: 'Boom trucks for HVAC sets through 500-ton hydraulic cranes for refinery and offshore module work. Every unit carries current annual inspection and a published load chart.',
+    items: () => FLEET.map((f) => ({
+      url: fleetUrl(f.slug),
+      tag: `${f.tonnage} ton · ${f.classType}`,
+      name: f.name,
+      desc: f.shortDescription,
+      cta: 'Spec sheet',
+    })),
+  },
+  {
+    slug: 'services',
+    lead: 'Crane Services',
+    eyebrow: 'Operated, bare, and engineered lifts',
+    headline: 'Services',
+    intro: 'Operated and bare rental, engineered critical lifts, refinery turnarounds, marine work, and emergency response. If the pick needs a plan before it needs a crane, we write the plan.',
+    items: () => SERVICES.map((sv) => ({
+      url: serviceUrl(sv.slug),
+      tag: 'Service',
+      name: sv.name,
+      desc: sv.shortDescription,
+      cta: 'What is included',
+    })),
+  },
+  {
+    slug: 'industries',
+    lead: 'Industries We Serve',
+    eyebrow: 'Refining · Marine · Construction · Utilities',
+    headline: 'Industries',
+    intro: 'Two decades of Gulf South work means the badging, the safety paperwork, and the site rules are already familiar. These are the sectors we run in most weeks of the year.',
+    items: () => INDUSTRIES.map((i) => ({
+      url: industryUrl(i.slug),
+      tag: 'Industry',
+      name: i.name,
+      desc: i.shortDescription,
+      cta: 'How we work here',
+    })),
+  },
+  {
+    slug: 'learn',
+    lead: 'Crane Rental Guides',
+    eyebrow: 'Plain answers to the questions dispatch gets asked',
+    headline: 'Guides',
+    intro: 'Tonnage, operated versus bare, what NCCCO certification actually covers, and how Louisiana crane permits work. Written for the person who has to specify the crane, not for search engines.',
+    items: () => LEARN.map((l) => ({
+      url: learnUrl(l.slug),
+      tag: 'Guide',
+      name: l.seoTitle || l.title,
+      desc: l.summary,
+      cta: 'Read the guide',
+    })),
+  },
+];
+
+function renderHubPage(hub) {
+  const canonical = `${SITE.domain}/${hub.slug}/`;
+  const items = hub.items();
+  const gridClass = items.length >= 8 ? 'grid-3' : items.length >= 4 ? 'grid-3' : 'grid-2';
+
+  const head = renderHead({
+    title: fitTitle(hub.lead, ['Louisiana & East Texas']),
+    description: fitDesc(hub.intro),
+    canonical,
+    schema: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        '@id': `${canonical}#page`,
+        name: `${hub.lead} | ${SITE.brand}`,
+        url: canonical,
+        description: fitDesc(hub.intro),
+        isPartOf: { '@type': 'WebSite', name: SITE.brand, url: `${SITE.domain}/` },
+        publisher: organizationRef(),
+        mainEntity: {
+          '@type': 'ItemList',
+          numberOfItems: items.length,
+          itemListElement: items.map((it, n) => ({
+            '@type': 'ListItem',
+            position: n + 1,
+            name: it.name,
+            url: `${SITE.domain}${it.url}`,
+          })),
+        },
+      },
+      breadcrumbSchema([
+        { name: 'Home', url: `${SITE.domain}/` },
+        { name: hub.lead, url: canonical },
+      ]),
+    ],
+  });
+
+  return `${head}
+${renderUtilBar()}
+${renderNav()}
+${renderBreadcrumbs([{ name: 'Home', url: '/' }, { name: hub.lead, url: `/${hub.slug}/` }])}
+<section class="page-hero" style="padding: 56px 0 40px;">
+  <div class="container" style="max-width: 980px;">
+    <span class="tag" style="color: var(--safety);">${esc(hub.eyebrow)}</span>
+    <h1 style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(44px, 8vw, 96px); line-height: 0.92; text-transform: uppercase; margin: 10px 0 22px;">${esc(hub.headline)}</h1>
+    <p style="font-size: 18px; color: rgba(234, 230, 221, 0.82); line-height: 1.7; max-width: 720px;">${esc(hub.intro)}</p>
+  </div>
+</section>
+<section class="section" style="padding: 0 0 80px;">
+  <div class="container">
+    <div class="${gridClass}">
+      ${items.map((it) => `<a href="${it.url}" class="card card-link">
+        <div class="tag" style="margin-bottom: 10px; color: var(--safety);">${esc(it.tag)}</div>
+        <h3>${esc(it.name)}</h3>
+        <p>${esc(it.desc)}</p>
+        <div class="arrow">${esc(it.cta)} <span>&rarr;</span></div>
+      </a>`).join('\n      ')}
+    </div>
+  </div>
+</section>
+${renderCtaBand()}
+${renderFooter()}
+</body>
+</html>`;
+}
+
+
+/* ============================================================
+   llms.txt — a plain-text index for AI search crawlers.
+   Generated from the same data as the sitemap so the two cannot drift.
+============================================================ */
+function renderLlmsTxt() {
+  const line = (name, url, note) => `- [${name}](${SITE.domain}${url})${note ? `: ${note}` : ''}`;
+  return `# ${SITE.brand}
+
+> Crane rental across south Louisiana and east Texas. 15 to 500 ton hydraulic
+> cranes, boom trucks, and heavy-lift units with NCCCO-certified operators and
+> 24/7 dispatch. Family owned and operating since ${SITE.founded}.
+
+Dispatch: ${SITE.phoneDisplay} (24/7) · ${SITE.email}
+Yards: ${LOCATIONS.map((l) => `${l.city}, ${l.state}`).join(' · ')}
+
+## Locations
+${LOCATIONS.map((l) => line(`${l.city} crane rental`, locationUrl(l.slug), l.yardCharacter)).join('\n')}
+
+## Fleet
+${FLEET.map((f) => line(f.name, fleetUrl(f.slug), `${f.tonnage} ton ${f.classType.toLowerCase()}`)).join('\n')}
+
+## Services
+${SERVICES.map((sv) => line(sv.name, serviceUrl(sv.slug), sv.shortDescription)).join('\n')}
+
+## Industries
+${INDUSTRIES.map((i) => line(i.name, industryUrl(i.slug), i.shortDescription)).join('\n')}
+
+## Guides
+${LEARN.map((l) => line(l.seoTitle || l.title, learnUrl(l.slug), l.summary)).join('\n')}
+
+## Optional
+- [Privacy policy](${SITE.domain}/privacy/)
+- [Terms of service](${SITE.domain}/terms/)
+`;
+}
+
 function renderSitemap() {
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
     { loc: `${SITE.domain}/`, priority: '1.0', changefreq: 'weekly' },
+    ...HUBS.map((h) => ({ loc: `${SITE.domain}/${h.slug}/`, priority: '0.85', changefreq: 'monthly' })),
     ...LOCATIONS.map((l) => ({ loc: `${SITE.domain}${locationUrl(l.slug)}`, priority: '0.9', changefreq: 'monthly' })),
     ...FLEET.map((f) => ({ loc: `${SITE.domain}${fleetUrl(f.slug)}`, priority: '0.8', changefreq: 'monthly' })),
     ...SERVICES.map((s) => ({ loc: `${SITE.domain}${serviceUrl(s.slug)}`, priority: '0.85', changefreq: 'monthly' })),
@@ -1716,6 +1900,9 @@ ${urls.map((u) => `  <url>
 }
 
 module.exports = {
+  HUBS,
+  renderLlmsTxt,
+  renderHubPage,
   renderLocationPage,
   renderFleetPage,
   renderServicePage,
